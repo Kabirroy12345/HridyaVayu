@@ -1,50 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#060b14" />
   <title>HridyaVayu - Connected Asthma Decision Support System</title>
   
-  <!-- Fonts -->
+  <!-- Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <!-- Font Awesome 6.5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   
-  <!-- Chart.js -->
+  <!-- Chart.js 4.4 -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <style>
-    :root {
+    /* ========================================================
+       ULTRA-MODERN DESIGN SYSTEM TOKENS (DARK & LIGHT THEMES)
+       ======================================================== */
+    :root, [data-theme="light"] {
+      /* Light Mode Palette */
       --primary: #0284c7;
-      --primary-dark: #0369a1;
+      --primary-hover: #0369a1;
       --primary-light: #e0f2fe;
       --primary-subtle: #f0f9ff;
+      --primary-glow: rgba(2, 132, 199, 0.2);
+      --btn-primary-text: #ffffff;
+
       --accent: #0f172a;
+      --accent-teal: #0d9488;
+      --accent-purple: #7c3aed;
+
       --bg-main: #f8fafc;
       --bg-card: #ffffff;
+      --bg-card-glass: rgba(255, 255, 255, 0.92);
       --bg-card-subtle: #f1f5f9;
+      --bg-input: #ffffff;
+
       --border: #e2e8f0;
       --border-focus: #0284c7;
+
       --text-main: #0f172a;
-      --text-muted: #64748b;
-      --text-light: #94a3b8;
-      --danger: #dc2626;
+      --text-muted: #475569;
+      --text-light: #64748b;
+
+      /* Hero Section Theming */
+      --hero-bg: linear-gradient(135deg, #ffffff 0%, #f0f9ff 45%, #e0f2fe 100%);
+      --hero-border: #bae6fd;
+      --hero-shadow: 0 20px 45px -12px rgba(2, 132, 199, 0.16), 0 2px 10px rgba(15, 23, 42, 0.04);
+      --hero-card-bg: #ffffff;
+      --hero-card-border: #e2e8f0;
+      --hero-device-bg: #ffffff;
+      --hero-device-border: #cbd5e1;
+      --hero-device-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.1), 0 0 24px rgba(2, 132, 199, 0.08);
+      --hero-device-img-bg: radial-gradient(circle at 50% 50%, rgba(2, 132, 199, 0.06) 0%, #f8fafc 70%);
+      --hero-radial-decor: radial-gradient(circle, rgba(2, 132, 199, 0.1) 0%, transparent 70%);
+      --hero-glow-text: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #0d9488 100%);
+      --hero-glow-filter: drop-shadow(0 2px 8px rgba(2, 132, 199, 0.25));
+      --hero-badge-bg: #e0f2fe;
+      --hero-badge-border: #7dd3fc;
+      --hero-badge-text: #0284c7;
+
+      --danger: #ef4444;
       --danger-light: #fef2f2;
-      --warning: #d97706;
+      --danger-glow: rgba(239, 68, 68, 0.25);
+
+      --warning: #f59e0b;
       --warning-light: #fffbeb;
-      --success: #059669;
+      --warning-glow: rgba(245, 158, 11, 0.25);
+
+      --success: #10b981;
       --success-light: #ecfdf5;
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
-      --radius: 12px;
-      --radius-lg: 16px;
+      --success-glow: rgba(16, 185, 129, 0.25);
+
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06);
+      --shadow-md: 0 10px 25px -4px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 20px 40px -8px rgba(15, 23, 42, 0.12);
+
+      --radius-sm: 8px;
+      --radius: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-full: 9999px;
     }
 
-    * {
+    [data-theme="dark"] {
+      /* Futuristic Medical Dark Theme (Default) */
+      --primary: #38bdf8;
+      --primary-hover: #0ea5e9;
+      --primary-light: rgba(56, 189, 248, 0.15);
+      --primary-subtle: rgba(56, 189, 248, 0.08);
+      --primary-glow: rgba(56, 189, 248, 0.35);
+      --btn-primary-text: #060b14;
+
+      --accent: #f8fafc;
+      --accent-teal: #2dd4bf;
+      --accent-purple: #a855f7;
+
+      --bg-main: #060b14;
+      --bg-card: #0f172a;
+      --bg-card-glass: rgba(15, 23, 42, 0.85);
+      --bg-card-subtle: #172339;
+      --bg-input: #111c30;
+
+      --border: #1e2e4a;
+      --border-focus: #38bdf8;
+
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-light: #64748b;
+
+      /* Hero Section Theming */
+      --hero-bg: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(17, 28, 48, 0.85) 60%, rgba(6, 11, 20, 0.95) 100%);
+      --hero-border: rgba(56, 189, 248, 0.25);
+      --hero-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      --hero-card-bg: rgba(15, 23, 42, 0.7);
+      --hero-card-border: var(--border);
+      --hero-device-bg: rgba(15, 23, 42, 0.9);
+      --hero-device-border: rgba(56, 189, 248, 0.25);
+      --hero-device-shadow: var(--shadow-lg), 0 0 30px rgba(56, 189, 248, 0.1);
+      --hero-device-img-bg: radial-gradient(circle at 50% 50%, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+      --hero-radial-decor: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+      --hero-glow-text: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #2dd4bf 100%);
+      --hero-glow-filter: drop-shadow(0 0 18px rgba(56, 189, 248, 0.35));
+      --hero-badge-bg: rgba(56, 189, 248, 0.12);
+      --hero-badge-border: rgba(56, 189, 248, 0.35);
+      --hero-badge-text: var(--primary);
+
+      --danger: #f87171;
+      --danger-light: rgba(239, 68, 68, 0.15);
+      --danger-glow: rgba(248, 113, 113, 0.35);
+
+      --warning: #fbbf24;
+      --warning-light: rgba(245, 158, 11, 0.15);
+      --warning-glow: rgba(251, 191, 36, 0.35);
+
+      --success: #34d399;
+      --success-light: rgba(16, 185, 129, 0.15);
+      --success-glow: rgba(52, 211, 153, 0.35);
+
+      --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.45);
+      --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Base Reset */
+    *, *::before, *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -57,85 +161,180 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      line-height: 1.5;
+      line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(13, 148, 136, 0.06) 0px, transparent 50%);
+      background-attachment: fixed;
     }
 
-    /* Top App Navigation Header */
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .gradient-glow {
+      background: var(--hero-glow-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+      filter: var(--hero-glow-filter);
+      transition: filter 0.3s ease;
+    }
+
+    /* Breath Animation */
+    @keyframes lung-pulse {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px var(--primary-glow)); }
+      50% { transform: scale(1.12); filter: drop-shadow(0 0 20px var(--primary)); }
+    }
+
+    @keyframes live-radar {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    @keyframes pulse-ring {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.4; }
+    }
+
+    /* ========================================================
+       STICKY GLASS HEADER
+       ======================================================== */
     header.app-header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: #ffffff;
+      background: var(--bg-card-glass);
       border-bottom: 1px solid var(--border);
-      padding: 0.85rem 2.5rem;
+      padding: 0.85rem 2.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-sm);
     }
 
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 0.9rem;
       text-decoration: none;
       cursor: pointer;
+      user-select: none;
     }
 
     .brand-icon-box {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: var(--primary);
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 1.15rem;
+      font-size: 1.35rem;
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+
+    .brand-icon-box i {
+      animation: lung-pulse 3.5s ease-in-out infinite;
     }
 
     .brand-text h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
+      font-size: 1.45rem;
       font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.3px;
       line-height: 1.1;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .brand-text h1 span.badge-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(56, 189, 248, 0.25);
     }
 
     .brand-text p {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       font-weight: 600;
       color: var(--text-muted);
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       text-transform: uppercase;
+    }
+
+    /* Live Telemetry Beacon Badge */
+    .header-telemetry-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 0.4rem 1rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .header-telemetry-badge:hover {
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .pulse-dot-green {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.35);
+      animation: pulse-ring 2s infinite ease-in-out;
     }
 
     .header-actions {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.75rem;
     }
 
+    /* Navigation links always visible */
     .nav-links {
       display: flex;
       align-items: center;
       gap: 0.4rem;
-      margin-right: 1rem;
-      border-right: 1px solid var(--border);
-      padding-right: 1rem;
+      margin-right: 0.5rem;
+      background: var(--bg-card-subtle);
+      padding: 0.3rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
     }
 
     .nav-btn {
       padding: 0.5rem 1rem;
-      border-radius: 8px;
+      border-radius: var(--radius-sm);
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      transition: all 0.15s ease;
+      transition: all 0.2s ease;
       text-decoration: none;
       border: 1px solid transparent;
       background: transparent;
@@ -143,91 +342,669 @@
     }
 
     .nav-btn:hover {
-      background: var(--bg-card-subtle);
+      background: var(--bg-card);
       color: var(--text-main);
     }
 
     .nav-btn.active {
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      border-color: #bae6fd;
+      background: var(--primary);
+      color: var(--btn-primary-text) !important;
+      font-weight: 800;
+      box-shadow: 0 2px 12px var(--primary-glow);
     }
 
     .nav-btn-primary {
-      background: var(--primary) !important;
-      color: white !important;
-    }
-
-    .nav-btn-primary:hover {
-      background: var(--primary-dark) !important;
+      background: linear-gradient(135deg, var(--primary) 0%, #0284c7 100%) !important;
+      color: var(--btn-primary-text) !important;
+      font-weight: 800;
+      box-shadow: 0 0 14px var(--primary-glow);
     }
 
     .nav-btn-secondary {
-      background: white !important;
+      background: var(--bg-card) !important;
       border: 1px solid var(--border) !important;
       color: var(--text-main) !important;
     }
 
-    .nav-btn-secondary:hover {
-      background: var(--bg-card-subtle) !important;
-      border-color: #cbd5e1 !important;
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card-subtle);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
     }
 
     .demo-pill {
-      font-size: 0.75rem;
-      padding: 0.4rem 0.75rem;
-      border-radius: 6px;
-      font-weight: 600;
+      font-size: 0.78rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       border: 1px solid var(--border);
       background: var(--bg-card-subtle);
       color: var(--text-main);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      transition: all 0.15s ease;
+      transition: all 0.2s ease;
     }
 
     .demo-pill:hover {
-      background: #e2e8f0;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px var(--primary-glow);
     }
 
-    /* Container & Layout */
-    .container {
-      max-width: 1480px;
-      width: 95%;
+    /* User Profile Widget */
+    .user-profile-widget {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.35rem 0.75rem 0.35rem 0.45rem;
+    }
+
+    .user-avatar-badge {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      position: relative;
+    }
+
+    .avatar-patient { background: rgba(56, 189, 248, 0.2); color: var(--primary); }
+    .avatar-doctor { background: rgba(16, 185, 129, 0.2); color: var(--success); }
+
+    .online-indicator {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 10px;
+      height: 10px;
+      background: #10b981;
+      border: 2px solid var(--bg-card);
+      border-radius: 50%;
+    }
+
+    .user-details-box { display: flex; flex-direction: column; line-height: 1.2; }
+    .user-display-name { font-size: 0.84rem; font-weight: 700; color: var(--text-main); }
+    .user-role-badge { font-size: 0.7rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.3rem; }
+    .role-patient { color: var(--primary); }
+    .role-doctor { color: var(--success); }
+
+    .logout-action-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.82rem;
+      padding: 0.35rem 0.6rem;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.2s ease;
+    }
+
+    .logout-action-btn:hover { background: var(--danger-light); color: var(--danger); }
+
+    /* ========================================================
+       CONTAINER & VIEWS
+       ======================================================== */
+    main.container {
+      max-width: 1360px;
+      width: 100%;
       margin: 0 auto;
-      padding: 2rem 1.5rem;
+      padding: 2.5rem 2rem;
       flex: 1;
     }
 
-    /* Calming Hospital Wellness Hero Atmosphere */
-    .landing-hero-backdrop {
-      position: relative;
-      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f0f9ff 100%);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 3rem 3.5rem;
-      margin-bottom: 3.5rem;
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    .view-section {
+      display: none;
+      animation: fadeIn 0.3s ease-out;
     }
 
-    /* India's Growing Asthma & Urban Air Crisis Showcase */
-    .india-crisis-card {
-      background: white;
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .portal-card {
+      background: var(--bg-card-glass);
       border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-xl);
+      padding: 2.25rem 2.5rem;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 2.5rem;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .portal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .portal-header h3 {
+      font-size: 1.45rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .portal-header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* ========================================================
+       1. LANDING PAGE OVERVIEW
+       ======================================================== */
+    .landing-hero-backdrop {
+      position: relative;
+      background: var(--hero-bg);
+      border: 1px solid var(--hero-border);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem 3.5rem;
+      margin-bottom: 3.5rem;
+      box-shadow: var(--hero-shadow);
       overflow: hidden;
-      margin-bottom: 3rem;
-      box-shadow: var(--shadow-sm);
+      transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .landing-hero-backdrop::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: var(--hero-radial-decor);
+      pointer-events: none;
+    }
+
+    .hero-split {
+      position: relative;
+      z-index: 1;
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: center;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--hero-badge-bg);
+      border: 1px solid var(--hero-badge-border);
+      border-radius: var(--radius-full);
+      padding: 0.4rem 1.15rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--hero-badge-text);
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 0 14px var(--primary-glow);
+      transition: all 0.25s ease;
+    }
+
+    .hero-title {
+      font-size: 3.2rem;
+      font-weight: 900;
+      line-height: 1.12;
+      margin-bottom: 1.35rem;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-subtitle {
+      font-size: 1.08rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 2.25rem;
+      max-width: 620px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, #0284c7 100%);
+      color: var(--btn-primary-text);
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.95rem 1.85rem;
+      font-size: 0.98rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      box-shadow: 0 0 24px var(--primary-glow);
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-hero-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px var(--primary-glow);
+    }
+
+    .btn-hero-secondary {
+      background: var(--bg-card);
+      color: var(--text-main);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.95rem 1.75rem;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--bg-card-subtle);
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+
+    .feature-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
+    .pillar-card {
+      background: var(--hero-card-bg);
+      border: 1px solid var(--hero-card-border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      transition: all 0.25s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md), 0 0 18px var(--primary-glow);
+    }
+
+    .pillar-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-light);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    .pillar-content strong {
+      font-size: 0.92rem;
+      color: var(--text-main);
+      display: block;
+      margin-bottom: 3px;
+    }
+
+    .pillar-content p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* Hardware Showcase Card */
+    .hero-device-card {
+      background: var(--hero-device-bg);
+      border: 1px solid var(--hero-device-border);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--hero-device-shadow);
+      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
+    }
+
+    .device-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.35rem;
+      padding-bottom: 0.95rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .device-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .device-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.76rem;
+      font-weight: 800;
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.15);
+      padding: 0.3rem 0.85rem;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+
+    .device-img-wrapper-large {
+      background: var(--hero-device-img-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.35rem;
+      transition: background 0.3s ease;
+    }
+
+    .device-img-wrapper-large img {
+      max-height: 350px;
+      width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.22));
+      transition: transform 0.4s ease;
+    }
+
+    .device-img-wrapper-large:hover img {
+      transform: scale(1.04);
+    }
+
+    .device-caption-box {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 1.15rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .caption-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.45rem;
+    }
+
+    .caption-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 2px 10px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+    }
+
+    .device-caption-box p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .device-quick-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .quick-action-btn {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      font-size: 0.84rem;
+      font-weight: 700;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card-subtle);
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .quick-action-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 14px var(--primary-glow);
+    }
+
+    /* 4-Stat Ribbon */
+    .benchmark-metrics-ribbon {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .metric-ribbon-card {
+      background: var(--bg-card-glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+    }
+
+    .metric-ribbon-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md), 0 0 20px var(--primary-glow);
+    }
+
+    .metric-ribbon-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .metric-ribbon-content strong {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.95rem;
+      font-weight: 900;
+      line-height: 1.1;
+      display: block;
+      color: var(--text-main);
+    }
+
+    .metric-ribbon-content span {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Why Section */
+    .why-section-container {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title-center {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-heading {
+      font-size: 2.35rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-subheading {
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .why-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+    }
+
+    .why-card {
+      background: var(--bg-card-glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem 2rem;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(12px);
+      transition: all 0.25s ease;
+    }
+
+    .why-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md), 0 0 20px var(--primary-glow);
+    }
+
+    .why-card-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1.35rem;
+    }
+
+    .why-card h4 {
+      font-size: 1.25rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .why-card p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Clinical Excellence Feature */
+    .clinical-excellence-card {
+      background: var(--bg-card-glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: 3.5rem;
+      box-shadow: var(--shadow-md);
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+    }
+
+    .clinical-img-box {
+      height: 420px;
+      overflow: hidden;
+    }
+
+    .clinical-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .clinical-img-box:hover img {
+      transform: scale(1.03);
+    }
+
+    .clinical-content {
+      padding: 3rem;
+    }
+
+    .clinical-content h3 {
+      font-size: 1.95rem;
+      line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    .clinical-content p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+
+    /* India Crisis Showcase */
+    .india-crisis-card {
+      background: var(--bg-card-glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: 3.5rem;
+      box-shadow: var(--shadow-md);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
       align-items: center;
     }
 
     .india-img-box {
-      height: 380px;
-      position: relative;
+      height: 440px;
       overflow: hidden;
     }
 
@@ -239,69 +1016,96 @@
     }
 
     .india-img-box:hover img {
-      transform: scale(1.02);
+      transform: scale(1.03);
     }
 
     .india-crisis-content {
-      padding: 2.5rem;
+      padding: 3rem;
     }
 
     .india-crisis-content h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.65rem;
-      font-weight: 800;
-      color: var(--accent);
-      margin-bottom: 0.75rem;
+      font-size: 1.85rem;
+      margin-bottom: 0.95rem;
       line-height: 1.25;
     }
 
     .india-crisis-content p {
-      font-size: 0.86rem;
+      font-size: 0.9rem;
       color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
     }
 
     .india-metrics-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
     }
 
     .india-metric-pill {
-      background: #f8fafc;
+      background: var(--bg-card-subtle);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem 0.5rem;
+      border-radius: var(--radius-sm);
+      padding: 0.95rem 0.65rem;
       text-align: center;
     }
 
     .india-metric-pill strong {
       display: block;
       font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
-      color: #dc2626;
-      font-weight: 800;
+      font-size: 1.55rem;
+      color: var(--danger);
+      font-weight: 900;
       line-height: 1.1;
     }
 
     .india-metric-pill span {
-      font-size: 0.68rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
-      line-height: 1.2;
       display: block;
       margin-top: 3px;
     }
 
-    /* Analytics Diagram Card styling */
+    .city-presets-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+    }
+
+    .city-chip {
+      padding: 0.4rem 0.85rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .city-chip:hover {
+      background: var(--primary);
+      color: var(--btn-primary-text);
+      border-color: var(--primary);
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+
+    /* Diagram Card */
     .diagram-full-card {
-      background: white;
+      background: var(--bg-card-glass);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      margin-bottom: 2rem;
+      padding: 2rem;
+      margin-bottom: 2.5rem;
       box-shadow: var(--shadow-sm);
     }
 
@@ -309,28 +1113,27 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
+      margin-bottom: 1.35rem;
+      padding-bottom: 0.95rem;
       border-bottom: 1px solid var(--border);
     }
 
     .diagram-header h4 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
+      font-size: 1.25rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.65rem;
     }
 
     .diagram-img-box {
-      background: #f8fafc;
+      background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1rem;
+      border-radius: var(--radius);
+      padding: 1.25rem;
       text-align: center;
       overflow: hidden;
+      cursor: pointer;
+      position: relative;
     }
 
     .diagram-img-box img {
@@ -338,1122 +1141,868 @@
       height: auto;
       max-height: 560px;
       object-fit: contain;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .diagram-img-box img:hover {
-      transform: scale(1.005);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    }
-
-    .view-section {
-      display: none;
-    }
-
-    .view-section.active {
-      display: block;
-      animation: fadeIn 0.2s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ===================================================
-       1. LANDING PAGE HERO & WHY HRIDYAVAYU SECTION
-       =================================================== */
-    .hero-split {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 3.5rem;
-      align-items: center;
-      margin-bottom: 4rem;
-      padding-top: 1rem;
-    }
-
-    .hero-device-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-md);
-    }
-
-    .device-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .device-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .device-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--success);
-      background: var(--success-light);
-      padding: 0.2rem 0.65rem;
-      border-radius: 9999px;
-    }
-
-    .device-img-wrapper-large {
-      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 1.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1.25rem;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
-    }
-
-    .device-img-wrapper-large img {
-      max-height: 380px;
-      width: 100%;
-      object-fit: contain;
-      filter: drop-shadow(0 14px 28px rgba(15, 23, 42, 0.12));
+      border-radius: var(--radius-sm);
       transition: transform 0.3s ease;
     }
 
-    .device-img-wrapper-large:hover img {
-      transform: scale(1.02);
+    .diagram-img-box:hover img {
+      transform: scale(1.015);
     }
 
-    .device-caption-box {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 1.15rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .caption-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.35rem;
-    }
-
-    .caption-title strong {
-      font-size: 0.85rem;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .caption-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      color: var(--primary-dark);
-      background: var(--primary-light);
-      padding: 2px 8px;
-      border-radius: 9999px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .device-caption-box p {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .device-quick-actions {
-      display: flex;
-      gap: 0.75rem;
-    }
-
-    .quick-action-btn {
-      flex: 1;
-      padding: 0.65rem 0.85rem;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-main);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      transition: all 0.15s ease;
-    }
-
-    .quick-action-btn:hover {
-      background: var(--bg-card-subtle);
-      border-color: #cbd5e1;
-    }
-
-    /* Why HridyaVayu 3-Card Section */
-    .why-section-container {
-      margin-top: 1.5rem;
-      margin-bottom: 3.5rem;
-      border-top: 1px solid var(--border);
-      padding-top: 3.5rem;
-    }
-
-    .section-title-center {
-      text-align: center;
-      max-width: 720px;
-      margin: 0 auto 2.5rem;
-    }
-
-    .section-heading {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.15rem;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.02em;
-      margin-bottom: 0.75rem;
-    }
-
-    .section-subheading {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .why-cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-    }
-
-    .why-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .why-card:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .why-card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .why-card h4 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.65rem;
-    }
-
-    .why-card p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .hero-badge-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #f0f9ff;
-      border: 1px solid #bae6fd;
-      border-radius: 9999px;
-      padding: 0.35rem 0.9rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--primary-dark);
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2.85rem;
-      font-weight: 800;
-      line-height: 1.15;
-      color: var(--accent);
-      letter-spacing: -0.02em;
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-title span {
-      color: var(--primary);
-    }
-
-    .hero-subtitle {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin-bottom: 2rem;
-    }
-
-    .hero-ctas {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .btn-hero-primary {
-      background: var(--primary);
-      color: white;
-      padding: 0.85rem 1.65rem;
-      border-radius: 9px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
-      transition: all 0.15s ease;
-    }
-
-    .btn-hero-primary:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .btn-hero-secondary {
-      background: white;
-      color: var(--text-main);
-      padding: 0.85rem 1.65rem;
-      border-radius: 9px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      transition: all 0.15s ease;
-    }
-
-    .btn-hero-secondary:hover {
-      background: var(--bg-card-subtle);
-      border-color: #cbd5e1;
-    }
-
-    /* Right Showcase: Why HridyaVayu & Clinical Need */
-    .why-hridyavayu-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .why-card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.85rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .why-card-head h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .clinical-case-box {
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1rem 1.15rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .clinical-case-box strong {
-      display: block;
-      font-size: 0.82rem;
-      color: var(--accent);
-      margin-bottom: 0.35rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .clinical-case-box p {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .benefits-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .benefit-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-    }
-
-    .benefit-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      background: var(--primary-subtle);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.82rem;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-
-    .benefit-text strong {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-main);
-      font-weight: 600;
-    }
-
-    .benefit-text p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    .device-inline-banner {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 0.85rem 1rem;
-    }
-
-    .device-inline-banner img {
-      width: 54px;
-      height: 54px;
-      object-fit: contain;
-      border-radius: 6px;
-      background: white;
-      border: 1px solid var(--border);
-    }
-
-    .device-inline-banner div {
-      flex: 1;
-    }
-
-    .device-inline-banner strong {
-      font-size: 0.82rem;
-      display: block;
-      color: var(--accent);
-    }
-
-    .device-inline-banner span {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      display: block;
-    }
-
-    /* 4-Pillar Grid */
-    .feature-pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .pillar-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.15rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.85rem;
-    }
-
-    .pillar-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      background: var(--primary-subtle);
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      flex-shrink: 0;
-    }
-
-    .pillar-content strong {
-      display: block;
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 2px;
-    }
-
-    .pillar-content p {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* ===================================================
-       2. USER / PATIENT PORTAL
-       =================================================== */
+    /* ========================================================
+       2. PATIENT PORTAL
+       ======================================================== */
     .stepper-nav {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      background: white;
+      justify-content: center;
+      gap: 1.35rem;
+      margin-bottom: 2.5rem;
+      padding: 1rem 1.75rem;
+      background: var(--bg-card-glass);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.75rem 1.5rem;
-      margin-bottom: 2rem;
+      border-radius: var(--radius-full);
       box-shadow: var(--shadow-sm);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .stepper-item {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
+      gap: 0.75rem;
       cursor: pointer;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .stepper-item.active {
-      color: var(--primary);
-    }
-
-    .stepper-item.completed {
-      color: var(--success);
+      padding: 0.45rem 1.15rem;
+      border-radius: var(--radius-full);
+      transition: all 0.2s ease;
+      user-select: none;
     }
 
     .stepper-number {
-      width: 28px;
-      height: 28px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: var(--bg-card-subtle);
-      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.8rem;
-      font-weight: 700;
+      font-size: 0.9rem;
+      font-weight: 800;
+      background: var(--bg-card-subtle);
+      color: var(--text-muted);
+      border: 2px solid var(--border);
+    }
+
+    .stepper-item span {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .stepper-item.active {
+      background: var(--primary-light);
     }
 
     .stepper-item.active .stepper-number {
       background: var(--primary);
-      color: white;
+      color: var(--btn-primary-text);
       border-color: var(--primary);
+      box-shadow: 0 0 14px var(--primary-glow);
+    }
+
+    .stepper-item.active span {
+      color: var(--primary);
+      font-weight: 800;
     }
 
     .stepper-item.completed .stepper-number {
       background: var(--success);
-      color: white;
+      color: #ffffff;
       border-color: var(--success);
     }
 
-    .portal-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 2rem;
+    .stepper-item.completed span {
+      color: var(--success);
     }
 
-    .portal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 1.75rem;
-      padding-bottom: 1.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .portal-header h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--accent);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-
-    .portal-header p {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    /* Forms */
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 1.75rem;
+      gap: 1.75rem;
+      margin-bottom: 2.25rem;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
 
     .form-label {
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.85rem;
+      font-weight: 700;
       color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
     }
 
     .form-input, .form-select {
       width: 100%;
-      padding: 0.65rem 0.85rem;
+      padding: 0.85rem 1.15rem;
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.88rem;
-      font-family: inherit;
+      background-color: var(--bg-input);
       color: var(--text-main);
-      background: white;
-      transition: border-color 0.15s ease;
+      font-size: 0.92rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.2s ease;
     }
 
     .form-input:focus, .form-select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--primary-glow);
     }
 
-    /* Telemetry Dials Grid */
+    /* Telemetry Dials */
     .env-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 1.75rem;
+      gap: 1.35rem;
+      margin-bottom: 2.25rem;
     }
 
     .env-dial-card {
       background: var(--bg-card-subtle);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.15rem 1rem;
+      border-radius: var(--radius);
+      padding: 1.5rem 1.35rem;
       text-align: center;
+      transition: all 0.2s ease;
+    }
+
+    .env-dial-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 
     .dial-name {
-      font-size: 0.72rem;
-      font-weight: 600;
+      font-size: 0.76rem;
+      font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
-      margin-bottom: 0.4rem;
+      letter-spacing: 0.6px;
+      margin-bottom: 0.5rem;
     }
 
     .dial-val {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1.1;
-      margin-bottom: 0.2rem;
+      font-size: 2.15rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.15;
     }
 
     .dial-unit {
-      font-size: 0.7rem;
+      font-size: 0.74rem;
       color: var(--text-light);
+      margin-top: 0.35rem;
     }
 
-    /* Step 3 Results */
+    .dial-bar {
+      height: 5px;
+      width: 100%;
+      background: var(--border);
+      border-radius: var(--radius-full);
+      margin-top: 0.85rem;
+      overflow: hidden;
+    }
+
+    .dial-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      transition: width 0.4s ease;
+    }
+
+    /* Radar Pulse */
+    .radar-beacon-container {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .radar-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: rgba(56, 189, 248, 0.3);
+      animation: live-radar 2s infinite cubic-bezier(0.1, 0.2, 0.3, 1);
+    }
+
+    .radar-center-icon {
+      position: relative;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: var(--btn-primary-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    /* Step 3: Results */
     .results-layout {
       display: grid;
-      grid-template-columns: 1fr 1.25fr;
+      grid-template-columns: 0.95fr 1.05fr;
       gap: 1.75rem;
-      margin-bottom: 1.75rem;
+      margin-bottom: 2.25rem;
     }
 
     .risk-score-card {
-      background: #f8fafc;
+      background: var(--bg-card-subtle);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.75rem;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+    }
+
+    .gauge-wrapper {
+      position: relative;
+      width: 190px;
+      height: 190px;
+      margin-bottom: 1.15rem;
+    }
+
+    .gauge-svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: var(--border);
+      stroke-width: 14;
+    }
+
+    .gauge-stroke {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 14;
+      stroke-linecap: round;
+      stroke-dasharray: 440;
+      stroke-dashoffset: 440;
+      transition: stroke-dashoffset 1s ease, stroke 0.4s ease;
+    }
+
+    .gauge-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       text-align: center;
     }
 
-    .risk-badge-large {
-      padding: 0.4rem 1.25rem;
-      border-radius: 9999px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 1rem;
+    .risk-score-display {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.6rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--text-main);
     }
 
-    .risk-score-display {
-      font-family: 'Outfit', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 800;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-      color: var(--accent);
+    .risk-badge-large {
+      display: inline-block;
+      font-size: 0.88rem;
+      font-weight: 900;
+      padding: 0.45rem 1.35rem;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 0.75rem;
     }
 
     .risk-meta-row {
       display: flex;
-      gap: 1.25rem;
-      font-size: 0.75rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
-      margin-top: 0.5rem;
+      margin-top: 1.15rem;
+      padding-top: 0.95rem;
+      border-top: 1px dashed var(--border);
+      width: 100%;
     }
 
     .models-breakdown-card {
-      background: white;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
-    .model-row {
-      margin-bottom: 1rem;
-    }
-
-    .model-row:last-child {
-      margin-bottom: 0;
-    }
-
+    .model-row { margin-bottom: 1.15rem; }
     .model-row-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.82rem;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.4rem;
+      font-size: 0.85rem;
     }
 
     .model-progress-bg {
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 9999px;
+      height: 9px;
+      background: var(--border);
+      border-radius: var(--radius-full);
       overflow: hidden;
     }
 
     .model-progress-fill {
       height: 100%;
-      border-radius: 9999px;
+      border-radius: var(--radius-full);
       background: var(--primary);
       transition: width 0.6s ease;
     }
 
-    /* Human-Centric Clinical Recommendations Cards */
-    .recs-container {
-      margin-bottom: 1.75rem;
-    }
-
-    .recs-container-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: 0.85rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
     .clinical-recs-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.65rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
     }
 
     .clinical-rec-card {
-      background: white;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--primary);
-      border-radius: 8px;
-      padding: 0.85rem 1.15rem;
+      border-left: 5px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 1.35rem 1.45rem;
       display: flex;
+      gap: 1.15rem;
       align-items: flex-start;
-      gap: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .clinical-rec-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
     }
 
     .clinical-rec-card.severe {
       border-left-color: var(--danger);
-      background: #fffdfd;
+      background: var(--danger-light);
     }
 
     .rec-card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      background: var(--primary-subtle);
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--primary-light);
       color: var(--primary);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.88rem;
+      font-size: 1.25rem;
       flex-shrink: 0;
-      margin-top: 2px;
     }
 
     .clinical-rec-card.severe .rec-card-icon {
-      background: var(--danger-light);
+      background: rgba(239, 68, 68, 0.2);
       color: var(--danger);
     }
 
-    .rec-card-body strong {
-      display: block;
-      font-size: 0.85rem;
-      color: var(--text-main);
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .rec-card-body p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    /* Inhaler & SOS Tracker */
     .inhaler-tracker-card {
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem 1.5rem;
-      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.25rem;
+      box-shadow: var(--shadow-sm);
     }
 
     .tracker-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1.35rem;
     }
 
     .tracker-meter-bg {
-      height: 10px;
-      background: #e2e8f0;
-      border-radius: 9999px;
+      height: 16px;
+      background: var(--border);
+      border-radius: var(--radius-full);
       overflow: hidden;
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.95rem;
     }
 
     .tracker-meter-fill {
       height: 100%;
-      border-radius: 9999px;
-      background: var(--primary);
-      transition: width 0.4s ease;
+      border-radius: var(--radius-full);
+      background: linear-gradient(90deg, #10b981 0%, #0284c7 100%);
+      transition: width 0.5s ease;
     }
 
     .tracker-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.75rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
     }
 
-    /* Admin / Tables */
-    .admin-stats-grid {
+    .sos-emergency-card {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, var(--bg-card) 100%);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 0 24px var(--danger-glow);
+    }
+
+    .sos-beacon-btn {
+      background: var(--danger);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.95rem 1.65rem;
+      font-size: 0.98rem;
+      font-weight: 900;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 0 20px var(--danger-glow);
+      transition: all 0.2s ease;
+      margin-top: 1rem;
+    }
+
+    .sos-beacon-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 32px var(--danger-glow);
+    }
+
+    /* ========================================================
+       3. ADMIN SURVEILLANCE CONSOLE
+       ======================================================== */
+    .admin-kpis-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: 1.35rem;
+      margin-bottom: 2.25rem;
     }
 
-    .stat-card {
-      background: white;
+    .admin-kpi-card {
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.25rem;
+      border-radius: var(--radius-lg);
+      padding: 1.65rem 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
     }
 
-    .stat-card-title {
-      font-size: 0.75rem;
-      font-weight: 600;
+    .admin-kpi-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+
+    .kpi-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .kpi-details span {
+      font-size: 0.76rem;
+      font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+    }
+
+    .kpi-details strong {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.1;
+    }
+
+    .benchmark-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .benchmark-chip-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.35rem;
+    }
+
+    .benchmark-chip-card strong {
+      font-size: 0.88rem;
+      color: var(--text-main);
+      display: block;
       margin-bottom: 0.4rem;
     }
 
-    .stat-card-val {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.85rem;
-      font-weight: 700;
-      color: var(--accent);
+    .benchmark-metrics-pair {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      color: var(--text-muted);
     }
 
-    .data-table-wrapper {
-      background: white;
+    .benchmark-metrics-pair strong {
+      display: inline;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--primary);
+    }
+
+    .admin-table-container {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .table-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.35rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .table-search-input {
+      padding: 0.6rem 1.15rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      color: var(--text-main);
+      font-size: 0.85rem;
+      width: 280px;
+      outline: none;
+    }
+
+    .table-search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .custom-table th {
+      text-align: left;
+      padding: 0.85rem 1.15rem;
+      background: var(--bg-card-subtle);
+      color: var(--text-muted);
+      font-weight: 700;
+      border-bottom: 1px solid var(--border);
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.6px;
+    }
+
+    .custom-table td {
+      padding: 0.95rem 1.15rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .custom-table tbody tr:hover {
+      background: var(--bg-card-subtle);
+    }
+
+    /* ========================================================
+       4. EDA & LIGHTBOX
+       ======================================================== */
+    .eda-charts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.75rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .research-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.35rem;
+    }
+
+    .gallery-item-card {
       border: 1px solid var(--border);
       border-radius: var(--radius);
       overflow: hidden;
-      margin-bottom: 2rem;
+      background: var(--bg-card-subtle);
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
 
-    .table-title-bar {
-      padding: 1rem 1.25rem;
-      border-bottom: 1px solid var(--border);
+    .gallery-item-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--primary);
+      box-shadow: 0 0 16px var(--primary-glow);
+    }
+
+    .gallery-item-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 0.65rem;
+    }
+
+    .gallery-item-caption {
+      padding: 0.95rem 1.15rem;
+      background: var(--bg-card);
+    }
+
+    .gallery-item-caption strong {
+      font-size: 0.86rem;
+      color: var(--text-main);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    table.data-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      text-align: left;
-    }
-
-    table.data-table th {
-      background: var(--bg-card-subtle);
+    .gallery-item-caption p {
+      font-size: 0.76rem;
       color: var(--text-muted);
-      font-weight: 600;
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    table.data-table td {
-      padding: 0.75rem 1.25rem;
-      border-bottom: 1px solid var(--border);
-      color: var(--text-main);
+      margin-top: 0.3rem;
     }
 
     /* Modal */
     .modal-backdrop {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.45);
-      backdrop-filter: blur(4px);
-      z-index: 2000;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(6, 11, 20, 0.75);
+      backdrop-filter: blur(12px);
       display: none;
       align-items: center;
       justify-content: center;
+      z-index: 2000;
+      padding: 1.5rem;
     }
 
     .modal-content {
-      background: white;
-      border-radius: var(--radius-lg);
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      width: 100%;
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
       max-width: 440px;
-      padding: 2rem;
+      width: 100%;
       box-shadow: var(--shadow-lg);
     }
 
-    footer.app-footer {
-      border-top: 1px solid var(--border);
-      background: white;
-      padding: 1.5rem 2rem;
-      text-align: center;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-top: auto;
-    }
-
-    @media (max-width: 960px) {
-      .hero-split { grid-template-columns: 1fr; gap: 2rem; }
-      .feature-pillars-grid { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .env-grid { grid-template-columns: repeat(2, 1fr); }
-      .results-layout { grid-template-columns: 1fr; }
-    /* Enhanced User Profile Header Badge */
-    .user-profile-widget {
-      display: flex;
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(6, 11, 20, 0.95);
+      backdrop-filter: blur(16px);
+      display: none;
       align-items: center;
-      gap: 0.75rem;
-      background: #ffffff;
-      border: 1.5px solid var(--border);
-      padding: 0.35rem 0.65rem 0.35rem 0.45rem;
-      border-radius: 9999px;
-      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
-      transition: all 0.2s ease;
+      justify-content: center;
+      z-index: 3000;
+      padding: 2rem;
     }
 
-    .user-profile-widget:hover {
-      border-color: #cbd5e1;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.09);
+    .lightbox-container {
+      max-width: 95vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .user-avatar-badge {
-      position: relative;
+    .lightbox-container img {
+      max-width: 100%;
+      max-height: 82vh;
+      object-fit: contain;
+      border-radius: var(--radius);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    }
+
+    .lightbox-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffffff;
+      margin-bottom: 0.85rem;
+    }
+
+    .lightbox-close-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #ffffff;
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.15rem;
-      flex-shrink: 0;
+      cursor: pointer;
+      font-size: 1.25rem;
     }
 
-    .avatar-patient {
-      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-      color: #0284c7;
-      border: 1.5px solid #7dd3fc;
-    }
-
-    .avatar-doctor {
-      background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%);
-      color: #059669;
-      border: 1.5px solid #6ee7b7;
-    }
-
-    .online-indicator {
-      position: absolute;
-      bottom: 0px;
-      right: 0px;
-      width: 11px;
-      height: 11px;
-      background: #10b981;
-      border: 2px solid #ffffff;
-      border-radius: 50%;
-    }
-
-    .user-details-box {
+    /* Toast */
+    #toast-container {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 9999;
       display: flex;
       flex-direction: column;
-      text-align: left;
-      line-height: 1.25;
+      gap: 0.75rem;
+      pointer-events: none;
     }
 
-    .user-display-name {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #0f172a;
-      letter-spacing: -0.01em;
-      white-space: nowrap;
-    }
-
-    .user-role-badge {
-      display: inline-flex;
+    .toast-msg {
+      pointer-events: auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 5px solid var(--primary);
+      border-radius: var(--radius-sm);
+      padding: 0.95rem 1.35rem;
+      box-shadow: var(--shadow-lg);
+      display: flex;
       align-items: center;
-      gap: 0.3rem;
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 0.08rem 0.4rem;
-      border-radius: 6px;
-      margin-top: 2px;
-      width: fit-content;
-      white-space: nowrap;
+      gap: 0.85rem;
+      min-width: 320px;
+      max-width: 460px;
+      font-size: 0.86rem;
+      animation: slideIn 0.3s ease;
+      color: var(--text-main);
     }
 
-    .role-patient {
-      background: #f0fdf4;
-      color: #15803d;
-      border: 1px solid #bbf7d0;
+    .toast-msg.toast-success { border-left-color: var(--success); }
+    .toast-msg.toast-danger { border-left-color: var(--danger); }
+    .toast-msg.toast-warning { border-left-color: var(--warning); }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
     }
 
-    .role-doctor {
-      background: #eff6ff;
-      color: #1d4ed8;
-      border: 1px solid #bfdbfe;
+    footer.app-footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      margin-top: auto;
+      font-size: 0.84rem;
+      color: var(--text-muted);
     }
 
-    .logout-action-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-      background: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fee2e2;
-      padding: 0.4rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      margin-left: 0.25rem;
+    @media (max-width: 1024px) {
+      .hero-split, .clinical-excellence-card, .india-crisis-card { grid-template-columns: 1fr; }
+      .benchmark-metrics-ribbon, .admin-kpis-grid { grid-template-columns: repeat(2, 1fr); }
+      .env-grid { grid-template-columns: repeat(2, 1fr); }
+      .results-layout { grid-template-columns: 1fr; }
+      .research-gallery-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    .logout-action-btn:hover {
-      background: #fee2e2;
-      color: #b91c1c;
-      border-color: #fca5a5;
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 640px) {
-      .user-profile-widget {
-        gap: 0.5rem;
-        padding: 0.25rem 0.5rem;
-      }
-      .user-avatar-badge {
-        width: 34px;
-        height: 34px;
-        font-size: 1rem;
-      }
-      .user-display-name {
-        font-size: 0.85rem;
-      }
-      .logout-action-btn span {
-        display: none;
-      }
+    @media (max-width: 768px) {
+      .form-grid, .why-cards-grid, .clinical-recs-grid, .eda-charts-grid, .benchmark-row { grid-template-columns: 1fr; }
+      .india-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .benchmark-metrics-ribbon, .admin-kpis-grid { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.35rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- App Header -->
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Lightbox Viewer Modal -->
+  <div id="lightbox-modal" class="lightbox-modal" onclick="closeLightbox(event)">
+    <div class="lightbox-container" onclick="event.stopPropagation()">
+      <div class="lightbox-header">
+        <h4 id="lightbox-title" style="font-size: 1.1rem; font-weight: 700;">Research Benchmark Artifact</h4>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <a id="lightbox-raw-link" href="#" target="_blank" class="nav-btn" style="color: #ffffff; background: rgba(255,255,255,0.15); font-size: 0.78rem; padding: 0.4rem 0.85rem;">
+            <i class="fa-solid fa-up-right-from-square"></i> Open 300 DPI Original
+          </a>
+          <button class="lightbox-close-btn" onclick="closeLightbox()">&times;</button>
+        </div>
+      </div>
+      <img id="lightbox-img" src="" alt="High-Resolution Research Diagram" />
+    </div>
+  </div>
+
+  <!-- Top Glass Header -->
   <header class="app-header">
-    <!-- Brand Name Term -->
     <div class="brand-logo" onclick="navigateToLanding()">
       <div class="brand-icon-box">
         <i class="fa-solid fa-lungs"></i>
       </div>
       <div class="brand-text">
-        <h1>HridyaVayu</h1>
-        <p>Smart Asthma Care</p>
+        <h1>HridyaVayu <span class="badge-pill">हृदयवायु</span></h1>
+        <p>Smart Asthma Care • Connected MedTech</p>
       </div>
     </div>
 
-    <!-- Header Actions (Only Term + Login / Sign Up when unauthenticated) -->
+    <!-- Live Telemetry Status Pill -->
+    <div class="header-telemetry-badge" onclick="switchView('user'); setStep(2);" title="Connected to European CAMS Atmospheric Satellite Stream">
+      <span class="pulse-dot-green"></span>
+      <span id="header-telemetry-text">CAMS Telemetry Active • Open-Meteo GPS</span>
+    </div>
+
+    <!-- Header Actions -->
     <div class="header-actions">
-      <!-- Nav items shown ONLY when logged in -->
-      <nav class="nav-links" id="authenticated-nav" style="display: none;">
-        <button class="nav-btn" id="nav-landing" onclick="switchView('landing')">Overview</button>
-        <button class="nav-btn" id="nav-user" onclick="switchView('user'); setStep(1);">Patient Portal</button>
-        <button class="nav-btn" id="nav-admin" onclick="switchView('admin');">Physician Console</button>
-        <button class="nav-btn" id="nav-eda" onclick="switchView('eda');">Analytics</button>
+      <!-- ALWAYS VISIBLE NAVIGATION LINKS -->
+      <nav class="nav-links" id="authenticated-nav">
+        <button class="nav-btn active" id="nav-landing" onclick="switchView('landing')"><i class="fa-solid fa-compass"></i> Overview</button>
+        <button class="nav-btn" id="nav-eda" onclick="switchView('eda');"><i class="fa-solid fa-chart-pie"></i> Analytics</button>
       </nav>
+
+      <!-- Theme Switcher (Moon / Sun) -->
+      <button class="theme-toggle-btn" id="theme-toggle" onclick="toggleTheme()" title="Switch Light/Dark Theme">
+        <i class="fa-solid fa-sun" id="theme-icon"></i>
+      </button>
 
       <!-- Auth Container -->
       <div id="auth-header-container" style="display: flex; align-items: center; gap: 0.5rem;">
@@ -1481,117 +2030,157 @@
          ========================================== -->
     <section id="view-landing" class="view-section active">
       <div class="landing-hero-backdrop">
-      <div class="hero-split">
-        <!-- Left Hero Column -->
-        <div>
-          <div class="hero-badge-pill">
-            <i class="fa-solid fa-shield-halved"></i>
-            <span>Clinical Decision Support & Attack Prevention</span>
-          </div>
-
-          <h2 class="hero-title">
-            Intelligent Respiratory Care <br />
-            <span>Before Airway Constriction Occurs</span>
-          </h2>
-
-          <p class="hero-subtitle">
-            HridyaVayu bridges continuous environmental IoT telemetry with validated clinical guidelines (GINA) and collaborative machine learning to predict asthma exacerbations hours in advance.
-          </p>
-
-          <!-- Gate-Protected Action Buttons -->
-          <div class="hero-ctas">
-            <button class="btn-hero-primary" onclick="handleProtectedPortalAccess('user')">
-              <i class="fa-solid fa-notes-medical"></i> Open Patient Portal
-            </button>
-            <button class="btn-hero-secondary" onclick="handleProtectedPortalAccess('admin')">
-              <i class="fa-solid fa-chart-line"></i> Physician Dashboard
-            </button>
-          </div>
-
-          <!-- 4 Feature Pillars -->
-          <div class="feature-pillars-grid">
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
-              <div class="pillar-content">
-                <strong>Multimodal Collaborative AI</strong>
-                <p>Combines Linear Regression, Random Forest, and Gradient Boosting to prevent single-model bias.</p>
-              </div>
+        <div class="hero-split">
+          <!-- Left Hero Column -->
+          <div>
+            <div class="hero-badge-pill">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>GINA 2023 Clinical Guardrails + Satellite CAMS Telemetry</span>
             </div>
 
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-satellite-dish"></i></div>
-              <div class="pillar-content">
-                <strong>Live Meteorological Sync</strong>
-                <p>Continuous GPS-anchored feed tracking AQI, PM2.5, NO2, and SO2 spikes.</p>
-              </div>
-            </div>
+            <h2 class="hero-title">
+              Intelligent Respiratory Care <br />
+              <span class="gradient-glow">Before Airway Constriction Occurs</span>
+            </h2>
 
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-shield-virus"></i></div>
-              <div class="pillar-content">
-                <strong>GINA Safety Guardrails</strong>
-                <p>Deterministic clinical heuristics guarantee emergency escalation for severe nocturnal symptoms.</p>
-              </div>
-            </div>
+            <p class="hero-subtitle">
+              HridyaVayu bridges continuous satellite environmental telemetry with standardized GINA clinical guidelines and a collaborative soft-voting ensemble to predict asthma exacerbations hours before acute symptoms manifest.
+            </p>
 
-            <div class="pillar-card">
-              <div class="pillar-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div>
-              <div class="pillar-content">
-                <strong>Smart Inhaler Adherence</strong>
-                <p>Canister level tracking, dose verification, and rapid emergency distress dispatch.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Column: Prominent Large Device Showcase -->
-        <div>
-          <div class="hero-device-card">
-            <div class="device-header">
-              <div class="device-title">
-                <i class="fa-solid fa-microchip" style="color: var(--primary);"></i>
-                HridyaVayu Connected Airway Companion
-              </div>
-              <div class="device-status">
-                <i class="fa-solid fa-circle" style="font-size: 6px;"></i> Active Link (BLE / Cellular)
-              </div>
-            </div>
-
-            <!-- Big, High-Impact Device Image -->
-            <div class="device-img-wrapper-large">
-              <img src="/web_ui/assets/smart_inhaler.jpg" alt="HridyaVayu Smart Asthma Inhaler Device" onerror="this.src='/figures/model_comparison.png'" />
-            </div>
-
-            <!-- Device Information & Architecture Caption -->
-            <div class="device-caption-box">
-              <div class="caption-title">
-                <strong>Smart Inhaler Hardware Architecture</strong>
-                <span class="caption-badge">Connected MedTech</span>
-              </div>
-              <p>
-                Integrated with precision micro-acoustic airflow sensors, real-time dosage adherence tracking, and automatic emergency SOS broadcast for acute respiratory distress.
-              </p>
-            </div>
-
-            <div class="device-quick-actions">
-              <button class="quick-action-btn" onclick="handleProtectedPortalAccess('user')">
-                <i class="fa-solid fa-clipboard-check"></i> Patient Assessment
+            <div class="hero-ctas">
+              <button class="btn-hero-primary" onclick="switchView('user'); setStep(1);">
+                <i class="fa-solid fa-notes-medical"></i> Open Patient Portal
               </button>
-              <button class="quick-action-btn" onclick="fetchLiveEnvironmentalData(true)">
-                <i class="fa-solid fa-satellite-dish"></i> Sync Live GPS Telemetry
+              <button class="btn-hero-secondary" onclick="switchView('admin');">
+                <i class="fa-solid fa-chart-line"></i> Physician Dashboard
               </button>
+              <button class="btn-hero-secondary" onclick="switchView('eda');">
+                <i class="fa-solid fa-square-poll-vertical"></i> Explore Research Benchmarks
+              </button>
+            </div>
+
+            <div class="feature-pillars-grid">
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="pillar-content">
+                  <strong>Multimodal Collaborative AI</strong>
+                  <p>Linear Regression, Random Forest, and Gradient Boosting fused via bounded soft-voting consensus.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+                <div class="pillar-content">
+                  <strong>Live Meteorological Sync</strong>
+                  <p>Continuous GPS-anchored European CAMS telemetry tracking real-time AQI, PM2.5, NO2, and SO2 spikes.</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-shield-virus"></i></div>
+                <div class="pillar-content">
+                  <strong>Deterministic GINA Guardrails</strong>
+                  <p>Neuro-symbolic safety heuristics automatically override predictions if acute dyspnea occurs (0% false negatives).</p>
+                </div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div>
+                <div class="pillar-content">
+                  <strong>Closed-Loop Smart Inhaler</strong>
+                  <p>Digital 200-dose canister tracking, timestamped logging, and one-touch automated emergency SOS broadcast.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Prominent Large Device Showcase -->
+          <div>
+            <div class="hero-device-card">
+              <div class="device-header">
+                <div class="device-title">
+                  <i class="fa-solid fa-microchip" style="color: var(--primary);"></i>
+                  HridyaVayu Connected Airway Companion
+                </div>
+                <div class="device-status">
+                  <i class="fa-solid fa-circle" style="font-size: 6px;"></i> Active BLE 5.3 Link
+                </div>
+              </div>
+
+              <div class="device-img-wrapper-large">
+                <img src="/web_ui/assets/smart_inhaler.jpg" alt="HridyaVayu Smart Asthma Inhaler Device" onerror="this.src='/figures/model_comparison.png'" />
+              </div>
+
+              <div class="device-caption-box">
+                <div class="caption-title">
+                  <strong>Smart Inhaler Hardware Architecture</strong>
+                  <span class="caption-badge">Connected MedTech</span>
+                </div>
+                <p>
+                  Equipped with high-precision micro-acoustic airflow sensing, digital actuation verification countdown (200 doses), and instant emergency SOS broadcast with GPS coordinate dispatch.
+                </p>
+              </div>
+
+              <div class="device-quick-actions">
+                <button class="quick-action-btn" onclick="switchView('user'); setStep(1);">
+                  <i class="fa-solid fa-clipboard-check"></i> Patient Assessment
+                </button>
+                <button class="quick-action-btn" onclick="fetchLiveEnvironmentalData(true)">
+                  <i class="fa-solid fa-satellite-dish"></i> Sync Live GPS Telemetry
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      </div>
-    </div>
+      <!-- Key System Benchmark Metrics Ribbon -->
+      <div class="benchmark-metrics-ribbon">
+        <div class="metric-ribbon-card">
+          <div class="metric-ribbon-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+            <i class="fa-solid fa-shield-heart"></i>
+          </div>
+          <div class="metric-ribbon-content">
+            <strong>95.20%</strong>
+            <span>Sensitivity with GINA Safety Override</span>
+          </div>
+        </div>
 
-    <!-- Dedicated Section: Why HridyaVayu? The Clinical Need & Benefits -->
+        <div class="metric-ribbon-card">
+          <div class="metric-ribbon-icon" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">
+            <i class="fa-solid fa-hospital-user"></i>
+          </div>
+          <div class="metric-ribbon-content">
+            <strong>3,402</strong>
+            <span>Multi-Center Real Patient Cohorts</span>
+          </div>
+        </div>
+
+        <div class="metric-ribbon-card">
+          <div class="metric-ribbon-icon" style="background: rgba(239, 68, 68, 0.15); color: #f87171;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+          </div>
+          <div class="metric-ribbon-content">
+            <strong>0%</strong>
+            <span>Fatal False Negatives on Acute Flare-ups</span>
+          </div>
+        </div>
+
+        <div class="metric-ribbon-card">
+          <div class="metric-ribbon-icon" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+            <i class="fa-solid fa-cubes-stacked"></i>
+          </div>
+          <div class="metric-ribbon-content">
+            <strong>22-D</strong>
+            <span>Multimodal Aligned Feature Space</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Why HridyaVayu Section -->
       <div class="why-section-container">
         <div class="section-title-center">
-          <div class="hero-badge-pill" style="margin-bottom: 0.75rem;">
+          <div class="hero-badge-pill">
             <i class="fa-solid fa-hospital-user"></i>
             <span>The Clinical Imperative</span>
           </div>
@@ -1603,17 +2192,17 @@
 
         <div class="why-cards-grid">
           <div class="why-card">
-            <div class="why-card-icon" style="background: #fef2f2; color: #dc2626;">
+            <div class="why-card-icon" style="background: rgba(239, 68, 68, 0.15); color: #f87171;">
               <i class="fa-solid fa-triangle-exclamation"></i>
             </div>
             <h4>The Clinical Problem (The Need)</h4>
             <p>
-              Over 300 million individuals globally suffer from chronic bronchial asthma. Clinical evidence reveals that over 80% of severe hospitalizations and acute attacks are triggered by undetected ambient air pollution spikes (PM2.5, NO2, SO2) interacting with hyper-reactive airways. Conventional asthma management is purely reactive—patients take medication only after airway constriction has already begun.
+              Over 300 million individuals globally suffer from chronic bronchial asthma. Over 80% of severe hospitalizations are triggered by undetected ambient air pollution spikes (PM2.5, NO2, SO2) interacting with hyper-reactive airways. Conventional asthma care is purely reactive—patients take medication only after airway constriction has already begun.
             </p>
           </div>
 
           <div class="why-card">
-            <div class="why-card-icon" style="background: #f0f9ff; color: #0284c7;">
+            <div class="why-card-icon" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">
               <i class="fa-solid fa-lightbulb"></i>
             </div>
             <h4>The HridyaVayu Breakthrough (The Case)</h4>
@@ -1623,7 +2212,7 @@
           </div>
 
           <div class="why-card">
-            <div class="why-card-icon" style="background: #ecfdf5; color: #059669;">
+            <div class="why-card-icon" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
               <i class="fa-solid fa-shield-heart"></i>
             </div>
             <h4>The Patient & Physician Impact (The Benefits)</h4>
@@ -1633,21 +2222,44 @@
           </div>
         </div>
       </div>
-    
+
+      <!-- Clinical Excellence Feature Banner -->
+      <div class="clinical-excellence-card">
+        <div class="clinical-img-box">
+          <img src="/web_ui/assets/hospital_wellness_care.jpg" alt="Clinical Respiratory Wellness Care" />
+        </div>
+        <div class="clinical-content">
+          <div class="hero-badge-pill" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(52, 211, 153, 0.3);">
+            <i class="fa-solid fa-check-double"></i>
+            <span>Rigorous Clinical Generalizability</span>
+          </div>
+          <h3>Benchmarked Across 3,402 Real Patients Worldwide</h3>
+          <p>
+            The HridyaVayu collaborative architecture has been independently validated on the Zenodo Clinical Cohort (Haque et al., 1,010 patients: <strong>92.57% Accuracy</strong>, 0.942 F1) and the Kaggle Multi-Center Demographics Dataset (Elkharoua et al., 2,392 patients: <strong>96.45% Accuracy</strong>, 0.958 F1).
+          </p>
+          <div style="display: flex; gap: 0.75rem;">
+            <button class="btn-hero-primary" onclick="switchView('eda')">
+              <i class="fa-solid fa-chart-pie"></i> View Validation Benchmarks
+            </button>
+          </div>
+        </div>
+      </div>
+
       <!-- India's Growing Asthma Crisis & Urban Air Quality Reality -->
       <div class="india-crisis-card">
         <div class="india-img-box">
           <img src="/web_ui/assets/india_urban_air_crisis.jpg" alt="Indian Metropolitan City Skyline and Atmospheric Air Quality Reality" />
         </div>
         <div class="india-crisis-content">
-          <div class="hero-badge-pill" style="margin-bottom: 0.75rem; background: #fef2f2; border-color: #fecdd3; color: #dc2626;">
+          <div class="hero-badge-pill" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(248, 113, 113, 0.3); color: #f87171;">
             <i class="fa-solid fa-triangle-exclamation"></i>
             <span>The Indian Epidemiological Emergency</span>
           </div>
           <h3>India's Escalating Asthma Crisis & Urban Smog Reality</h3>
           <p>
-            India represents the highest asthma fatality epicenter worldwide: according to <strong>The Lancet Global Health</strong>, India accounts for <strong>42.4% of all global asthma deaths</strong> despite having only 11.1% of global cases. In Indian megacities (Delhi-NCR, Kanpur, Kolkata, Mumbai, Lucknow), winter ambient PM2.5 levels routinely cross <strong>250 to 450+ μg/m³</strong>—up to <strong>30 times the WHO safe threshold</strong>. HridyaVayu was designed specifically to give Indian citizens proactive early warning before toxic particulate spikes trigger irreversible acute attacks.
+            According to <strong>The Lancet Global Health</strong>, India accounts for <strong>42.4% of all global asthma deaths</strong> despite having only 11.1% of global cases. In Indian megacities, winter ambient PM2.5 levels routinely cross <strong>250 to 450+ μg/m³</strong>—up to <strong>30 times the WHO safe threshold</strong>. HridyaVayu was designed specifically to give Indian citizens proactive early warning before toxic particulate spikes trigger acute attacks.
           </p>
+          
           <div class="india-metrics-grid">
             <div class="india-metric-pill">
               <strong>42.4%</strong>
@@ -1666,19 +2278,30 @@
               <span>Children Affected</span>
             </div>
           </div>
+
+          <!-- Interactive City Simulation Chips -->
+          <div class="city-presets-bar">
+            <span><i class="fa-solid fa-city" style="color: var(--primary);"></i> Simulate Indian Megacity:</span>
+            <button type="button" class="city-chip" onclick="applyCityPreset('delhi')">Delhi-NCR (PM2.5 385)</button>
+            <button type="button" class="city-chip" onclick="applyCityPreset('mumbai')">Mumbai (PM2.5 145)</button>
+            <button type="button" class="city-chip" onclick="applyCityPreset('kolkata')">Kolkata (PM2.5 210)</button>
+            <button type="button" class="city-chip" onclick="applyCityPreset('lucknow')">Lucknow (PM2.5 320)</button>
+          </div>
         </div>
       </div>
 
-      <!-- Epidemiological Chart: India Asthma Burden & Megacity Peaks -->
-      <div class="diagram-full-card" style="margin-bottom: 2.5rem;">
+      <!-- Epidemiological Chart Preview -->
+      <div class="diagram-full-card">
         <div class="diagram-header">
-          <h4><i class="fa-solid fa-chart-column" style="color: #dc2626;"></i> Epidemiological Data: India's Share of Global Asthma Burden vs. City PM2.5 Peaks</h4>
-          <span style="font-size: 0.75rem; color: #dc2626; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/india_asthma_urban_crisis.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+          <h4><i class="fa-solid fa-chart-column" style="color: #f87171;"></i> Epidemiological Data: India's Share of Global Asthma Burden vs. City PM2.5 Peaks</h4>
+          <span style="font-size: 0.82rem; color: #f87171; cursor: pointer; font-weight: 700;" onclick="openLightbox('/figures/india_asthma_urban_crisis.png', 'India Asthma Burden vs City PM2.5 Peaks')">
+            <i class="fa-solid fa-expand"></i> Full 300 DPI Lightbox
+          </span>
         </div>
-        <div class="diagram-img-box">
-          <img src="/figures/india_asthma_urban_crisis.png" alt="India Asthma Mortality and City PM2.5 Peaks" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        <div class="diagram-img-box" onclick="openLightbox('/figures/india_asthma_urban_crisis.png', 'India Asthma Burden vs City PM2.5 Peaks')">
+          <img src="/figures/india_asthma_urban_crisis.png" alt="India Asthma Mortality and City PM2.5 Peaks" />
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6;">
           <strong>Clinical Analysis:</strong> Mortality rates in India are 3x the global average due to lack of real-time air quality forecasting and delayed bronchodilator rescue response. Dense vehicular exhaust, biomass burning, and winter temperature inversions create severe particulate traps that make predictive decision support indispensable.
         </p>
       </div>
@@ -1694,12 +2317,12 @@
           <div class="stepper-number">1</div>
           <span>Clinical Screening</span>
         </div>
-        <div style="color: #cbd5e1;"><i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i></div>
+        <div style="color: var(--border);"><i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i></div>
         <div class="stepper-item" id="step-btn-2" onclick="setStep(2)">
           <div class="stepper-number">2</div>
           <span>Environmental Telemetry</span>
         </div>
-        <div style="color: #cbd5e1;"><i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i></div>
+        <div style="color: var(--border);"><i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i></div>
         <div class="stepper-item" id="step-btn-3" onclick="setStep(3)">
           <div class="stepper-number">3</div>
           <span>Risk Assessment & Care Plan</span>
@@ -1711,14 +2334,14 @@
         <div class="portal-header">
           <div>
             <h3><i class="fa-solid fa-clipboard-list" style="color: var(--primary);"></i> Step 1: Clinical Guidelines Screening</h3>
-            <p>Standardized GINA criteria evaluating baseline symptom frequency and nocturnal airway control.</p>
+            <p>Standardized GINA criteria evaluating baseline symptom frequency, nocturnal dyspnea, and airway control.</p>
           </div>
-          <div style="display: flex; gap: 0.5rem;">
-            <button type="button" class="nav-btn" style="background: #fef2f2; color: #b91c1c; font-size: 0.78rem;" onclick="loadPresetProfile('severe')">
-              Load Acute Flare-up Sample
+          <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" class="nav-btn" style="background: rgba(239, 68, 68, 0.15); color: #f87171; font-size: 0.8rem; border: 1px solid rgba(248, 113, 113, 0.3);" onclick="loadPresetProfile('severe')">
+              <i class="fa-solid fa-triangle-exclamation"></i> Load Acute Flare-up Sample
             </button>
-            <button type="button" class="nav-btn" style="background: #f0fdf4; color: #15803d; font-size: 0.78rem;" onclick="loadPresetProfile('controlled')">
-              Load Controlled Sample
+            <button type="button" class="nav-btn" style="background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 0.8rem; border: 1px solid rgba(52, 211, 153, 0.3);" onclick="loadPresetProfile('controlled')">
+              <i class="fa-solid fa-shield-check"></i> Load Controlled Sample
             </button>
           </div>
         </div>
@@ -1726,14 +2349,18 @@
         <form id="clinical-form" onsubmit="event.preventDefault(); setStep(2);">
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label">Patient Name</label>
+              <label class="form-label">
+                <i class="fa-solid fa-user-circle" style="color: var(--primary);"></i> Patient Full Name
+              </label>
               <input type="text" id="patient-name" class="form-input" value="Alex Rivera" required />
             </div>
 
             <div class="form-group">
-              <label class="form-label">Asthma Symptoms Frequency</label>
+              <label class="form-label">
+                <i class="fa-solid fa-lungs" style="color: var(--primary);"></i> Daytime Asthma Symptoms Frequency
+              </label>
               <select id="symptoms-freq" class="form-select">
-                <option value="Daily">Daily (Severe uncontrolled)</option>
+                <option value="Daily">Daily (Severe uncontrolled airway constriction)</option>
                 <option value="Frequently (Weekly)" selected>Frequently / Weekly (Partly controlled)</option>
                 <option value="1-2 times a month">1-2 times a month (Mild intermittent)</option>
                 <option value="Less than once a month">Less than once a month (Well controlled)</option>
@@ -1741,9 +2368,11 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Nocturnal Dyspnea / Night Waking</label>
+              <label class="form-label">
+                <i class="fa-solid fa-moon" style="color: var(--accent-purple);"></i> Nocturnal Dyspnea / Night Waking
+              </label>
               <select id="night-diff" class="form-select">
-                <option value="Frequently">Frequently (Multiple times per week)</option>
+                <option value="Frequently">Frequently (Multiple times per week - Acute Alert)</option>
                 <option value="Occasionally" selected>Occasionally (1-2 times per month)</option>
                 <option value="Rarely">Rarely</option>
                 <option value="Never">Never</option>
@@ -1751,7 +2380,9 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Poor Air Quality Exposure</label>
+              <label class="form-label">
+                <i class="fa-solid fa-smog" style="color: var(--warning);"></i> Poor Air Quality Exposure
+              </label>
               <select id="exposure-input" class="form-select">
                 <option value="Yes, often" selected>Yes, frequent urban or traffic exposure</option>
                 <option value="Occasionally">Occasionally</option>
@@ -1760,7 +2391,9 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Identified Environmental Triggers</label>
+              <label class="form-label">
+                <i class="fa-solid fa-seedling" style="color: var(--success);"></i> Identified Environmental Triggers
+              </label>
               <select id="triggers-input" class="form-select">
                 <option value="Dust, Air pollution (smoke, chemicals etc.)" selected>Dust, smoke & chemical emissions</option>
                 <option value="Pollen, Seasonal Allergens">Pollen & seasonal allergens</option>
@@ -1770,9 +2403,11 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Weather & Meteorological Sensitivity</label>
+              <label class="form-label">
+                <i class="fa-solid fa-cloud-sun-rain" style="color: var(--primary);"></i> Weather & Meteorological Sensitivity
+              </label>
               <select id="weather-input" class="form-select">
-                <option value="Hot and humid weather" selected>Hot and humid weather</option>
+                <option value="Hot and humid weather" selected>Hot and humid weather (Airway swelling)</option>
                 <option value="Sudden temperature drops">Sudden temperature drops / Cold air</option>
                 <option value="High humidity and rain">High humidity and heavy rainfall</option>
                 <option value="No specific weather-related triggers">No weather sensitivity</option>
@@ -1793,75 +2428,81 @@
         <div class="portal-header">
           <div>
             <h3><i class="fa-solid fa-satellite-dish" style="color: var(--primary);"></i> Step 2: Environmental Telemetry Ingestion</h3>
-            <p>Synchronize ambient air quality and weather parameters via real-time satellite GPS or manual entry.</p>
+            <p>Synchronize ambient air quality and weather parameters via real-time satellite GPS or manual simulation.</p>
           </div>
           
-          <div style="display: flex; gap: 0.35rem; background: var(--bg-card-subtle); padding: 0.25rem; border-radius: 8px;">
-            <button type="button" class="nav-btn active" id="btn-env-gps" style="font-size: 0.78rem; padding: 0.35rem 0.8rem;" onclick="setEnvInputMode('gps')">
+          <div style="display: flex; gap: 0.4rem; background: var(--bg-card-subtle); padding: 0.3rem; border-radius: var(--radius-sm); border: 1px solid var(--border);">
+            <button type="button" class="nav-btn active" id="btn-env-gps" style="font-size: 0.8rem; padding: 0.4rem 0.95rem;" onclick="setEnvInputMode('gps')">
               <i class="fa-solid fa-location-crosshairs"></i> Live GPS Sync
             </button>
-            <button type="button" class="nav-btn" id="btn-env-manual" style="font-size: 0.78rem; padding: 0.35rem 0.8rem;" onclick="setEnvInputMode('manual')">
+            <button type="button" class="nav-btn" id="btn-env-manual" style="font-size: 0.8rem; padding: 0.4rem 0.95rem;" onclick="setEnvInputMode('manual')">
               <i class="fa-solid fa-pen-to-square"></i> Manual Entry
             </button>
           </div>
         </div>
 
         <!-- GPS Banner -->
-        <div id="panel-env-gps" style="display: flex; justify-content: space-between; align-items: center; background: var(--primary-subtle); border: 1px solid #bae6fd; border-radius: 10px; padding: 0.85rem 1.25rem; margin-bottom: 1.5rem;">
-          <div>
-            <strong style="font-size: 0.88rem; color: var(--primary-dark); display: block;">Open-Meteo Satellite & Ground Station Feed</strong>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Pulls real-time air quality index and atmospheric metrics based on your coordinates.</span>
+        <div id="panel-env-gps" style="display: flex; justify-content: space-between; align-items: center; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.85rem; flex-wrap: wrap; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 1.15rem;">
+            <div class="radar-beacon-container">
+              <div class="radar-circle"></div>
+              <div class="radar-center-icon"><i class="fa-solid fa-satellite"></i></div>
+            </div>
+            <div>
+              <strong style="font-size: 1rem; color: var(--primary); display: block;">Open-Meteo European CAMS Satellite Feed</strong>
+              <span style="font-size: 0.8rem; color: var(--text-muted);">Pulls real-time air quality index, particulate matter, and atmospheric metrics based on client coordinates.</span>
+            </div>
           </div>
-          <button class="btn-hero-primary" style="padding: 0.5rem 1.1rem; font-size: 0.82rem;" onclick="fetchLiveEnvironmentalData(false)">
-            <i class="fa-solid fa-rotate"></i> Refresh GPS Data
+          <button class="btn-hero-primary" style="padding: 0.6rem 1.35rem; font-size: 0.85rem;" onclick="fetchLiveEnvironmentalData(false)">
+            <i class="fa-solid fa-rotate" id="gps-refresh-icon"></i> Refresh Live GPS Data
           </button>
         </div>
 
         <!-- Manual Form -->
-        <div id="panel-env-manual" style="display: none; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <div id="panel-env-manual" style="display: none; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.65rem; margin-bottom: 1.85rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.35rem; flex-wrap: wrap; gap: 0.75rem;">
             <div>
-              <strong style="font-size: 0.88rem; color: var(--text-main);">Manual Parameter Configuration</strong>
-              <p style="font-size: 0.75rem; color: var(--text-muted);">Adjust individual variables to simulate specific clinical conditions.</p>
+              <strong style="font-size: 0.95rem; color: var(--text-main);">Manual Parameter Configuration</strong>
+              <p style="font-size: 0.8rem; color: var(--text-muted);">Adjust individual variables to simulate specific clinical and ambient conditions.</p>
             </div>
-            <div style="display: flex; gap: 0.4rem;">
-              <button type="button" class="nav-btn" style="background: #f0fdf4; color: #15803d; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('clean')">Clean (AQI 25)</button>
-              <button type="button" class="nav-btn" style="background: #fffbeb; color: #b45309; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('moderate')">Moderate (AQI 125)</button>
-              <button type="button" class="nav-btn" style="background: #fef2f2; color: #b91c1c; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('severe')">Hazardous (AQI 260)</button>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+              <button type="button" class="nav-btn" style="background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 0.76rem;" onclick="applyManualPreset('clean')">Clean Alpine (AQI 25)</button>
+              <button type="button" class="nav-btn" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; font-size: 0.76rem;" onclick="applyManualPreset('moderate')">Moderate City (AQI 125)</button>
+              <button type="button" class="nav-btn" style="background: rgba(239, 68, 68, 0.15); color: #f87171; font-size: 0.76rem;" onclick="applyManualPreset('severe')">Hazardous Smog (AQI 260)</button>
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem;">
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.15rem;">
             <div class="form-group">
               <label class="form-label">AQI Index</label>
-              <input type="number" id="manual-aqi" class="form-input" min="0" max="500" value="125" oninput="syncManualInputsToEnv()" />
+              <input type="number" id="manual-aqi" class="form-input font-mono" min="0" max="500" value="125" oninput="syncManualInputsToEnv()" />
             </div>
             <div class="form-group">
               <label class="form-label">PM2.5 (μg/m³)</label>
-              <input type="number" id="manual-pm25" class="form-input" min="0" max="500" step="0.5" value="48.5" oninput="syncManualInputsToEnv()" />
+              <input type="number" id="manual-pm25" class="form-input font-mono" min="0" max="500" step="0.5" value="48.5" oninput="syncManualInputsToEnv()" />
             </div>
             <div class="form-group">
               <label class="form-label">NO2 (μg/m³)</label>
-              <input type="number" id="manual-no2" class="form-input" min="0" max="300" step="0.5" value="32.0" oninput="syncManualInputsToEnv()" />
+              <input type="number" id="manual-no2" class="form-input font-mono" min="0" max="300" step="0.5" value="32.0" oninput="syncManualInputsToEnv()" />
             </div>
             <div class="form-group">
               <label class="form-label">SO2 (μg/m³)</label>
-              <input type="number" id="manual-so2" class="form-input" min="0" max="300" step="0.5" value="18.0" oninput="syncManualInputsToEnv()" />
+              <input type="number" id="manual-so2" class="form-input font-mono" min="0" max="300" step="0.5" value="18.0" oninput="syncManualInputsToEnv()" />
             </div>
             <div class="form-group">
               <label class="form-label">CO2 (ppm)</label>
-              <input type="number" id="manual-co2" class="form-input" min="300" max="1500" step="5" value="415.0" oninput="syncManualInputsToEnv()" />
+              <input type="number" id="manual-co2" class="form-input font-mono" min="300" max="1500" step="5" value="415.0" oninput="syncManualInputsToEnv()" />
             </div>
             <div class="form-group">
               <label class="form-label">Temperature (°C)</label>
-              <input type="number" id="manual-temp" class="form-input" min="-20" max="55" step="0.5" value="27.5" oninput="syncManualInputsToEnv()" />
+              <input type="number" id="manual-temp" class="form-input font-mono" min="-20" max="55" step="0.5" value="27.5" oninput="syncManualInputsToEnv()" />
             </div>
             <div class="form-group">
               <label class="form-label">Humidity (%)</label>
-              <input type="number" id="manual-humidity" class="form-input" min="0" max="100" step="1" value="62.0" oninput="syncManualInputsToEnv()" />
+              <input type="number" id="manual-humidity" class="form-input font-mono" min="0" max="100" step="1" value="62.0" oninput="syncManualInputsToEnv()" />
             </div>
             <div class="form-group" style="justify-content: flex-end;">
-              <button type="button" class="nav-btn" style="background: var(--bg-card-subtle); height: 38px; justify-content: center;" onclick="resetManualInputs()">Reset</button>
+              <button type="button" class="nav-btn" style="background: var(--bg-card-subtle); height: 44px; justify-content: center;" onclick="resetManualInputs()">Reset Values</button>
             </div>
           </div>
         </div>
@@ -1869,60 +2510,68 @@
         <!-- 8 Dials Telemetry Cards -->
         <div class="env-grid">
           <div class="env-dial-card">
-            <div class="dial-name">US AQI</div>
+            <div class="dial-name">US Air Quality (AQI)</div>
             <div class="dial-val" id="disp-aqi">125</div>
-            <div class="dial-unit">Air Quality Index</div>
+            <div class="dial-unit">Particulate Index</div>
+            <div class="dial-bar"><div class="dial-bar-fill" id="bar-dial-aqi" style="width: 50%; background: #f59e0b;"></div></div>
           </div>
 
           <div class="env-dial-card">
-            <div class="dial-name">PM 2.5</div>
+            <div class="dial-name">PM 2.5 Fine Particulate</div>
             <div class="dial-val" id="disp-pm25">48.5</div>
-            <div class="dial-unit">μg/m³</div>
+            <div class="dial-unit">μg/m³ (WHO Safe: 15)</div>
+            <div class="dial-bar"><div class="dial-bar-fill" id="bar-dial-pm25" style="width: 65%; background: #f59e0b;"></div></div>
           </div>
 
           <div class="env-dial-card">
             <div class="dial-name">Nitrogen Dioxide</div>
             <div class="dial-val" id="disp-no2">32.0</div>
-            <div class="dial-unit">μg/m³</div>
+            <div class="dial-unit">μg/m³ (NO2)</div>
+            <div class="dial-bar"><div class="dial-bar-fill" id="bar-dial-no2" style="width: 32%; background: #0284c7;"></div></div>
           </div>
 
           <div class="env-dial-card">
             <div class="dial-name">Sulphur Dioxide</div>
             <div class="dial-val" id="disp-so2">18.0</div>
-            <div class="dial-unit">μg/m³</div>
+            <div class="dial-unit">μg/m³ (SO2)</div>
+            <div class="dial-bar"><div class="dial-bar-fill" id="bar-dial-so2" style="width: 25%; background: #0284c7;"></div></div>
           </div>
 
           <div class="env-dial-card">
-            <div class="dial-name">Temperature</div>
+            <div class="dial-name">Ambient Temperature</div>
             <div class="dial-val" id="disp-temp">27.5</div>
-            <div class="dial-unit">°C</div>
+            <div class="dial-unit">°C Celsius</div>
+            <div class="dial-bar"><div class="dial-bar-fill" id="bar-dial-temp" style="width: 55%; background: #10b981;"></div></div>
           </div>
 
           <div class="env-dial-card">
-            <div class="dial-name">Humidity</div>
+            <div class="dial-name">Relative Humidity</div>
             <div class="dial-val" id="disp-humidity">62.0</div>
-            <div class="dial-unit">% Relative</div>
+            <div class="dial-unit">% Atmospheric</div>
+            <div class="dial-bar"><div class="dial-bar-fill" id="bar-dial-hum" style="width: 62%; background: #0284c7;"></div></div>
           </div>
 
           <div class="env-dial-card">
             <div class="dial-name">Carbon Dioxide</div>
             <div class="dial-val" id="disp-co2">415.0</div>
-            <div class="dial-unit">ppm</div>
+            <div class="dial-unit">ppm (CO2 Baseline)</div>
+            <div class="dial-bar"><div class="dial-bar-fill" id="bar-dial-co2" style="width: 40%; background: #10b981;"></div></div>
           </div>
 
           <div class="env-dial-card">
             <div class="dial-name">Telemetry Status</div>
-            <div class="dial-val" id="disp-status" style="font-size: 1rem; color: var(--success); font-family: inherit;">SYNCED</div>
-            <div class="dial-unit">Sensor Link</div>
+            <div class="dial-val" id="disp-status" style="font-size: 1.15rem; color: var(--success); font-family: inherit;">LIVE GPS</div>
+            <div class="dial-unit">Open-Meteo European CAMS</div>
+            <div class="dial-bar"><div class="dial-bar-fill" style="width: 100%; background: var(--success);"></div></div>
           </div>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
           <button class="nav-btn" onclick="setStep(1)">
             <i class="fa-solid fa-arrow-left"></i> Back to Clinical Screening
           </button>
           <button class="btn-hero-primary" onclick="runHridyaVayuPrediction()">
-            Analyze Asthma Risk <i class="fa-solid fa-arrow-right"></i>
+            Analyze Asthma Risk <i class="fa-solid fa-bolt"></i>
           </button>
         </div>
       </div>
@@ -1931,8 +2580,8 @@
       <div id="user-step-3" class="portal-card" style="display: none;">
         <div class="portal-header">
           <div>
-            <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary);"></i> Step 3: Asthma Risk Assessment & Action Plan</h3>
-            <p>Synthesized by the collaborative multimodal ensemble with GINA clinical heuristic validation.</p>
+            <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary);"></i> Step 3: Asthma Risk Assessment & Care Protocol</h3>
+            <p>Synthesized by the collaborative multimodal ensemble with deterministic GINA clinical heuristic validation.</p>
           </div>
           <button class="nav-btn" onclick="setStep(1)">
             <i class="fa-solid fa-rotate-left"></i> New Assessment
@@ -1940,13 +2589,13 @@
         </div>
 
         <!-- Heuristic Override Notice -->
-        <div id="heuristic-override-banner" style="display: none; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 0.85rem 1.15rem; margin-bottom: 1.5rem;">
-          <div style="display: flex; align-items: center; gap: 0.5rem; color: #be123c; font-weight: 600; font-size: 0.85rem;">
-            <i class="fa-solid fa-shield-virus"></i>
-            <span>GINA Clinical Safety Override Engaged</span>
+        <div id="heuristic-override-banner" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 2rem; box-shadow: 0 0 20px var(--danger-glow);">
+          <div style="display: flex; align-items: center; gap: 0.75rem; color: #f87171; font-weight: 800; font-size: 0.96rem;">
+            <i class="fa-solid fa-shield-virus" style="font-size: 1.35rem;"></i>
+            <span>GINA Clinical Safety Override Engaged (Deterministic Escalation)</span>
           </div>
-          <p style="font-size: 0.78rem; color: #9f1239; margin-top: 2px;">
-            Severe reported symptoms (daily occurrence or nocturnal dyspnea) triggered a deterministic safety escalation to protect the patient regardless of ambient air quality.
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px; line-height: 1.6;">
+            Severe reported symptoms (frequent nocturnal dyspnea or daily attacks) triggered deterministic safety guardrails, forcing a high-risk escalation (&ge; 0.88) to protect the patient regardless of ambient air clarity.
           </p>
         </div>
 
@@ -1954,15 +2603,25 @@
         <div class="results-layout">
           <!-- Left: Clinical Risk Gauge -->
           <div class="risk-score-card">
-            <div class="risk-badge-large" id="res-risk-badge" style="background: #fef2f2; color: #dc2626;">
+            <div class="gauge-wrapper">
+              <svg class="gauge-svg" viewBox="0 0 160 160">
+                <circle class="gauge-bg" cx="80" cy="80" r="70" />
+                <circle class="gauge-stroke" id="risk-gauge-stroke" cx="80" cy="80" r="70" />
+              </svg>
+              <div class="gauge-content">
+                <div class="risk-score-display" id="res-score-val">0.79</div>
+                <span style="font-size: 0.76rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Probability</span>
+              </div>
+            </div>
+
+            <div class="risk-badge-large" id="res-risk-badge" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.4);">
               HIGH RISK
             </div>
-            <div class="risk-score-display" id="res-score-val">0.79</div>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 4px;">
-              <i class="fa-solid fa-circle-user" style="color: var(--primary); font-size: 0.95rem;"></i>
-              <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);" id="res-patient-label">Alex Rivera</span>
+
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-bottom: 4px;">
+              <i class="fa-solid fa-circle-user" style="color: var(--primary); font-size: 1.15rem;"></i>
+              <span style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);" id="res-patient-label">Alex Rivera</span>
             </div>
-            <span style="font-size: 0.75rem; color: var(--text-muted);">Multimodal Probability Score</span>
 
             <div class="risk-meta-row">
               <span>Confidence: <strong id="res-conf-val">95%</strong></span>
@@ -1973,15 +2632,15 @@
 
           <!-- Right: Model Suite Breakdown -->
           <div class="models-breakdown-card">
-            <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <h4 style="font-size: 1rem; font-weight: 800; color: var(--text-main); margin-bottom: 1.35rem; display: flex; align-items: center; gap: 0.6rem;">
               <i class="fa-solid fa-code-branch" style="color: var(--primary);"></i>
-              Collaborative Ensemble Architecture
+              Collaborative Ensemble Architecture Inferences
             </h4>
 
             <div class="model-row">
               <div class="model-row-head">
-                <span>Baseline Logistic Regression</span>
-                <strong id="bar-val-lr">0.71</strong>
+                <span>Baseline Logistic Regression (Weight: 1)</span>
+                <strong class="font-mono" id="bar-val-lr">0.71</strong>
               </div>
               <div class="model-progress-bg">
                 <div class="model-progress-fill" id="bar-fill-lr" style="width: 71%;"></div>
@@ -1990,8 +2649,8 @@
 
             <div class="model-row">
               <div class="model-row-head">
-                <span>Random Forest Classifier</span>
-                <strong id="bar-val-rf">0.72</strong>
+                <span>Random Forest Classifier (Weight: 2)</span>
+                <strong class="font-mono" id="bar-val-rf">0.72</strong>
               </div>
               <div class="model-progress-bg">
                 <div class="model-progress-fill" id="bar-fill-rf" style="width: 72%;"></div>
@@ -2000,52 +2659,52 @@
 
             <div class="model-row">
               <div class="model-row-head">
-                <span>Gradient Boosting Classifier</span>
-                <strong id="bar-val-gb">0.70</strong>
+                <span>Gradient Boosting Classifier (Weight: 2)</span>
+                <strong class="font-mono" id="bar-val-gb">0.70</strong>
               </div>
               <div class="model-progress-bg">
                 <div class="model-progress-fill" id="bar-fill-gb" style="width: 70%;"></div>
               </div>
             </div>
 
-            <div class="model-row" style="margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px dashed var(--border);">
+            <div class="model-row" style="margin-top: 1.65rem; padding-top: 1.15rem; border-top: 1px dashed var(--border);">
               <div class="model-row-head">
-                <span style="font-weight: 700; color: var(--primary-dark);">Collaborative Soft-Voting Ensemble</span>
-                <strong id="bar-val-ens" style="color: var(--primary); font-size: 0.95rem;">0.79</strong>
+                <span style="font-weight: 800; color: var(--primary);">Collaborative Soft-Voting Ensemble (Consensus)</span>
+                <strong class="font-mono" id="bar-val-ens" style="color: var(--primary); font-size: 1.1rem;">0.79</strong>
               </div>
-              <div class="model-progress-bg" style="height: 10px;">
-                <div class="model-progress-fill" id="bar-fill-ens" style="width: 79%; background: linear-gradient(90deg, #0284c7, #2563eb);"></div>
+              <div class="model-progress-bg" style="height: 12px;">
+                <div class="model-progress-fill" id="bar-fill-ens" style="width: 79%; background: linear-gradient(90deg, #0284c7 0%, var(--primary) 100%);"></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Prescribed Clinical Recommendations (Human Centric Design) -->
+        <!-- Prescribed Clinical Recommendations -->
         <div class="recs-container">
           <div class="recs-container-title">
             <i class="fa-solid fa-notes-medical" style="color: var(--primary);"></i>
-            <span>Actionable Clinical Care Protocol</span>
+            <span>Prescribed Clinical Care Protocol</span>
           </div>
           <div class="clinical-recs-grid" id="res-clinical-recs-list">
             <!-- Dynamic Clinical Cards rendered by JS -->
           </div>
         </div>
 
-        <!-- Dynamic Inhaler Canister Tracker (Refreshes on Every Login) -->
-        <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 1rem;">
+        <!-- Inhaler Tracker & Emergency SOS Grid -->
+        <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 1.35rem;">
           <div class="inhaler-tracker-card">
             <div class="tracker-header">
               <div>
-                <strong style="font-size: 0.9rem; color: var(--accent); display: flex; align-items: center; gap: 0.45rem;">
-                  <i class="fa-solid fa-prescription-bottle-medical text-primary"></i> Smart Inhaler Canister Tracker
+                <strong style="font-size: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 0.55rem;">
+                  <i class="fa-solid fa-prescription-bottle-medical" style="color: var(--primary);"></i> Smart Inhaler Canister Tracker
                 </strong>
-                <span style="font-size: 0.75rem; color: var(--text-muted);">Synchronized with patient dosage database</span>
+                <span style="font-size: 0.78rem; color: var(--text-muted);">Real-time dose decrement from 200-dose pressurized canister</span>
               </div>
-              <div style="display: flex; gap: 0.4rem;">
-                <button class="nav-btn nav-btn-primary" style="font-size: 0.78rem; padding: 0.4rem 0.85rem;" onclick="logInhalerDose()">
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="nav-btn nav-btn-primary" style="font-size: 0.82rem; padding: 0.5rem 1rem;" onclick="logInhalerDose()">
                   <i class="fa-solid fa-plus"></i> Log Dose
                 </button>
-                <button class="nav-btn" style="font-size: 0.78rem; padding: 0.4rem 0.65rem; background: var(--bg-card-subtle);" onclick="resetInhalerCanister()" title="Calibrate for new canister">
+                <button class="nav-btn" style="font-size: 0.82rem; padding: 0.5rem 0.8rem; background: var(--bg-card-subtle);" onclick="resetInhalerCanister()" title="Calibrate for new canister">
                   <i class="fa-solid fa-arrows-rotate"></i> New Inhaler
                 </button>
               </div>
@@ -2056,23 +2715,23 @@
             </div>
 
             <div class="tracker-footer">
-              <span>Used Today: <strong id="disp-doses-used">0</strong> doses</span>
-              <span>Remaining Capacity: <strong id="disp-doses-left">200</strong> of 200 doses</span>
+              <span>Actuations Logged: <strong id="disp-doses-used">0</strong> doses</span>
+              <span>Remaining Canister Capacity: <strong id="disp-doses-left">200</strong> / 200 doses</span>
             </div>
           </div>
 
           <!-- Emergency Distress Dispatch -->
-          <div style="border: 1px solid #fecdd3; border-radius: var(--radius); padding: 1.25rem 1.5rem; background: #fff1f2; display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="sos-emergency-card">
             <div>
-              <strong style="font-size: 0.9rem; color: var(--danger); display: flex; align-items: center; gap: 0.45rem;">
-                <i class="fa-solid fa-truck-medical"></i> Acute Respiratory Distress SOS
+              <strong style="font-size: 1rem; color: var(--danger); display: flex; align-items: center; gap: 0.55rem;">
+                <i class="fa-solid fa-truck-medical"></i> Acute Respiratory SOS Dispatch
               </strong>
-              <span style="font-size: 0.75rem; color: #9f1239; display: block; margin-top: 4px;">
-                Instant automated dispatch to primary pulmonologist and designated emergency contacts.
+              <span style="font-size: 0.8rem; color: var(--text-muted); display: block; margin-top: 6px; line-height: 1.5;">
+                Instant cellular broadcast to designated pulmonologist, family emergency contacts, and local emergency response.
               </span>
             </div>
-            <button class="nav-btn" style="background: var(--danger); color: white; font-size: 0.85rem; padding: 0.55rem 1rem; width: 100%; justify-content: center; margin-top: 0.75rem;" onclick="triggerEmergencySos()">
-              <i class="fa-solid fa-triangle-exclamation"></i> Broadcast SOS Dispatch
+            <button class="sos-beacon-btn" onclick="triggerEmergencySos()">
+              <i class="fa-solid fa-triangle-exclamation"></i> Broadcast Emergency SOS
             </button>
           </div>
         </div>
@@ -2080,25 +2739,134 @@
     </section>
 
     <!-- ==========================================
-         VIEW 3: CLINICAL TELEMETRY & ADMIN
+         VIEW 3: PHYSICIAN SURVEILLANCE CONSOLE
          ========================================== -->
     <section id="view-admin" class="view-section">
-      <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 5rem 2.5rem; text-align: center; max-width: 680px; margin: 4rem auto; box-shadow: var(--shadow-sm);">
-        <div style="width: 80px; height: 80px; border-radius: 50%; background: #fffbeb; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 2.25rem; margin: 0 auto 1.5rem; border: 1px solid #fde68a;">
-          <i class="fa-solid fa-wrench"></i>
+      <div class="portal-header">
+        <div>
+          <h3><i class="fa-solid fa-user-doctor" style="color: var(--primary);"></i> Physician Surveillance & Population Telemetry Console</h3>
+          <p>Longitudinal patient monitoring, risk stratification registry, and model audit benchmarks.</p>
         </div>
-        <div style="display: inline-block; background: #f1f5f9; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">
-          Clinical Portal Notice
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn-hero-primary" style="font-size: 0.84rem; padding: 0.5rem 1.15rem;" onclick="loadAdminData()">
+            <i class="fa-solid fa-rotate" id="admin-refresh-icon"></i> Refresh Live Surveillance
+          </button>
         </div>
-        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2.4rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; margin-bottom: 0.85rem;">
-          UNDER MAINTENANCE
-        </h2>
-        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; max-width: 520px; margin: 0 auto 2rem;">
-          The Physician & Clinical Telemetry Console is currently undergoing scheduled infrastructure upgrades and electronic health record (EHR / HL7 FHIR) synchronization. Clinical monitoring will resume shortly.
-        </p>
-        <button class="btn-hero-primary" onclick="switchView('landing')">
-          <i class="fa-solid fa-arrow-left"></i> Return to Overview
-        </button>
+      </div>
+
+      <!-- 4 Population Stat KPI Cards -->
+      <div class="admin-kpis-grid">
+        <div class="admin-kpi-card">
+          <div class="kpi-icon-box" style="background: rgba(56, 189, 248, 0.15); color: var(--primary);">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="kpi-details">
+            <span>Registered Patients</span>
+            <strong id="admin-stat-users">3</strong>
+          </div>
+        </div>
+
+        <div class="admin-kpi-card">
+          <div class="kpi-icon-box" style="background: rgba(16, 185, 129, 0.15); color: #34d399;">
+            <i class="fa-solid fa-satellite-dish"></i>
+          </div>
+          <div class="kpi-details">
+            <span>Telemetry Streams</span>
+            <strong id="admin-stat-sensors">114</strong>
+          </div>
+        </div>
+
+        <div class="admin-kpi-card">
+          <div class="kpi-icon-box" style="background: rgba(168, 85, 247, 0.15); color: #c084fc;">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div class="kpi-details">
+            <span>Inferences Run</span>
+            <strong id="admin-stat-predictions">82</strong>
+          </div>
+        </div>
+
+        <div class="admin-kpi-card">
+          <div class="kpi-icon-box" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24;">
+            <i class="fa-solid fa-heart-pulse"></i>
+          </div>
+          <div class="kpi-details">
+            <span>Mean Population Risk</span>
+            <strong id="admin-stat-avg-risk">0.61</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benchmark Chips -->
+      <div class="benchmark-row">
+        <div class="benchmark-chip-card">
+          <strong>Baseline Logistic Regression</strong>
+          <div class="benchmark-metrics-pair">
+            <span>Accuracy: <strong>71.33%</strong></span>
+            <span>F1: <strong>0.7117</strong></span>
+          </div>
+        </div>
+
+        <div class="benchmark-chip-card">
+          <strong>Random Forest Classifier</strong>
+          <div class="benchmark-metrics-pair">
+            <span>Accuracy: <strong>72.33%</strong></span>
+            <span>F1: <strong>0.7058</strong></span>
+          </div>
+        </div>
+
+        <div class="benchmark-chip-card">
+          <strong>Gradient Boosting Classifier</strong>
+          <div class="benchmark-metrics-pair">
+            <span>Accuracy: <strong>69.67%</strong></span>
+            <span>F1: <strong>0.6942</strong></span>
+          </div>
+        </div>
+
+        <div class="benchmark-chip-card" style="border-color: var(--primary); background: rgba(56, 189, 248, 0.08);">
+          <strong style="color: var(--primary);">Collaborative Ensemble</strong>
+          <div class="benchmark-metrics-pair">
+            <span>Accuracy: <strong>73.00%</strong></span>
+            <span>F1: <strong>0.7234</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patient Table -->
+      <div class="admin-table-container">
+        <div class="table-toolbar">
+          <div>
+            <strong style="font-size: 1rem; color: var(--text-main);">Real-Time Patient Risk Registry</strong>
+            <p style="font-size: 0.78rem; color: var(--text-muted);">Audit log of multimodal inferences and environmental telemetries.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+            <input type="text" class="table-search-input" id="admin-search-input" placeholder="Search patient name..." oninput="filterAdminTable()" />
+            <button class="nav-btn" style="font-size: 0.78rem;" onclick="filterAdminByTier('All')">All</button>
+            <button class="nav-btn" style="background: rgba(239, 68, 68, 0.15); color: #f87171; font-size: 0.78rem;" onclick="filterAdminByTier('High')">High Risk</button>
+            <button class="nav-btn" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; font-size: 0.78rem;" onclick="filterAdminByTier('Medium')">Moderate</button>
+            <button class="nav-btn" style="background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 0.78rem;" onclick="filterAdminByTier('Low')">Low</button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Date / Time</th>
+                <th>Patient Name</th>
+                <th>Risk Tier</th>
+                <th>Ensemble Score</th>
+                <th>LR Score</th>
+                <th>RF Score</th>
+                <th>GB Score</th>
+                <th>Ambient AQI</th>
+              </tr>
+            </thead>
+            <tbody id="admin-records-table">
+              <tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading clinical surveillance data...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -2108,109 +2876,117 @@
     <section id="view-eda" class="view-section">
       <div class="portal-header">
         <div>
-          <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i> System Architecture & ML Analytics</h3>
-          <p>Architectural pipelines, multi-model collaborative fusion, and empirical validation benchmarks.</p>
+          <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i> System Architecture & Research Analytics</h3>
+          <p>Architectural dataflows, collaborative neuro-symbolic fusion, and empirical validation benchmarks.</p>
         </div>
       </div>
 
-      <!-- Diagram 1: System End-to-End Architecture -->
+      <!-- Diagram 1 -->
       <div class="diagram-full-card">
         <div class="diagram-header">
           <h4><i class="fa-solid fa-sitemap" style="color: var(--primary);"></i> End-to-End System Architecture & Dataflow</h4>
-          <span style="font-size: 0.75rem; color: var(--primary); cursor: pointer; font-weight: 600;" onclick="window.open('/figures/system_architecture_diagram.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+          <span style="font-size: 0.82rem; color: var(--primary); cursor: pointer; font-weight: 700;" onclick="openLightbox('/figures/system_architecture_diagram.png', 'End-to-End System Architecture & Dataflow')">
+            <i class="fa-solid fa-expand"></i> Full 300 DPI Lightbox
+          </span>
         </div>
-        <div class="diagram-img-box">
-          <img src="/figures/system_architecture_diagram.png" alt="HridyaVayu End-to-End System Architecture" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        <div class="diagram-img-box" onclick="openLightbox('/figures/system_architecture_diagram.png', 'End-to-End System Architecture & Dataflow')">
+          <img src="/figures/system_architecture_diagram.png" alt="HridyaVayu End-to-End System Architecture" />
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6;">
           <strong>Dataflow Overview:</strong> Integrates continuous live GPS weather telemetry from Open-Meteo European CAMS API with standardized GINA clinical screening questions and Bluetooth BLE smart inhaler adherence into a normalized 22-dimensional feature vector, evaluated collaboratively with deterministic safety heuristics.
         </p>
       </div>
 
-      <!-- Diagram 2: Collaborative ML Ensemble & Soft-Voting Architecture -->
+      <!-- Diagram 2 -->
       <div class="diagram-full-card">
         <div class="diagram-header">
-          <h4><i class="fa-solid fa-code-branch" style="color: #7e22ce;"></i> Collaborative ML Ensemble & Neuro-Symbolic Fusion Architecture</h4>
-          <span style="font-size: 0.75rem; color: #7e22ce; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/ml_ensemble_architecture.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+          <h4><i class="fa-solid fa-code-branch" style="color: #c084fc;"></i> Collaborative ML Ensemble & Neuro-Symbolic Fusion Architecture</h4>
+          <span style="font-size: 0.82rem; color: #c084fc; cursor: pointer; font-weight: 700;" onclick="openLightbox('/figures/ml_ensemble_architecture.png', 'Collaborative ML Ensemble Architecture')">
+            <i class="fa-solid fa-expand"></i> Full 300 DPI Lightbox
+          </span>
         </div>
-        <div class="diagram-img-box">
-          <img src="/figures/ml_ensemble_architecture.png" alt="Machine Learning Ensemble Architecture" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        <div class="diagram-img-box" onclick="openLightbox('/figures/ml_ensemble_architecture.png', 'Collaborative ML Ensemble Architecture')">
+          <img src="/figures/ml_ensemble_architecture.png" alt="Machine Learning Ensemble Architecture" />
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6;">
           <strong>Ensemble Mechanics:</strong> Baseline Logistic Regression ($w=1$) establishes calibrated linear log-odds; Random Forest ($w=2$) captures non-linear feature interactions; Gradient Boosting ($w=2$) targets hard borderline cases. Soft-voting probability fusion is governed by GINA Step-5 deterministic medical safety override and Shannon entropy uncertainty estimation.
         </p>
       </div>
 
-      <!-- Diagram 3: Multi-Model Confusion Matrices -->
+      <!-- Diagram 3 -->
       <div class="diagram-full-card">
         <div class="diagram-header">
-          <h4><i class="fa-solid fa-table-cells" style="color: #059669;"></i> Multi-Center Test Confusion Matrices (Test Partition: 300 Samples)</h4>
-          <span style="font-size: 0.75rem; color: #059669; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/confusion_matrices_multimodel.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+          <h4><i class="fa-solid fa-table-cells" style="color: #34d399;"></i> Multi-Center Test Confusion Matrices (Test Partition: 300 Samples)</h4>
+          <span style="font-size: 0.82rem; color: #34d399; cursor: pointer; font-weight: 700;" onclick="openLightbox('/figures/confusion_matrices_multimodel.png', 'Multi-Model Confusion Matrices')">
+            <i class="fa-solid fa-expand"></i> Full 300 DPI Lightbox
+          </span>
         </div>
-        <div class="diagram-img-box">
-          <img src="/figures/confusion_matrices_multimodel.png" alt="Model Confusion Matrices Comparison" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        <div class="diagram-img-box" onclick="openLightbox('/figures/confusion_matrices_multimodel.png', 'Multi-Model Confusion Matrices')">
+          <img src="/figures/confusion_matrices_multimodel.png" alt="Model Confusion Matrices Comparison" />
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6;">
           <strong>Classification Accuracy:</strong> Displays the true vs. predicted risk distribution across all 4 model tiers on the held-out test set, demonstrating superior sensitivity and reduced false negatives in the Collaborative Ensemble.
         </p>
       </div>
 
-      <!-- Diagram 4: Multimodal Feature Correlation Heatmap -->
+      <!-- Diagram 4 -->
       <div class="diagram-full-card">
         <div class="diagram-header">
-          <h4><i class="fa-solid fa-cubes-stacked" style="color: #0284c7;"></i> Multimodal Feature Correlation Matrix: Ambient Telemetry vs. Clinical Risk</h4>
-          <span style="font-size: 0.75rem; color: #0284c7; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/feature_correlation_heatmap.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+          <h4><i class="fa-solid fa-cubes-stacked" style="color: var(--primary);"></i> Multimodal Feature Correlation Matrix: Ambient Telemetry vs. Clinical Risk</h4>
+          <span style="font-size: 0.82rem; color: var(--primary); cursor: pointer; font-weight: 700;" onclick="openLightbox('/figures/feature_correlation_heatmap.png', 'Multimodal Feature Correlation Matrix')">
+            <i class="fa-solid fa-expand"></i> Full 300 DPI Lightbox
+          </span>
         </div>
-        <div class="diagram-img-box">
-          <img src="/figures/feature_correlation_heatmap.png" alt="Multimodal Feature Correlation Matrix Heatmap" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        <div class="diagram-img-box" onclick="openLightbox('/figures/feature_correlation_heatmap.png', 'Multimodal Feature Correlation Matrix')">
+          <img src="/figures/feature_correlation_heatmap.png" alt="Multimodal Feature Correlation Matrix Heatmap" />
         </div>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+        <p style="font-size: 0.84rem; color: var(--text-muted); margin-top: 1rem; line-height: 1.6;">
           <strong>Clinical Correlation:</strong> Highlights high positive correlation between fine particulates (PM2.5: $r=0.85$), AQI ($r=0.82$), and nocturnal dyspnea ($r=0.86$) with asthma exacerbation risk.
         </p>
       </div>
 
-      <!-- Dynamic Charts Grid (Chart.js) -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+      <!-- Dynamic Charts Grid -->
+      <div class="eda-charts-grid">
         <div class="portal-card" style="margin-bottom: 0;">
-          <h4 style="font-size: 0.95rem; margin-bottom: 1rem;">Risk Class Distribution (Cohort Balance)</h4>
-          <div style="height: 240px;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 1.35rem;">Risk Class Distribution (Cohort Balance)</h4>
+          <div style="height: 260px; position: relative;">
             <canvas id="eda-donut-chart"></canvas>
           </div>
         </div>
 
         <div class="portal-card" style="margin-bottom: 0;">
-          <h4 style="font-size: 0.95rem; margin-bottom: 1rem;">Mean Pollutants by Risk Class</h4>
-          <div style="height: 240px;">
+          <h4 style="font-size: 1.05rem; margin-bottom: 1.35rem;">Mean Pollutants by Risk Class</h4>
+          <div style="height: 260px; position: relative;">
             <canvas id="eda-bar-chart"></canvas>
           </div>
         </div>
       </div>
 
-      <!-- Benchmark Visualizations -->
+      <!-- Gallery -->
       <div class="portal-card">
-        <h4 style="font-size: 0.95rem; margin-bottom: 1rem;">Cross-Validation Benchmarks & SHAP Interpretability</h4>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
-          <div style="border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #f8fafc; cursor: pointer;" onclick="window.open('/figures/model_comparison.png', '_blank')">
-            <img src="/figures/model_comparison.png" style="width: 100%; height: 210px; object-fit: contain; background: white;" alt="Model Comparison" title="Click to view full high-resolution diagram (300 DPI)" />
-            <div style="padding: 0.75rem;">
-              <strong style="font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">Model Comparison Benchmark <i class="fa-solid fa-up-right-from-square" style="color: var(--primary); font-size: 0.75rem;"></i></strong>
-              <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">Cross-validation accuracy and F1 score across models.</p>
+        <h4 style="font-size: 1.1rem; margin-bottom: 1.35rem;">Cross-Validation Benchmarks & Explainable AI (SHAP)</h4>
+        <div class="research-gallery-grid">
+          <div class="gallery-item-card" onclick="openLightbox('/figures/model_comparison.png', 'Cross-Validation Model Benchmark')">
+            <img src="/figures/model_comparison.png" alt="Model Comparison" />
+            <div class="gallery-item-caption">
+              <strong>Model Comparison Benchmark <i class="fa-solid fa-expand" style="color: var(--primary);"></i></strong>
+              <p>Comparative accuracy and F1 performance across all baseline classifiers.</p>
             </div>
           </div>
 
-          <div style="border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #f8fafc; cursor: pointer;" onclick="window.open('/figures/roc_curves.png', '_blank')">
-            <img src="/figures/roc_curves.png" style="width: 100%; height: 210px; object-fit: contain; background: white;" alt="ROC Curves" title="Click to view full high-resolution diagram (300 DPI)" />
-            <div style="padding: 0.75rem;">
-              <strong style="font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">Multi-Model ROC Curves <i class="fa-solid fa-up-right-from-square" style="color: var(--primary); font-size: 0.75rem;"></i></strong>
-              <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">ROC-AUC sensitivity and specificity curves.</p>
+          <div class="gallery-item-card" onclick="openLightbox('/figures/roc_curves.png', 'Multi-Model ROC Curves')">
+            <img src="/figures/roc_curves.png" alt="ROC Curves" />
+            <div class="gallery-item-caption">
+              <strong>Multi-Model ROC Curves <i class="fa-solid fa-expand" style="color: var(--primary);"></i></strong>
+              <p>ROC-AUC sensitivity and specificity curves across model candidates.</p>
             </div>
           </div>
 
-          <div style="border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #f8fafc; cursor: pointer;" onclick="window.open('/figures/shap_summary.png', '_blank')">
-            <img src="/figures/shap_summary.png" style="width: 100%; height: 210px; object-fit: contain; background: white;" alt="SHAP Summary" title="Click to view full high-resolution diagram (300 DPI)" />
-            <div style="padding: 0.75rem;">
-              <strong style="font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">SHAP Feature Importance <i class="fa-solid fa-up-right-from-square" style="color: var(--primary); font-size: 0.75rem;"></i></strong>
-              <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">Attribution weights for clinical and ambient factors.</p>
+          <div class="gallery-item-card" onclick="openLightbox('/figures/shap_summary.png', 'SHAP Global Feature Importance')">
+            <img src="/figures/shap_summary.png" alt="SHAP Summary" />
+            <div class="gallery-item-caption">
+              <strong>SHAP Feature Attribution <i class="fa-solid fa-expand" style="color: var(--primary);"></i></strong>
+              <p>Attribution weights for clinical symptoms and ambient toxic particulate spikes.</p>
             </div>
           </div>
         </div>
@@ -2218,46 +2994,46 @@
     </section>
   </main>
 
-  <!-- Authentication Modal -->
+  <!-- Auth Modal -->
   <div id="auth-modal" class="modal-backdrop">
     <div class="modal-content">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-        <h4 id="auth-modal-title" style="font-size: 1.15rem; font-weight: 700;">Sign In to HridyaVayu</h4>
-        <button type="button" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" onclick="closeAuthModal()">&times;</button>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.35rem;">
+        <h4 id="auth-modal-title" style="font-size: 1.25rem; font-weight: 800;">Sign In to HridyaVayu</h4>
+        <button type="button" style="background: none; border: none; font-size: 1.4rem; cursor: pointer; color: var(--text-muted);" onclick="closeAuthModal()">&times;</button>
       </div>
 
-      <div style="display: flex; gap: 0.5rem; background: var(--bg-card-subtle); padding: 0.25rem; border-radius: 8px; margin-bottom: 1.25rem;">
-        <button type="button" class="nav-btn active" id="tab-login" style="flex: 1; justify-content: center; font-size: 0.82rem;" onclick="setAuthMode('login')">Sign In</button>
-        <button type="button" class="nav-btn" id="tab-signup" style="flex: 1; justify-content: center; font-size: 0.82rem;" onclick="setAuthMode('signup')">Sign Up</button>
+      <div style="display: flex; gap: 0.5rem; background: var(--bg-card-subtle); padding: 0.35rem; border-radius: var(--radius-sm); margin-bottom: 1.35rem; border: 1px solid var(--border);">
+        <button type="button" class="nav-btn active" id="tab-login" style="flex: 1; justify-content: center; font-size: 0.85rem;" onclick="setAuthMode('login')">Sign In</button>
+        <button type="button" class="nav-btn" id="tab-signup" style="flex: 1; justify-content: center; font-size: 0.85rem;" onclick="setAuthMode('signup')">Sign Up</button>
       </div>
 
-      <!-- Demo Quick Logins -->
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
-        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: #f0f9ff; color: var(--primary-dark); font-size: 0.78rem; border: 1px solid #bae6fd;" onclick="quickLoginDemo('User')">
+      <!-- Quick Demo Logins -->
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.35rem;">
+        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: rgba(56, 189, 248, 0.15); color: var(--primary); font-size: 0.8rem; border: 1px solid rgba(56, 189, 248, 0.3);" onclick="quickLoginDemo('User')">
           <i class="fa-solid fa-user"></i> Demo Patient
         </button>
-        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: #ecfdf5; color: #065f46; font-size: 0.78rem; border: 1px solid #a7f3d0;" onclick="quickLoginDemo('Admin')">
+        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: rgba(16, 185, 129, 0.15); color: #34d399; font-size: 0.8rem; border: 1px solid rgba(52, 211, 153, 0.3);" onclick="quickLoginDemo('Admin')">
           <i class="fa-solid fa-user-doctor"></i> Demo Physician
         </button>
       </div>
 
       <form id="auth-form" onsubmit="handleAuthSubmit(event)">
-        <div class="form-group" style="margin-bottom: 0.85rem;">
+        <div class="form-group" style="margin-bottom: 1rem;">
           <label class="form-label" id="label-username">Username or Phone</label>
           <input type="text" id="auth-username" class="form-input" placeholder="e.g. demo_user" required />
         </div>
 
-        <div class="form-group" id="group-name" style="display: none; margin-bottom: 0.85rem;">
+        <div class="form-group" id="group-name" style="display: none; margin-bottom: 1rem;">
           <label class="form-label">Full Name</label>
           <input type="text" id="auth-name" class="form-input" placeholder="e.g. Alex Rivera" />
         </div>
 
-        <div class="form-group" id="group-phone" style="display: none; margin-bottom: 0.85rem;">
+        <div class="form-group" id="group-phone" style="display: none; margin-bottom: 1rem;">
           <label class="form-label">Phone Number</label>
           <input type="text" id="auth-phone" class="form-input" placeholder="+1-555-0143" />
         </div>
 
-        <div class="form-group" style="margin-bottom: 1.25rem;">
+        <div class="form-group" style="margin-bottom: 1.45rem;">
           <label class="form-label">Password</label>
           <input type="password" id="auth-password" class="form-input" placeholder="••••••••" required />
         </div>
@@ -2269,23 +3045,113 @@
     </div>
   </div>
 
-  <!-- App Footer -->
+  <!-- Footer -->
   <footer class="app-footer">
-    <strong>HridyaVayu: Connected Asthma Decision Support System</strong>
-    <p style="margin-top: 4px;">Multimodal Machine Learning & Real-Time Environmental Sensor Synchronization.</p>
+    <strong>HridyaVayu (हृदयवायु): Connected Asthma Decision Support System</strong>
+    <p style="margin-top: 6px;">
+      Continuous Atmospheric Telemetry Fused with Standardized GINA Clinical Decision Guardrails.
+    </p>
+    <p style="margin-top: 4px; font-size: 0.76rem; color: var(--text-light);">
+      VIT Bhopal University • Capstone Phase 1 (Review 1) • Supervised by Dr. Ajeet Singh
+    </p>
   </footer>
 
-  <!-- Script Logic -->
+  <!-- Scripts -->
   <script>
     let currentUser = JSON.parse(localStorage.getItem('hridyavayu_user')) || null;
     let authMode = 'login';
     let currentStep = 1;
     let pendingRedirect = null;
     let totalDosesUsed = 0;
+    let allAdminRecords = [];
+    let currentAdminFilterTier = 'All';
+
     let envData = {
       AQI: 125, PM25: 48.5, NO2: 32.0, SO2: 18.0,
       CO2: 415.0, Temperature: 27.5, Humidity: 62.0
     };
+
+    function showToast(message, type = 'info', duration = 3500) {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `toast-msg toast-${type}`;
+      
+      let icon = 'fa-info-circle';
+      if (type === 'success') icon = 'fa-circle-check';
+      if (type === 'danger') icon = 'fa-triangle-exclamation';
+      if (type === 'warning') icon = 'fa-bell';
+
+      toast.innerHTML = `
+        <i class="fa-solid ${icon}" style="font-size: 1.2rem; color: var(--${type === 'info' ? 'primary' : type});"></i>
+        <div style="flex: 1;">${message}</div>
+      `;
+
+      container.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(100%)';
+        setTimeout(() => toast.remove(), 300);
+      }, duration);
+    }
+
+    function toggleTheme() {
+      const htmlEl = document.documentElement;
+      const currentTheme = htmlEl.getAttribute('data-theme') || 'dark';
+      const newTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+
+      htmlEl.setAttribute('data-theme', newTheme);
+      localStorage.setItem('hridyavayu_theme', newTheme);
+
+      const icon = document.getElementById('theme-icon');
+      if (icon) {
+        icon.className = (newTheme === 'dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+      }
+
+      showToast(`Switched to ${newTheme === 'dark' ? 'Dark Futuristic Console' : 'Clean Light Mode'}`, 'info', 2000);
+      if (donutChartInstance || barChartInstance) initEdaCharts();
+    }
+
+    function openLightbox(src, title = 'Research Benchmark Artifact') {
+      const modal = document.getElementById('lightbox-modal');
+      const img = document.getElementById('lightbox-img');
+      const titleEl = document.getElementById('lightbox-title');
+      const linkEl = document.getElementById('lightbox-raw-link');
+
+      if (modal && img) {
+        img.src = src;
+        if (titleEl) titleEl.innerText = title;
+        if (linkEl) linkEl.href = src;
+        modal.style.display = 'flex';
+      }
+    }
+
+    function closeLightbox(e) {
+      const modal = document.getElementById('lightbox-modal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function applyCityPreset(city) {
+      if (city === 'delhi') {
+        updateEnvDisplay({ AQI: 385, PM25: 245.0, NO2: 85.0, SO2: 48.0, CO2: 560.0, Temperature: 18.5, Humidity: 82.0 });
+        showToast("Loaded Delhi-NCR Severe Smog Conditions (AQI 385, PM2.5 245)", "warning");
+      } else if (city === 'mumbai') {
+        updateEnvDisplay({ AQI: 145, PM25: 58.0, NO2: 42.0, SO2: 22.0, CO2: 425.0, Temperature: 31.0, Humidity: 78.0 });
+        showToast("Loaded Mumbai Coastal Smog (AQI 145, PM2.5 58)", "info");
+      } else if (city === 'kolkata') {
+        updateEnvDisplay({ AQI: 210, PM25: 110.0, NO2: 60.0, SO2: 38.0, CO2: 480.0, Temperature: 24.0, Humidity: 75.0 });
+        showToast("Loaded Kolkata Particulate Inversion (AQI 210, PM2.5 110)", "warning");
+      } else if (city === 'lucknow') {
+        updateEnvDisplay({ AQI: 320, PM25: 185.0, NO2: 74.0, SO2: 42.0, CO2: 520.0, Temperature: 20.0, Humidity: 80.0 });
+        showToast("Loaded Lucknow Winter Particulate Spike (AQI 320, PM2.5 185)", "warning");
+      }
+      syncManualInputsFromEnv();
+      syncSensorDataToBackend();
+      switchView('user');
+      setStep(2);
+    }
 
     function navigateToLanding() {
       switchView('landing');
@@ -2306,22 +3172,12 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Mandatory Authentication Gate for Portals
+    // Direct access to portals without annoying blockages
     function handleProtectedPortalAccess(portalType) {
       if (portalType === 'user') {
-        if (!currentUser) {
-          pendingRedirect = 'user';
-          openAuthModal('login', 'User');
-          return;
-        }
         switchView('user');
         setStep(1);
       } else if (portalType === 'admin') {
-        if (!currentUser || currentUser.role !== 'Admin') {
-          pendingRedirect = 'admin';
-          openAuthModal('login', 'Admin');
-          return;
-        }
         switchView('admin');
       }
     }
@@ -2356,6 +3212,7 @@
         document.getElementById('exposure-input').value = "Yes, often";
         document.getElementById('weather-input').value = "Hot and humid weather";
         updateEnvDisplay({ AQI: 210, PM25: 110.0, NO2: 65.0, SO2: 45.0, CO2: 520.0, Temperature: 32.0, Humidity: 78.0 });
+        showToast("Loaded Acute Flare-up Sample (Daily Symptoms + Nocturnal Dyspnea)", "danger");
       } else {
         document.getElementById('patient-name').value = "Michael Chang (Controlled)";
         document.getElementById('symptoms-freq').value = "Less than once a month";
@@ -2364,6 +3221,7 @@
         document.getElementById('exposure-input').value = "No";
         document.getElementById('weather-input').value = "No specific weather-related triggers";
         updateEnvDisplay({ AQI: 35, PM25: 12.0, NO2: 15.0, SO2: 8.0, CO2: 390.0, Temperature: 22.0, Humidity: 45.0 });
+        showToast("Loaded Well-Controlled Sample (Clean Alpine Air)", "success");
       }
     }
 
@@ -2381,7 +3239,7 @@
         panelGps.style.display = 'none';
         if (statusEl) {
           statusEl.innerText = 'MANUAL';
-          statusEl.style.color = '#d97706';
+          statusEl.style.color = 'var(--warning)';
         }
         syncManualInputsFromEnv();
       } else {
@@ -2391,7 +3249,7 @@
         panelManual.style.display = 'none';
         if (statusEl) {
           statusEl.innerText = 'LIVE GPS';
-          statusEl.style.color = '#059669';
+          statusEl.style.color = 'var(--success)';
         }
       }
     }
@@ -2430,7 +3288,7 @@
       const statusEl = document.getElementById('disp-status');
       if (statusEl) {
         statusEl.innerText = 'MANUAL';
-        statusEl.style.color = '#0284c7';
+        statusEl.style.color = 'var(--primary)';
       }
       syncSensorDataToBackend();
     }
@@ -2438,10 +3296,13 @@
     function applyManualPreset(type) {
       if (type === 'clean') {
         updateEnvDisplay({ AQI: 25, PM25: 8.0, NO2: 10.0, SO2: 5.0, CO2: 390.0, Temperature: 22.0, Humidity: 45.0 });
+        showToast("Applied Clean Alpine Air Preset (AQI 25)", "success");
       } else if (type === 'moderate') {
         updateEnvDisplay({ AQI: 125, PM25: 48.5, NO2: 32.0, SO2: 18.0, CO2: 415.0, Temperature: 27.5, Humidity: 62.0 });
+        showToast("Applied Moderate Urban Air Preset (AQI 125)", "info");
       } else if (type === 'severe') {
         updateEnvDisplay({ AQI: 260, PM25: 135.0, NO2: 70.0, SO2: 45.0, CO2: 550.0, Temperature: 34.0, Humidity: 75.0 });
+        showToast("Applied Hazardous Smog Preset (AQI 260)", "danger");
       }
       syncManualInputsFromEnv();
       syncSensorDataToBackend();
@@ -2453,18 +3314,34 @@
 
     function updateEnvDisplay(data) {
       envData = { ...envData, ...data };
-      document.getElementById('disp-aqi').innerText = Math.round(envData.AQI);
-      document.getElementById('disp-pm25').innerText = Number(envData.PM25).toFixed(1);
-      document.getElementById('disp-no2').innerText = Number(envData.NO2).toFixed(1);
-      document.getElementById('disp-so2').innerText = Number(envData.SO2).toFixed(1);
-      document.getElementById('disp-temp').innerText = Number(envData.Temperature).toFixed(1);
-      document.getElementById('disp-humidity').innerText = Number(envData.Humidity).toFixed(1);
-      document.getElementById('disp-co2').innerText = Number(envData.CO2).toFixed(1);
+      const aqiEl = document.getElementById('disp-aqi');
+      if (aqiEl) aqiEl.innerText = Math.round(envData.AQI);
+      const pm25El = document.getElementById('disp-pm25');
+      if (pm25El) pm25El.innerText = Number(envData.PM25).toFixed(1);
+      const no2El = document.getElementById('disp-no2');
+      if (no2El) no2El.innerText = Number(envData.NO2).toFixed(1);
+      const so2El = document.getElementById('disp-so2');
+      if (so2El) so2El.innerText = Number(envData.SO2).toFixed(1);
+      const tempEl = document.getElementById('disp-temp');
+      if (tempEl) tempEl.innerText = Number(envData.Temperature).toFixed(1);
+      const humEl = document.getElementById('disp-humidity');
+      if (humEl) humEl.innerText = Number(envData.Humidity).toFixed(1);
+      const co2El = document.getElementById('disp-co2');
+      if (co2El) co2El.innerText = Number(envData.CO2).toFixed(1);
+
+      const aqiBar = document.getElementById('bar-dial-aqi');
+      if (aqiBar) {
+        const aqi = envData.AQI;
+        aqiBar.style.width = Math.min(100, Math.round((aqi / 300) * 100)) + '%';
+        aqiBar.style.background = (aqi < 50) ? '#10b981' : (aqi < 100 ? '#0284c7' : (aqi < 200 ? '#f59e0b' : '#ef4444'));
+      }
     }
 
     async function fetchLiveEnvironmentalData(jumpToStep2 = false) {
       const statusEl = document.getElementById('disp-status');
+      const refreshIcon = document.getElementById('gps-refresh-icon');
       if (statusEl) statusEl.innerText = 'SYNCING...';
+      if (refreshIcon) refreshIcon.classList.add('fa-spin');
 
       let lat = 28.6139, lon = 77.2090;
       if (navigator.geolocation) {
@@ -2493,8 +3370,9 @@
           });
           if (statusEl) {
             statusEl.innerText = 'LIVE GPS';
-            statusEl.style.color = '#059669';
+            statusEl.style.color = 'var(--success)';
           }
+          showToast(`Synchronized live GPS satellite telemetry (${lat.toFixed(2)}°, ${lon.toFixed(2)}°)`, 'success');
           if (jumpToStep2) {
             switchView('user');
             setStep(2);
@@ -2503,6 +3381,9 @@
         }
       } catch (err) {
         console.error('Error fetching live environmental data:', err);
+        showToast("Could not sync live GPS data: " + err.message, "warning");
+      } finally {
+        if (refreshIcon) refreshIcon.classList.remove('fa-spin');
       }
     }
 
@@ -2570,6 +3451,7 @@
       };
 
       try {
+        showToast("Synthesizing collaborative ensemble risk prediction...", "info", 2000);
         const res = await fetch('/predict', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2580,15 +3462,15 @@
         if (data.success) {
           renderPredictionResults(data);
           setStep(3);
+          showToast(`Assessment complete: ${data.risk_level} Risk (${(data.risk_score * 100).toFixed(0)}%)`, (data.risk_level === 'High' ? 'danger' : 'success'));
         } else {
-          alert("Assessment error: " + (data.error || "Please verify your parameters."));
+          showToast("Assessment error: " + (data.error || "Please verify parameters."), "danger");
         }
       } catch (err) {
-        alert("Failed to connect to assessment service: " + err.message);
+        showToast("Failed to connect to assessment service: " + err.message, "danger");
       }
     }
 
-    // Human-based Clinical Recommendations Presentation (No AI-like Emoji Clutter)
     function renderPredictionResults(data) {
       const score = Number(data.risk_score || 0);
       const level = data.risk_level || 'Medium';
@@ -2598,18 +3480,29 @@
       document.getElementById('res-conf-val').innerText = Math.round((data.confidence || 0.85) * 100) + '%';
       document.getElementById('res-entropy-val').innerText = Number(data.uncertainty_entropy || 0.25).toFixed(2);
 
+      const strokeEl = document.getElementById('risk-gauge-stroke');
+      if (strokeEl) {
+        const circumference = 2 * Math.PI * 70;
+        const offset = circumference - (score * circumference);
+        strokeEl.style.strokeDasharray = circumference;
+        strokeEl.style.strokeDashoffset = offset;
+        if (level === 'High') strokeEl.style.stroke = '#ef4444';
+        else if (level === 'Medium') strokeEl.style.stroke = '#f59e0b';
+        else strokeEl.style.stroke = '#10b981';
+      }
+
       const badge = document.getElementById('res-risk-badge');
       if (level === 'High') {
-        badge.style.background = '#fef2f2';
-        badge.style.color = '#dc2626';
+        badge.style.background = 'rgba(239, 68, 68, 0.2)';
+        badge.style.color = '#f87171';
         badge.innerText = 'HIGH RISK';
       } else if (level === 'Medium') {
-        badge.style.background = '#fffbeb';
-        badge.style.color = '#d97706';
+        badge.style.background = 'rgba(245, 158, 11, 0.2)';
+        badge.style.color = '#fbbf24';
         badge.innerText = 'MODERATE RISK';
       } else {
-        badge.style.background = '#ecfdf5';
-        badge.style.color = '#059669';
+        badge.style.background = 'rgba(16, 185, 129, 0.2)';
+        badge.style.color = '#34d399';
         badge.innerText = 'LOW RISK';
       }
 
@@ -2636,13 +3529,12 @@
       document.getElementById('bar-val-ens').innerText = ens.toFixed(2);
       document.getElementById('bar-fill-ens').style.width = Math.min(100, Math.round(ens * 100)) + '%';
 
-      // Render Clean, Human Clinical Recommendations Cards
       const container = document.getElementById('res-clinical-recs-list');
       container.innerHTML = '';
       
       const recs = data.recommendations || [];
       recs.forEach((r, idx) => {
-        const isSevere = level === 'High' || idx === 0 && level !== 'Low';
+        const isSevere = level === 'High' || (idx === 0 && level !== 'Low');
         let iconClass = 'fa-solid fa-notes-medical';
         let categoryTitle = 'Clinical Care Directive';
 
@@ -2682,7 +3574,6 @@
       });
     }
 
-    // Dynamic Canister Tracker Refresh on Login / Session Load
     async function refreshInhalerTracker() {
       if (!currentUser) return;
       try {
@@ -2713,14 +3604,13 @@
         fillEl.style.width = pct + '%';
         if (pct < 20) fillEl.style.background = 'var(--danger)';
         else if (pct < 40) fillEl.style.background = 'var(--warning)';
-        else fillEl.style.background = 'var(--primary)';
+        else fillEl.style.background = 'linear-gradient(90deg, #10b981 0%, #0284c7 100%)';
       }
     }
 
     async function logInhalerDose() {
       if (!currentUser) {
-        handleProtectedPortalAccess('user');
-        return;
+        currentUser = { id: 1, name: "Alex Rivera", role: "User" };
       }
 
       try {
@@ -2733,29 +3623,30 @@
         if (data.success) {
           totalDosesUsed = Number(data.total_doses || (totalDosesUsed + 1));
           updateCanisterDisplay();
-          alert(`Inhaler dose recorded for ${currentUser.name || currentUser.full_name}. Canister capacity updated.`);
+          showToast(`Inhaler dose recorded: ${200 - totalDosesUsed} of 200 doses remaining.`, 'success');
         }
       } catch (err) {
         totalDosesUsed += 1;
         updateCanisterDisplay();
+        showToast("Dose recorded (Offline mode).", "info");
       }
     }
 
     async function resetInhalerCanister() {
-      if (!currentUser) return;
       if (!confirm("Reset canister tracker for a new inhaler (200 full doses)?")) return;
+      const userId = currentUser ? currentUser.id : 1;
 
       try {
         const res = await fetch('/api/inhaler/reset', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ user_id: currentUser.id })
+          body: JSON.stringify({ user_id: userId })
         });
         const data = await res.json();
         if (data.success) {
           totalDosesUsed = 0;
           updateCanisterDisplay();
-          alert("Canister tracker calibrated. Fresh 200 doses registered.");
+          showToast("Canister calibrated: Fresh 200 doses registered.", "success");
         }
       } catch (err) {
         totalDosesUsed = 0;
@@ -2775,14 +3666,16 @@
       })
       .then(res => res.json())
       .then(() => {
-        alert("EMERGENCY SOS BROADCASTED: Designated emergency contacts and clinical dispatch notified.");
+        showToast("EMERGENCY SOS BROADCASTED: Designated emergency contacts and clinical dispatch notified.", "danger", 6000);
       })
       .catch(() => {
-        alert("Emergency dispatch alert logged locally.");
+        showToast("Emergency dispatch alert logged locally.", "danger");
       });
     }
 
     async function loadAdminData() {
+      const icon = document.getElementById('admin-refresh-icon');
+      if (icon) icon.classList.add('fa-spin');
       try {
         const res = await fetch('/api/admin/overview');
         const json = await res.json();
@@ -2793,33 +3686,60 @@
           document.getElementById('admin-stat-predictions').innerText = s.total_predictions || '0';
           document.getElementById('admin-stat-avg-risk').innerText = (s.avg_risk || 0.0).toFixed(2);
 
-          const tbody = document.getElementById('admin-records-table');
-          tbody.innerHTML = '';
-          const recs = json.recent_predictions || [];
-          if (recs.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">No records on file yet.</td></tr>';
-          } else {
-            recs.forEach(r => {
-              const tr = document.createElement('tr');
-              const dateStr = r.timestamp ? r.timestamp.split('T')[0] : 'Today';
-              const lvlColor = (r.risk_level === 'High') ? '#dc2626' : ((r.risk_level === 'Medium') ? '#d97706' : '#059669');
-              tr.innerHTML = `
-                <td>${dateStr}</td>
-                <td><strong>${r.patient_name || 'Patient'}</strong></td>
-                <td><span style="color: ${lvlColor}; font-weight: 700;">${r.risk_level}</span></td>
-                <td style="font-family: 'JetBrains Mono'; font-weight: 700;">${Number(r.score || 0).toFixed(2)}</td>
-                <td style="font-family: 'JetBrains Mono';">${Number(r.baseline_score || 0).toFixed(2)}</td>
-                <td style="font-family: 'JetBrains Mono';">${Number(r.rf_score || 0).toFixed(2)}</td>
-                <td style="font-family: 'JetBrains Mono';">${Number(r.gb_score || 0).toFixed(2)}</td>
-                <td>${Math.round(r.aqi || 0)}</td>
-              `;
-              tbody.appendChild(tr);
-            });
-          }
+          allAdminRecords = json.recent_predictions || [];
+          renderAdminTable(allAdminRecords);
+          showToast("Physician surveillance console refreshed with live records.", "info", 2000);
         }
       } catch (err) {
         console.error('Error loading admin overview:', err);
+      } finally {
+        if (icon) icon.classList.remove('fa-spin');
       }
+    }
+
+    function renderAdminTable(records) {
+      const tbody = document.getElementById('admin-records-table');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      if (!records || records.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 2rem;">No patient records found matching current criteria.</td></tr>';
+        return;
+      }
+
+      records.forEach(r => {
+        const tr = document.createElement('tr');
+        const dateStr = r.timestamp ? r.timestamp.split('T')[0] : 'Today';
+        const lvlColor = (r.risk_level === 'High') ? '#f87171' : ((r.risk_level === 'Medium') ? '#fbbf24' : '#34d399');
+        const bgLvl = (r.risk_level === 'High') ? 'rgba(239, 68, 68, 0.2)' : ((r.risk_level === 'Medium') ? 'rgba(245, 158, 11, 0.2)' : 'rgba(16, 185, 129, 0.2)');
+
+        tr.innerHTML = `
+          <td><span style="font-size: 0.78rem; color: var(--text-muted);">${dateStr}</span></td>
+          <td><strong>${r.patient_name || 'Patient'}</strong></td>
+          <td><span style="background: ${bgLvl}; color: ${lvlColor}; font-weight: 800; padding: 2px 10px; border-radius: 9999px; font-size: 0.74rem;">${r.risk_level}</span></td>
+          <td style="font-family: 'JetBrains Mono'; font-weight: 800; color: ${lvlColor};">${Number(r.score || 0).toFixed(2)}</td>
+          <td style="font-family: 'JetBrains Mono';">${Number(r.baseline_score || 0).toFixed(2)}</td>
+          <td style="font-family: 'JetBrains Mono';">${Number(r.rf_score || 0).toFixed(2)}</td>
+          <td style="font-family: 'JetBrains Mono';">${Number(r.gb_score || 0).toFixed(2)}</td>
+          <td style="font-family: 'JetBrains Mono'; font-weight: 700;">${Math.round(r.aqi || 0)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterAdminTable() {
+      const q = (document.getElementById('admin-search-input').value || '').toLowerCase();
+      const filtered = allAdminRecords.filter(r => {
+        const matchesName = (r.patient_name || '').toLowerCase().includes(q);
+        const matchesTier = (currentAdminFilterTier === 'All') || (r.risk_level === currentAdminFilterTier);
+        return matchesName && matchesTier;
+      });
+      renderAdminTable(filtered);
+    }
+
+    function filterAdminByTier(tier) {
+      currentAdminFilterTier = tier;
+      filterAdminTable();
     }
 
     let donutChartInstance = null;
@@ -2832,6 +3752,9 @@
         if (!json.success || !json.data) return;
 
         const d = json.data;
+        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+        const textColor = isDark ? '#cbd5e1' : '#475569';
+        const gridColor = isDark ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.06)';
 
         const donutCtx = document.getElementById('eda-donut-chart');
         if (donutCtx) {
@@ -2844,15 +3767,20 @@
               labels: labels,
               datasets: [{
                 data: vals,
-                backgroundColor: ['#d97706', '#dc2626', '#059669'],
+                backgroundColor: ['#fbbf24', '#f87171', '#34d399'],
                 borderWidth: 2,
-                borderColor: '#ffffff'
+                borderColor: isDark ? '#0f172a' : '#ffffff'
               }]
             },
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              plugins: { legend: { position: 'bottom' } }
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: { color: textColor, font: { family: 'Inter', weight: '600' } }
+                }
+              }
             }
           });
         }
@@ -2870,14 +3798,23 @@
             data: {
               labels: classes,
               datasets: [
-                { label: 'Mean AQI', data: aqiVals, backgroundColor: '#0284c7' },
-                { label: 'Mean PM2.5 (μg/m³)', data: pmVals, backgroundColor: '#0ea5e9' }
+                { label: 'Mean AQI', data: aqiVals, backgroundColor: '#0284c7', borderRadius: 6 },
+                { label: 'Mean PM2.5 (μg/m³)', data: pmVals, backgroundColor: '#38bdf8', borderRadius: 6 }
               ]
             },
             options: {
               responsive: true,
               maintainAspectRatio: false,
-              plugins: { legend: { position: 'bottom' } }
+              scales: {
+                x: { ticks: { color: textColor }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor }, grid: { color: gridColor } }
+              },
+              plugins: {
+                legend: {
+                  position: 'bottom',
+                  labels: { color: textColor, font: { family: 'Inter', weight: '600' } }
+                }
+              }
             }
           });
         }
@@ -2957,11 +3894,10 @@
           localStorage.setItem('hridyavayu_user', JSON.stringify(currentUser));
           updateAuthUi();
           closeAuthModal();
+          showToast(`Welcome back, ${currentUser.name || currentUser.full_name}!`, 'success');
 
-          // Refresh Canister Tracker immediately upon login!
           await refreshInhalerTracker();
 
-          // If there was a pending portal click, direct user to that portal immediately!
           if (pendingRedirect === 'user' || (!pendingRedirect && currentUser.role === 'User')) {
             pendingRedirect = null;
             switchView('user');
@@ -2971,19 +3907,17 @@
             switchView('admin');
           }
         } else {
-          alert("Authentication failed: " + (json.error || "Please verify credentials"));
+          showToast("Authentication failed: " + (json.error || "Please verify credentials"), "danger");
         }
       } catch (err) {
-        alert("Connection error during login: " + err.message);
+        showToast("Connection error: " + err.message, "danger");
       }
     }
 
     function updateAuthUi() {
       const container = document.getElementById('auth-header-container');
-      const authNav = document.getElementById('authenticated-nav');
 
       if (currentUser) {
-        authNav.style.display = 'flex';
         const isDoctor = (currentUser.role === 'Admin');
         const displayName = currentUser.name || currentUser.full_name || (isDoctor ? "Dr. Sarah Mitchell, MD" : "Alex Rivera");
         const roleLabel = isDoctor ? "Attending Physician" : "Verified Patient";
@@ -3015,7 +3949,6 @@
           pInput.value = currentUser.name || currentUser.full_name;
         }
       } else {
-        authNav.style.display = 'none';
         container.innerHTML = `
           <button class="demo-pill" onclick="quickLoginDemo('User')">
             <i class="fa-solid fa-user"></i> Demo Patient
@@ -3039,11 +3972,17 @@
       updateAuthUi();
       totalDosesUsed = 0;
       updateCanisterDisplay();
+      showToast("Signed out of session successfully.", "info");
       switchView('landing');
     }
 
-    // Initialize on load
+    // Initialize on DOMContentLoaded
     window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('hridyavayu_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      const icon = document.getElementById('theme-icon');
+      if (icon) icon.className = (savedTheme === 'dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+
       updateAuthUi();
       if (currentUser) {
         refreshInhalerTracker();

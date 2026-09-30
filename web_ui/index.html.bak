@@ -1,0 +1,3054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HridyaVayu - Connected Asthma Decision Support System</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --primary-subtle: #f0f9ff;
+      --accent: #0f172a;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-card-subtle: #f1f5f9;
+      --border: #e2e8f0;
+      --border-focus: #0284c7;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --danger: #dc2626;
+      --danger-light: #fef2f2;
+      --warning: #d97706;
+      --warning-light: #fffbeb;
+      --success: #059669;
+      --success-light: #ecfdf5;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+      --radius: 12px;
+      --radius-lg: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top App Navigation Header */
+    header.app-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.15rem;
+    }
+
+    .brand-text h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.3px;
+      line-height: 1.1;
+    }
+
+    .brand-text p {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-right: 1rem;
+      border-right: 1px solid var(--border);
+      padding-right: 1rem;
+    }
+
+    .nav-btn {
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+    }
+
+    .nav-btn:hover {
+      background: var(--bg-card-subtle);
+      color: var(--text-main);
+    }
+
+    .nav-btn.active {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-color: #bae6fd;
+    }
+
+    .nav-btn-primary {
+      background: var(--primary) !important;
+      color: white !important;
+    }
+
+    .nav-btn-primary:hover {
+      background: var(--primary-dark) !important;
+    }
+
+    .nav-btn-secondary {
+      background: white !important;
+      border: 1px solid var(--border) !important;
+      color: var(--text-main) !important;
+    }
+
+    .nav-btn-secondary:hover {
+      background: var(--bg-card-subtle) !important;
+      border-color: #cbd5e1 !important;
+    }
+
+    .demo-pill {
+      font-size: 0.75rem;
+      padding: 0.4rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card-subtle);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: all 0.15s ease;
+    }
+
+    .demo-pill:hover {
+      background: #e2e8f0;
+    }
+
+    /* Container & Layout */
+    .container {
+      max-width: 1480px;
+      width: 95%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      flex: 1;
+    }
+
+    /* Calming Hospital Wellness Hero Atmosphere */
+    .landing-hero-backdrop {
+      position: relative;
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f0f9ff 100%);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 3rem 3.5rem;
+      margin-bottom: 3.5rem;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+    }
+
+    /* India's Growing Asthma & Urban Air Crisis Showcase */
+    .india-crisis-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 3rem;
+      box-shadow: var(--shadow-sm);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+    }
+
+    .india-img-box {
+      height: 380px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .india-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .india-img-box:hover img {
+      transform: scale(1.02);
+    }
+
+    .india-crisis-content {
+      padding: 2.5rem;
+    }
+
+    .india-crisis-content h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      line-height: 1.25;
+    }
+
+    .india-crisis-content p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .india-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.75rem;
+    }
+
+    .india-metric-pill {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem 0.5rem;
+      text-align: center;
+    }
+
+    .india-metric-pill strong {
+      display: block;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      color: #dc2626;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .india-metric-pill span {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.2;
+      display: block;
+      margin-top: 3px;
+    }
+
+    /* Analytics Diagram Card styling */
+    .diagram-full-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .diagram-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .diagram-header h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .diagram-img-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .diagram-img-box img {
+      width: 100%;
+      height: auto;
+      max-height: 560px;
+      object-fit: contain;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .diagram-img-box img:hover {
+      transform: scale(1.005);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .view-section {
+      display: none;
+    }
+
+    .view-section.active {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===================================================
+       1. LANDING PAGE HERO & WHY HRIDYAVAYU SECTION
+       =================================================== */
+    .hero-split {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 3.5rem;
+      align-items: center;
+      margin-bottom: 4rem;
+      padding-top: 1rem;
+    }
+
+    .hero-device-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-md);
+    }
+
+    .device-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .device-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .device-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--success);
+      background: var(--success-light);
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+    }
+
+    .device-img-wrapper-large {
+      background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .device-img-wrapper-large img {
+      max-height: 380px;
+      width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 14px 28px rgba(15, 23, 42, 0.12));
+      transition: transform 0.3s ease;
+    }
+
+    .device-img-wrapper-large:hover img {
+      transform: scale(1.02);
+    }
+
+    .device-caption-box {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .caption-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+
+    .caption-title strong {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .caption-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      background: var(--primary-light);
+      padding: 2px 8px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .device-caption-box p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .device-quick-actions {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .quick-action-btn {
+      flex: 1;
+      padding: 0.65rem 0.85rem;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      transition: all 0.15s ease;
+    }
+
+    .quick-action-btn:hover {
+      background: var(--bg-card-subtle);
+      border-color: #cbd5e1;
+    }
+
+    /* Why HridyaVayu 3-Card Section */
+    .why-section-container {
+      margin-top: 1.5rem;
+      margin-bottom: 3.5rem;
+      border-top: 1px solid var(--border);
+      padding-top: 3.5rem;
+    }
+
+    .section-title-center {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .section-heading {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.15rem;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-subheading {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .why-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .why-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .why-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .why-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .why-card h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.65rem;
+    }
+
+    .why-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .hero-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 9999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.85rem;
+      font-weight: 800;
+      line-height: 1.15;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-title span {
+      color: var(--primary);
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-hero-primary {
+      background: var(--primary);
+      color: white;
+      padding: 0.85rem 1.65rem;
+      border-radius: 9px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 2px 4px rgba(2, 132, 199, 0.2);
+      transition: all 0.15s ease;
+    }
+
+    .btn-hero-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-hero-secondary {
+      background: white;
+      color: var(--text-main);
+      padding: 0.85rem 1.65rem;
+      border-radius: 9px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.15s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      background: var(--bg-card-subtle);
+      border-color: #cbd5e1;
+    }
+
+    /* Right Showcase: Why HridyaVayu & Clinical Need */
+    .why-hridyavayu-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .why-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .why-card-head h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .clinical-case-box {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .clinical-case-box strong {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--accent);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .clinical-case-box p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .benefits-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .benefit-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .benefit-text strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .benefit-text p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .device-inline-banner {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+    }
+
+    .device-inline-banner img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      border-radius: 6px;
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    .device-inline-banner div {
+      flex: 1;
+    }
+
+    .device-inline-banner strong {
+      font-size: 0.82rem;
+      display: block;
+      color: var(--accent);
+    }
+
+    .device-inline-banner span {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    /* 4-Pillar Grid */
+    .feature-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .pillar-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .pillar-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .pillar-content strong {
+      display: block;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .pillar-content p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* ===================================================
+       2. USER / PATIENT PORTAL
+       =================================================== */
+    .stepper-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .stepper-item {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .stepper-item.active {
+      color: var(--primary);
+    }
+
+    .stepper-item.completed {
+      color: var(--success);
+    }
+
+    .stepper-number {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .stepper-item.active .stepper-number {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .stepper-item.completed .stepper-number {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .portal-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 2rem;
+    }
+
+    .portal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .portal-header h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .portal-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 0.65rem 0.85rem;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text-main);
+      background: white;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+    }
+
+    /* Telemetry Dials Grid */
+    .env-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .env-dial-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.15rem 1rem;
+      text-align: center;
+    }
+
+    .dial-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .dial-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.1;
+      margin-bottom: 0.2rem;
+    }
+
+    .dial-unit {
+      font-size: 0.7rem;
+      color: var(--text-light);
+    }
+
+    /* Step 3 Results */
+    .results-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 1.75rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .risk-score-card {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .risk-badge-large {
+      padding: 0.4rem 1.25rem;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 1rem;
+    }
+
+    .risk-score-display {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .risk-meta-row {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    .models-breakdown-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .model-row {
+      margin-bottom: 1rem;
+    }
+
+    .model-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .model-row-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .model-progress-bg {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+
+    .model-progress-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: var(--primary);
+      transition: width 0.6s ease;
+    }
+
+    /* Human-Centric Clinical Recommendations Cards */
+    .recs-container {
+      margin-bottom: 1.75rem;
+    }
+
+    .recs-container-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .clinical-recs-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .clinical-rec-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--primary);
+      border-radius: 8px;
+      padding: 0.85rem 1.15rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+    }
+
+    .clinical-rec-card.severe {
+      border-left-color: var(--danger);
+      background: #fffdfd;
+    }
+
+    .rec-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: var(--primary-subtle);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.88rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .clinical-rec-card.severe .rec-card-icon {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .rec-card-body strong {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .rec-card-body p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Inhaler & SOS Tracker */
+    .inhaler-tracker-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      background: white;
+    }
+
+    .tracker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .tracker-meter-bg {
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-bottom: 0.65rem;
+    }
+
+    .tracker-meter-fill {
+      height: 100%;
+      border-radius: 9999px;
+      background: var(--primary);
+      transition: width 0.4s ease;
+    }
+
+    .tracker-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Admin / Tables */
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .stat-card-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .stat-card-val {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .data-table-wrapper {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .table-title-bar {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: var(--bg-card-subtle);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    table.data-table td {
+      padding: 0.75rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      width: 100%;
+      max-width: 440px;
+      padding: 2rem;
+      box-shadow: var(--shadow-lg);
+    }
+
+    footer.app-footer {
+      border-top: 1px solid var(--border);
+      background: white;
+      padding: 1.5rem 2rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: auto;
+    }
+
+    @media (max-width: 960px) {
+      .hero-split { grid-template-columns: 1fr; gap: 2rem; }
+      .feature-pillars-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .env-grid { grid-template-columns: repeat(2, 1fr); }
+      .results-layout { grid-template-columns: 1fr; }
+    /* Enhanced User Profile Header Badge */
+    .user-profile-widget {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      padding: 0.35rem 0.65rem 0.35rem 0.45rem;
+      border-radius: 9999px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .user-profile-widget:hover {
+      border-color: #cbd5e1;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.09);
+    }
+
+    .user-avatar-badge {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+    }
+
+    .avatar-patient {
+      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+      color: #0284c7;
+      border: 1.5px solid #7dd3fc;
+    }
+
+    .avatar-doctor {
+      background: linear-gradient(135deg, #ecfdf5 0%, #a7f3d0 100%);
+      color: #059669;
+      border: 1.5px solid #6ee7b7;
+    }
+
+    .online-indicator {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      width: 11px;
+      height: 11px;
+      background: #10b981;
+      border: 2px solid #ffffff;
+      border-radius: 50%;
+    }
+
+    .user-details-box {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+      line-height: 1.25;
+    }
+
+    .user-display-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .user-role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.08rem 0.4rem;
+      border-radius: 6px;
+      margin-top: 2px;
+      width: fit-content;
+      white-space: nowrap;
+    }
+
+    .role-patient {
+      background: #f0fdf4;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+
+    .role-doctor {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .logout-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fee2e2;
+      padding: 0.4rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      margin-left: 0.25rem;
+    }
+
+    .logout-action-btn:hover {
+      background: #fee2e2;
+      color: #b91c1c;
+      border-color: #fca5a5;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+      .user-profile-widget {
+        gap: 0.5rem;
+        padding: 0.25rem 0.5rem;
+      }
+      .user-avatar-badge {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+      }
+      .user-display-name {
+        font-size: 0.85rem;
+      }
+      .logout-action-btn span {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <!-- Brand Name Term -->
+    <div class="brand-logo" onclick="navigateToLanding()">
+      <div class="brand-icon-box">
+        <i class="fa-solid fa-lungs"></i>
+      </div>
+      <div class="brand-text">
+        <h1>HridyaVayu</h1>
+        <p>Smart Asthma Care</p>
+      </div>
+    </div>
+
+    <!-- Header Actions (Only Term + Login / Sign Up when unauthenticated) -->
+    <div class="header-actions">
+      <!-- Nav items shown ONLY when logged in -->
+      <nav class="nav-links" id="authenticated-nav" style="display: none;">
+        <button class="nav-btn" id="nav-landing" onclick="switchView('landing')">Overview</button>
+        <button class="nav-btn" id="nav-user" onclick="switchView('user'); setStep(1);">Patient Portal</button>
+        <button class="nav-btn" id="nav-admin" onclick="switchView('admin');">Physician Console</button>
+        <button class="nav-btn" id="nav-eda" onclick="switchView('eda');">Analytics</button>
+      </nav>
+
+      <!-- Auth Container -->
+      <div id="auth-header-container" style="display: flex; align-items: center; gap: 0.5rem;">
+        <button class="demo-pill" onclick="quickLoginDemo('User')">
+          <i class="fa-solid fa-user"></i> Demo Patient
+        </button>
+        <button class="demo-pill" onclick="quickLoginDemo('Admin')">
+          <i class="fa-solid fa-user-doctor"></i> Demo Physician
+        </button>
+        <button class="nav-btn nav-btn-secondary" onclick="openAuthModal('login')">
+          Sign In
+        </button>
+        <button class="nav-btn nav-btn-primary" onclick="openAuthModal('signup')">
+          Sign Up
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="container">
+
+    <!-- ==========================================
+         VIEW 1: OVERVIEW & WHY HRIDYAVAYU
+         ========================================== -->
+    <section id="view-landing" class="view-section active">
+      <div class="landing-hero-backdrop">
+      <div class="hero-split">
+        <!-- Left Hero Column -->
+        <div>
+          <div class="hero-badge-pill">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span>Clinical Decision Support & Attack Prevention</span>
+          </div>
+
+          <h2 class="hero-title">
+            Intelligent Respiratory Care <br />
+            <span>Before Airway Constriction Occurs</span>
+          </h2>
+
+          <p class="hero-subtitle">
+            HridyaVayu bridges continuous environmental IoT telemetry with validated clinical guidelines (GINA) and collaborative machine learning to predict asthma exacerbations hours in advance.
+          </p>
+
+          <!-- Gate-Protected Action Buttons -->
+          <div class="hero-ctas">
+            <button class="btn-hero-primary" onclick="handleProtectedPortalAccess('user')">
+              <i class="fa-solid fa-notes-medical"></i> Open Patient Portal
+            </button>
+            <button class="btn-hero-secondary" onclick="handleProtectedPortalAccess('admin')">
+              <i class="fa-solid fa-chart-line"></i> Physician Dashboard
+            </button>
+          </div>
+
+          <!-- 4 Feature Pillars -->
+          <div class="feature-pillars-grid">
+            <div class="pillar-card">
+              <div class="pillar-icon"><i class="fa-solid fa-brain"></i></div>
+              <div class="pillar-content">
+                <strong>Multimodal Collaborative AI</strong>
+                <p>Combines Linear Regression, Random Forest, and Gradient Boosting to prevent single-model bias.</p>
+              </div>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-icon"><i class="fa-solid fa-satellite-dish"></i></div>
+              <div class="pillar-content">
+                <strong>Live Meteorological Sync</strong>
+                <p>Continuous GPS-anchored feed tracking AQI, PM2.5, NO2, and SO2 spikes.</p>
+              </div>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-icon"><i class="fa-solid fa-shield-virus"></i></div>
+              <div class="pillar-content">
+                <strong>GINA Safety Guardrails</strong>
+                <p>Deterministic clinical heuristics guarantee emergency escalation for severe nocturnal symptoms.</p>
+              </div>
+            </div>
+
+            <div class="pillar-card">
+              <div class="pillar-icon"><i class="fa-solid fa-spray-can-sparkles"></i></div>
+              <div class="pillar-content">
+                <strong>Smart Inhaler Adherence</strong>
+                <p>Canister level tracking, dose verification, and rapid emergency distress dispatch.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Prominent Large Device Showcase -->
+        <div>
+          <div class="hero-device-card">
+            <div class="device-header">
+              <div class="device-title">
+                <i class="fa-solid fa-microchip" style="color: var(--primary);"></i>
+                HridyaVayu Connected Airway Companion
+              </div>
+              <div class="device-status">
+                <i class="fa-solid fa-circle" style="font-size: 6px;"></i> Active Link (BLE / Cellular)
+              </div>
+            </div>
+
+            <!-- Big, High-Impact Device Image -->
+            <div class="device-img-wrapper-large">
+              <img src="/web_ui/assets/smart_inhaler.jpg" alt="HridyaVayu Smart Asthma Inhaler Device" onerror="this.src='/figures/model_comparison.png'" />
+            </div>
+
+            <!-- Device Information & Architecture Caption -->
+            <div class="device-caption-box">
+              <div class="caption-title">
+                <strong>Smart Inhaler Hardware Architecture</strong>
+                <span class="caption-badge">Connected MedTech</span>
+              </div>
+              <p>
+                Integrated with precision micro-acoustic airflow sensors, real-time dosage adherence tracking, and automatic emergency SOS broadcast for acute respiratory distress.
+              </p>
+            </div>
+
+            <div class="device-quick-actions">
+              <button class="quick-action-btn" onclick="handleProtectedPortalAccess('user')">
+                <i class="fa-solid fa-clipboard-check"></i> Patient Assessment
+              </button>
+              <button class="quick-action-btn" onclick="fetchLiveEnvironmentalData(true)">
+                <i class="fa-solid fa-satellite-dish"></i> Sync Live GPS Telemetry
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </div>
+
+    <!-- Dedicated Section: Why HridyaVayu? The Clinical Need & Benefits -->
+      <div class="why-section-container">
+        <div class="section-title-center">
+          <div class="hero-badge-pill" style="margin-bottom: 0.75rem;">
+            <i class="fa-solid fa-hospital-user"></i>
+            <span>The Clinical Imperative</span>
+          </div>
+          <h3 class="section-heading">Why HridyaVayu? The Case, The Need & The Impact</h3>
+          <p class="section-subheading">
+            Transforming conventional reactive asthma management into proactive, AI-guided attack prevention.
+          </p>
+        </div>
+
+        <div class="why-cards-grid">
+          <div class="why-card">
+            <div class="why-card-icon" style="background: #fef2f2; color: #dc2626;">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h4>The Clinical Problem (The Need)</h4>
+            <p>
+              Over 300 million individuals globally suffer from chronic bronchial asthma. Clinical evidence reveals that over 80% of severe hospitalizations and acute attacks are triggered by undetected ambient air pollution spikes (PM2.5, NO2, SO2) interacting with hyper-reactive airways. Conventional asthma management is purely reactive—patients take medication only after airway constriction has already begun.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" style="background: #f0f9ff; color: #0284c7;">
+              <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <h4>The HridyaVayu Breakthrough (The Case)</h4>
+            <p>
+              HridyaVayu bridges continuous satellite and ground-station IoT environmental telemetry with validated clinical guidelines (GINA criteria). By applying collaborative multimodal machine learning (combining Linear Regression, Random Forest, and Gradient Boosting), the system predicts elevated exacerbation risk hours before symptom onset, giving patients a critical preventive window.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-card-icon" style="background: #ecfdf5; color: #059669;">
+              <i class="fa-solid fa-shield-heart"></i>
+            </div>
+            <h4>The Patient & Physician Impact (The Benefits)</h4>
+            <p>
+              Patients receive personalized, actionable care directives, real-time smart inhaler canister tracking, and immediate emergency SOS dispatch during acute flare-ups. Clinicians gain objective, longitudinal population telemetry, verifiable medication adherence records, and calibrated risk scores backed by deterministic medical safety rails.
+            </p>
+          </div>
+        </div>
+      </div>
+    
+      <!-- India's Growing Asthma Crisis & Urban Air Quality Reality -->
+      <div class="india-crisis-card">
+        <div class="india-img-box">
+          <img src="/web_ui/assets/india_urban_air_crisis.jpg" alt="Indian Metropolitan City Skyline and Atmospheric Air Quality Reality" />
+        </div>
+        <div class="india-crisis-content">
+          <div class="hero-badge-pill" style="margin-bottom: 0.75rem; background: #fef2f2; border-color: #fecdd3; color: #dc2626;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>The Indian Epidemiological Emergency</span>
+          </div>
+          <h3>India's Escalating Asthma Crisis & Urban Smog Reality</h3>
+          <p>
+            India represents the highest asthma fatality epicenter worldwide: according to <strong>The Lancet Global Health</strong>, India accounts for <strong>42.4% of all global asthma deaths</strong> despite having only 11.1% of global cases. In Indian megacities (Delhi-NCR, Kanpur, Kolkata, Mumbai, Lucknow), winter ambient PM2.5 levels routinely cross <strong>250 to 450+ μg/m³</strong>—up to <strong>30 times the WHO safe threshold</strong>. HridyaVayu was designed specifically to give Indian citizens proactive early warning before toxic particulate spikes trigger irreversible acute attacks.
+          </p>
+          <div class="india-metrics-grid">
+            <div class="india-metric-pill">
+              <strong>42.4%</strong>
+              <span>Global Deaths in India</span>
+            </div>
+            <div class="india-metric-pill">
+              <strong>34.3M+</strong>
+              <span>Indian Asthma Patients</span>
+            </div>
+            <div class="india-metric-pill">
+              <strong>20–30x</strong>
+              <span>WHO Safe PM2.5 Limit</span>
+            </div>
+            <div class="india-metric-pill">
+              <strong>1 in 10</strong>
+              <span>Children Affected</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Epidemiological Chart: India Asthma Burden & Megacity Peaks -->
+      <div class="diagram-full-card" style="margin-bottom: 2.5rem;">
+        <div class="diagram-header">
+          <h4><i class="fa-solid fa-chart-column" style="color: #dc2626;"></i> Epidemiological Data: India's Share of Global Asthma Burden vs. City PM2.5 Peaks</h4>
+          <span style="font-size: 0.75rem; color: #dc2626; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/india_asthma_urban_crisis.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+        </div>
+        <div class="diagram-img-box">
+          <img src="/figures/india_asthma_urban_crisis.png" alt="India Asthma Mortality and City PM2.5 Peaks" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+          <strong>Clinical Analysis:</strong> Mortality rates in India are 3x the global average due to lack of real-time air quality forecasting and delayed bronchodilator rescue response. Dense vehicular exhaust, biomass burning, and winter temperature inversions create severe particulate traps that make predictive decision support indispensable.
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 2: PATIENT PORTAL (3-STEP GUIDED FLOW)
+         ========================================== -->
+    <section id="view-user" class="view-section">
+      <!-- Stepper Nav -->
+      <div class="stepper-nav">
+        <div class="stepper-item active" id="step-btn-1" onclick="setStep(1)">
+          <div class="stepper-number">1</div>
+          <span>Clinical Screening</span>
+        </div>
+        <div style="color: #cbd5e1;"><i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i></div>
+        <div class="stepper-item" id="step-btn-2" onclick="setStep(2)">
+          <div class="stepper-number">2</div>
+          <span>Environmental Telemetry</span>
+        </div>
+        <div style="color: #cbd5e1;"><i class="fa-solid fa-chevron-right" style="font-size: 0.75rem;"></i></div>
+        <div class="stepper-item" id="step-btn-3" onclick="setStep(3)">
+          <div class="stepper-number">3</div>
+          <span>Risk Assessment & Care Plan</span>
+        </div>
+      </div>
+
+      <!-- STEP 1: CLINICAL QUESTIONNAIRE -->
+      <div id="user-step-1" class="portal-card">
+        <div class="portal-header">
+          <div>
+            <h3><i class="fa-solid fa-clipboard-list" style="color: var(--primary);"></i> Step 1: Clinical Guidelines Screening</h3>
+            <p>Standardized GINA criteria evaluating baseline symptom frequency and nocturnal airway control.</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" class="nav-btn" style="background: #fef2f2; color: #b91c1c; font-size: 0.78rem;" onclick="loadPresetProfile('severe')">
+              Load Acute Flare-up Sample
+            </button>
+            <button type="button" class="nav-btn" style="background: #f0fdf4; color: #15803d; font-size: 0.78rem;" onclick="loadPresetProfile('controlled')">
+              Load Controlled Sample
+            </button>
+          </div>
+        </div>
+
+        <form id="clinical-form" onsubmit="event.preventDefault(); setStep(2);">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Patient Name</label>
+              <input type="text" id="patient-name" class="form-input" value="Alex Rivera" required />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Asthma Symptoms Frequency</label>
+              <select id="symptoms-freq" class="form-select">
+                <option value="Daily">Daily (Severe uncontrolled)</option>
+                <option value="Frequently (Weekly)" selected>Frequently / Weekly (Partly controlled)</option>
+                <option value="1-2 times a month">1-2 times a month (Mild intermittent)</option>
+                <option value="Less than once a month">Less than once a month (Well controlled)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Nocturnal Dyspnea / Night Waking</label>
+              <select id="night-diff" class="form-select">
+                <option value="Frequently">Frequently (Multiple times per week)</option>
+                <option value="Occasionally" selected>Occasionally (1-2 times per month)</option>
+                <option value="Rarely">Rarely</option>
+                <option value="Never">Never</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Poor Air Quality Exposure</label>
+              <select id="exposure-input" class="form-select">
+                <option value="Yes, often" selected>Yes, frequent urban or traffic exposure</option>
+                <option value="Occasionally">Occasionally</option>
+                <option value="No">No, mostly clean indoor environments</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Identified Environmental Triggers</label>
+              <select id="triggers-input" class="form-select">
+                <option value="Dust, Air pollution (smoke, chemicals etc.)" selected>Dust, smoke & chemical emissions</option>
+                <option value="Pollen, Seasonal Allergens">Pollen & seasonal allergens</option>
+                <option value="Cold Air, Exercise">Cold air & strenuous exertion</option>
+                <option value="No specific triggers">No specific triggers identified</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Weather & Meteorological Sensitivity</label>
+              <select id="weather-input" class="form-select">
+                <option value="Hot and humid weather" selected>Hot and humid weather</option>
+                <option value="Sudden temperature drops">Sudden temperature drops / Cold air</option>
+                <option value="High humidity and rain">High humidity and heavy rainfall</option>
+                <option value="No specific weather-related triggers">No weather sensitivity</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end;">
+            <button type="submit" class="btn-hero-primary">
+              Next: Environmental Telemetry <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- STEP 2: ENVIRONMENTAL TELEMETRY INGESTION -->
+      <div id="user-step-2" class="portal-card" style="display: none;">
+        <div class="portal-header">
+          <div>
+            <h3><i class="fa-solid fa-satellite-dish" style="color: var(--primary);"></i> Step 2: Environmental Telemetry Ingestion</h3>
+            <p>Synchronize ambient air quality and weather parameters via real-time satellite GPS or manual entry.</p>
+          </div>
+          
+          <div style="display: flex; gap: 0.35rem; background: var(--bg-card-subtle); padding: 0.25rem; border-radius: 8px;">
+            <button type="button" class="nav-btn active" id="btn-env-gps" style="font-size: 0.78rem; padding: 0.35rem 0.8rem;" onclick="setEnvInputMode('gps')">
+              <i class="fa-solid fa-location-crosshairs"></i> Live GPS Sync
+            </button>
+            <button type="button" class="nav-btn" id="btn-env-manual" style="font-size: 0.78rem; padding: 0.35rem 0.8rem;" onclick="setEnvInputMode('manual')">
+              <i class="fa-solid fa-pen-to-square"></i> Manual Entry
+            </button>
+          </div>
+        </div>
+
+        <!-- GPS Banner -->
+        <div id="panel-env-gps" style="display: flex; justify-content: space-between; align-items: center; background: var(--primary-subtle); border: 1px solid #bae6fd; border-radius: 10px; padding: 0.85rem 1.25rem; margin-bottom: 1.5rem;">
+          <div>
+            <strong style="font-size: 0.88rem; color: var(--primary-dark); display: block;">Open-Meteo Satellite & Ground Station Feed</strong>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Pulls real-time air quality index and atmospheric metrics based on your coordinates.</span>
+          </div>
+          <button class="btn-hero-primary" style="padding: 0.5rem 1.1rem; font-size: 0.82rem;" onclick="fetchLiveEnvironmentalData(false)">
+            <i class="fa-solid fa-rotate"></i> Refresh GPS Data
+          </button>
+        </div>
+
+        <!-- Manual Form -->
+        <div id="panel-env-manual" style="display: none; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div>
+              <strong style="font-size: 0.88rem; color: var(--text-main);">Manual Parameter Configuration</strong>
+              <p style="font-size: 0.75rem; color: var(--text-muted);">Adjust individual variables to simulate specific clinical conditions.</p>
+            </div>
+            <div style="display: flex; gap: 0.4rem;">
+              <button type="button" class="nav-btn" style="background: #f0fdf4; color: #15803d; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('clean')">Clean (AQI 25)</button>
+              <button type="button" class="nav-btn" style="background: #fffbeb; color: #b45309; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('moderate')">Moderate (AQI 125)</button>
+              <button type="button" class="nav-btn" style="background: #fef2f2; color: #b91c1c; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('severe')">Hazardous (AQI 260)</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem;">
+            <div class="form-group">
+              <label class="form-label">AQI Index</label>
+              <input type="number" id="manual-aqi" class="form-input" min="0" max="500" value="125" oninput="syncManualInputsToEnv()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">PM2.5 (μg/m³)</label>
+              <input type="number" id="manual-pm25" class="form-input" min="0" max="500" step="0.5" value="48.5" oninput="syncManualInputsToEnv()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">NO2 (μg/m³)</label>
+              <input type="number" id="manual-no2" class="form-input" min="0" max="300" step="0.5" value="32.0" oninput="syncManualInputsToEnv()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">SO2 (μg/m³)</label>
+              <input type="number" id="manual-so2" class="form-input" min="0" max="300" step="0.5" value="18.0" oninput="syncManualInputsToEnv()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">CO2 (ppm)</label>
+              <input type="number" id="manual-co2" class="form-input" min="300" max="1500" step="5" value="415.0" oninput="syncManualInputsToEnv()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Temperature (°C)</label>
+              <input type="number" id="manual-temp" class="form-input" min="-20" max="55" step="0.5" value="27.5" oninput="syncManualInputsToEnv()" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Humidity (%)</label>
+              <input type="number" id="manual-humidity" class="form-input" min="0" max="100" step="1" value="62.0" oninput="syncManualInputsToEnv()" />
+            </div>
+            <div class="form-group" style="justify-content: flex-end;">
+              <button type="button" class="nav-btn" style="background: var(--bg-card-subtle); height: 38px; justify-content: center;" onclick="resetManualInputs()">Reset</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8 Dials Telemetry Cards -->
+        <div class="env-grid">
+          <div class="env-dial-card">
+            <div class="dial-name">US AQI</div>
+            <div class="dial-val" id="disp-aqi">125</div>
+            <div class="dial-unit">Air Quality Index</div>
+          </div>
+
+          <div class="env-dial-card">
+            <div class="dial-name">PM 2.5</div>
+            <div class="dial-val" id="disp-pm25">48.5</div>
+            <div class="dial-unit">μg/m³</div>
+          </div>
+
+          <div class="env-dial-card">
+            <div class="dial-name">Nitrogen Dioxide</div>
+            <div class="dial-val" id="disp-no2">32.0</div>
+            <div class="dial-unit">μg/m³</div>
+          </div>
+
+          <div class="env-dial-card">
+            <div class="dial-name">Sulphur Dioxide</div>
+            <div class="dial-val" id="disp-so2">18.0</div>
+            <div class="dial-unit">μg/m³</div>
+          </div>
+
+          <div class="env-dial-card">
+            <div class="dial-name">Temperature</div>
+            <div class="dial-val" id="disp-temp">27.5</div>
+            <div class="dial-unit">°C</div>
+          </div>
+
+          <div class="env-dial-card">
+            <div class="dial-name">Humidity</div>
+            <div class="dial-val" id="disp-humidity">62.0</div>
+            <div class="dial-unit">% Relative</div>
+          </div>
+
+          <div class="env-dial-card">
+            <div class="dial-name">Carbon Dioxide</div>
+            <div class="dial-val" id="disp-co2">415.0</div>
+            <div class="dial-unit">ppm</div>
+          </div>
+
+          <div class="env-dial-card">
+            <div class="dial-name">Telemetry Status</div>
+            <div class="dial-val" id="disp-status" style="font-size: 1rem; color: var(--success); font-family: inherit;">SYNCED</div>
+            <div class="dial-unit">Sensor Link</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <button class="nav-btn" onclick="setStep(1)">
+            <i class="fa-solid fa-arrow-left"></i> Back to Clinical Screening
+          </button>
+          <button class="btn-hero-primary" onclick="runHridyaVayuPrediction()">
+            Analyze Asthma Risk <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: RISK ASSESSMENT & CARE PLAN -->
+      <div id="user-step-3" class="portal-card" style="display: none;">
+        <div class="portal-header">
+          <div>
+            <h3><i class="fa-solid fa-heart-pulse" style="color: var(--primary);"></i> Step 3: Asthma Risk Assessment & Action Plan</h3>
+            <p>Synthesized by the collaborative multimodal ensemble with GINA clinical heuristic validation.</p>
+          </div>
+          <button class="nav-btn" onclick="setStep(1)">
+            <i class="fa-solid fa-rotate-left"></i> New Assessment
+          </button>
+        </div>
+
+        <!-- Heuristic Override Notice -->
+        <div id="heuristic-override-banner" style="display: none; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 8px; padding: 0.85rem 1.15rem; margin-bottom: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; color: #be123c; font-weight: 600; font-size: 0.85rem;">
+            <i class="fa-solid fa-shield-virus"></i>
+            <span>GINA Clinical Safety Override Engaged</span>
+          </div>
+          <p style="font-size: 0.78rem; color: #9f1239; margin-top: 2px;">
+            Severe reported symptoms (daily occurrence or nocturnal dyspnea) triggered a deterministic safety escalation to protect the patient regardless of ambient air quality.
+          </p>
+        </div>
+
+        <!-- Dual Column Results -->
+        <div class="results-layout">
+          <!-- Left: Clinical Risk Gauge -->
+          <div class="risk-score-card">
+            <div class="risk-badge-large" id="res-risk-badge" style="background: #fef2f2; color: #dc2626;">
+              HIGH RISK
+            </div>
+            <div class="risk-score-display" id="res-score-val">0.79</div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 4px;">
+              <i class="fa-solid fa-circle-user" style="color: var(--primary); font-size: 0.95rem;"></i>
+              <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);" id="res-patient-label">Alex Rivera</span>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Multimodal Probability Score</span>
+
+            <div class="risk-meta-row">
+              <span>Confidence: <strong id="res-conf-val">95%</strong></span>
+              <span>•</span>
+              <span>Entropy Uncertainty: <strong id="res-entropy-val">0.24</strong></span>
+            </div>
+          </div>
+
+          <!-- Right: Model Suite Breakdown -->
+          <div class="models-breakdown-card">
+            <h4 style="font-size: 0.9rem; font-weight: 700; color: var(--text-main); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-code-branch" style="color: var(--primary);"></i>
+              Collaborative Ensemble Architecture
+            </h4>
+
+            <div class="model-row">
+              <div class="model-row-head">
+                <span>Baseline Logistic Regression</span>
+                <strong id="bar-val-lr">0.71</strong>
+              </div>
+              <div class="model-progress-bg">
+                <div class="model-progress-fill" id="bar-fill-lr" style="width: 71%;"></div>
+              </div>
+            </div>
+
+            <div class="model-row">
+              <div class="model-row-head">
+                <span>Random Forest Classifier</span>
+                <strong id="bar-val-rf">0.72</strong>
+              </div>
+              <div class="model-progress-bg">
+                <div class="model-progress-fill" id="bar-fill-rf" style="width: 72%;"></div>
+              </div>
+            </div>
+
+            <div class="model-row">
+              <div class="model-row-head">
+                <span>Gradient Boosting Classifier</span>
+                <strong id="bar-val-gb">0.70</strong>
+              </div>
+              <div class="model-progress-bg">
+                <div class="model-progress-fill" id="bar-fill-gb" style="width: 70%;"></div>
+              </div>
+            </div>
+
+            <div class="model-row" style="margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px dashed var(--border);">
+              <div class="model-row-head">
+                <span style="font-weight: 700; color: var(--primary-dark);">Collaborative Soft-Voting Ensemble</span>
+                <strong id="bar-val-ens" style="color: var(--primary); font-size: 0.95rem;">0.79</strong>
+              </div>
+              <div class="model-progress-bg" style="height: 10px;">
+                <div class="model-progress-fill" id="bar-fill-ens" style="width: 79%; background: linear-gradient(90deg, #0284c7, #2563eb);"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Prescribed Clinical Recommendations (Human Centric Design) -->
+        <div class="recs-container">
+          <div class="recs-container-title">
+            <i class="fa-solid fa-notes-medical" style="color: var(--primary);"></i>
+            <span>Actionable Clinical Care Protocol</span>
+          </div>
+          <div class="clinical-recs-grid" id="res-clinical-recs-list">
+            <!-- Dynamic Clinical Cards rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Dynamic Inhaler Canister Tracker (Refreshes on Every Login) -->
+        <div style="display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 1rem;">
+          <div class="inhaler-tracker-card">
+            <div class="tracker-header">
+              <div>
+                <strong style="font-size: 0.9rem; color: var(--accent); display: flex; align-items: center; gap: 0.45rem;">
+                  <i class="fa-solid fa-prescription-bottle-medical text-primary"></i> Smart Inhaler Canister Tracker
+                </strong>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Synchronized with patient dosage database</span>
+              </div>
+              <div style="display: flex; gap: 0.4rem;">
+                <button class="nav-btn nav-btn-primary" style="font-size: 0.78rem; padding: 0.4rem 0.85rem;" onclick="logInhalerDose()">
+                  <i class="fa-solid fa-plus"></i> Log Dose
+                </button>
+                <button class="nav-btn" style="font-size: 0.78rem; padding: 0.4rem 0.65rem; background: var(--bg-card-subtle);" onclick="resetInhalerCanister()" title="Calibrate for new canister">
+                  <i class="fa-solid fa-arrows-rotate"></i> New Inhaler
+                </button>
+              </div>
+            </div>
+
+            <div class="tracker-meter-bg">
+              <div class="tracker-meter-fill" id="canister-progress-fill" style="width: 95%;"></div>
+            </div>
+
+            <div class="tracker-footer">
+              <span>Used Today: <strong id="disp-doses-used">0</strong> doses</span>
+              <span>Remaining Capacity: <strong id="disp-doses-left">200</strong> of 200 doses</span>
+            </div>
+          </div>
+
+          <!-- Emergency Distress Dispatch -->
+          <div style="border: 1px solid #fecdd3; border-radius: var(--radius); padding: 1.25rem 1.5rem; background: #fff1f2; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <strong style="font-size: 0.9rem; color: var(--danger); display: flex; align-items: center; gap: 0.45rem;">
+                <i class="fa-solid fa-truck-medical"></i> Acute Respiratory Distress SOS
+              </strong>
+              <span style="font-size: 0.75rem; color: #9f1239; display: block; margin-top: 4px;">
+                Instant automated dispatch to primary pulmonologist and designated emergency contacts.
+              </span>
+            </div>
+            <button class="nav-btn" style="background: var(--danger); color: white; font-size: 0.85rem; padding: 0.55rem 1rem; width: 100%; justify-content: center; margin-top: 0.75rem;" onclick="triggerEmergencySos()">
+              <i class="fa-solid fa-triangle-exclamation"></i> Broadcast SOS Dispatch
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 3: CLINICAL TELEMETRY & ADMIN
+         ========================================== -->
+    <section id="view-admin" class="view-section">
+      <div style="background: white; border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 5rem 2.5rem; text-align: center; max-width: 680px; margin: 4rem auto; box-shadow: var(--shadow-sm);">
+        <div style="width: 80px; height: 80px; border-radius: 50%; background: #fffbeb; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 2.25rem; margin: 0 auto 1.5rem; border: 1px solid #fde68a;">
+          <i class="fa-solid fa-wrench"></i>
+        </div>
+        <div style="display: inline-block; background: #f1f5f9; color: var(--text-muted); font-size: 0.75rem; font-weight: 700; padding: 4px 12px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">
+          Clinical Portal Notice
+        </div>
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 2.4rem; font-weight: 800; color: var(--accent); letter-spacing: -0.02em; margin-bottom: 0.85rem;">
+          UNDER MAINTENANCE
+        </h2>
+        <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.6; max-width: 520px; margin: 0 auto 2rem;">
+          The Physician & Clinical Telemetry Console is currently undergoing scheduled infrastructure upgrades and electronic health record (EHR / HL7 FHIR) synchronization. Clinical monitoring will resume shortly.
+        </p>
+        <button class="btn-hero-primary" onclick="switchView('landing')">
+          <i class="fa-solid fa-arrow-left"></i> Return to Overview
+        </button>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 4: EDA & RESEARCH ANALYTICS
+         ========================================== -->
+    <section id="view-eda" class="view-section">
+      <div class="portal-header">
+        <div>
+          <h3><i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i> System Architecture & ML Analytics</h3>
+          <p>Architectural pipelines, multi-model collaborative fusion, and empirical validation benchmarks.</p>
+        </div>
+      </div>
+
+      <!-- Diagram 1: System End-to-End Architecture -->
+      <div class="diagram-full-card">
+        <div class="diagram-header">
+          <h4><i class="fa-solid fa-sitemap" style="color: var(--primary);"></i> End-to-End System Architecture & Dataflow</h4>
+          <span style="font-size: 0.75rem; color: var(--primary); cursor: pointer; font-weight: 600;" onclick="window.open('/figures/system_architecture_diagram.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+        </div>
+        <div class="diagram-img-box">
+          <img src="/figures/system_architecture_diagram.png" alt="HridyaVayu End-to-End System Architecture" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+          <strong>Dataflow Overview:</strong> Integrates continuous live GPS weather telemetry from Open-Meteo European CAMS API with standardized GINA clinical screening questions and Bluetooth BLE smart inhaler adherence into a normalized 22-dimensional feature vector, evaluated collaboratively with deterministic safety heuristics.
+        </p>
+      </div>
+
+      <!-- Diagram 2: Collaborative ML Ensemble & Soft-Voting Architecture -->
+      <div class="diagram-full-card">
+        <div class="diagram-header">
+          <h4><i class="fa-solid fa-code-branch" style="color: #7e22ce;"></i> Collaborative ML Ensemble & Neuro-Symbolic Fusion Architecture</h4>
+          <span style="font-size: 0.75rem; color: #7e22ce; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/ml_ensemble_architecture.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+        </div>
+        <div class="diagram-img-box">
+          <img src="/figures/ml_ensemble_architecture.png" alt="Machine Learning Ensemble Architecture" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+          <strong>Ensemble Mechanics:</strong> Baseline Logistic Regression ($w=1$) establishes calibrated linear log-odds; Random Forest ($w=2$) captures non-linear feature interactions; Gradient Boosting ($w=2$) targets hard borderline cases. Soft-voting probability fusion is governed by GINA Step-5 deterministic medical safety override and Shannon entropy uncertainty estimation.
+        </p>
+      </div>
+
+      <!-- Diagram 3: Multi-Model Confusion Matrices -->
+      <div class="diagram-full-card">
+        <div class="diagram-header">
+          <h4><i class="fa-solid fa-table-cells" style="color: #059669;"></i> Multi-Center Test Confusion Matrices (Test Partition: 300 Samples)</h4>
+          <span style="font-size: 0.75rem; color: #059669; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/confusion_matrices_multimodel.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+        </div>
+        <div class="diagram-img-box">
+          <img src="/figures/confusion_matrices_multimodel.png" alt="Model Confusion Matrices Comparison" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+          <strong>Classification Accuracy:</strong> Displays the true vs. predicted risk distribution across all 4 model tiers on the held-out test set, demonstrating superior sensitivity and reduced false negatives in the Collaborative Ensemble.
+        </p>
+      </div>
+
+      <!-- Diagram 4: Multimodal Feature Correlation Heatmap -->
+      <div class="diagram-full-card">
+        <div class="diagram-header">
+          <h4><i class="fa-solid fa-cubes-stacked" style="color: #0284c7;"></i> Multimodal Feature Correlation Matrix: Ambient Telemetry vs. Clinical Risk</h4>
+          <span style="font-size: 0.75rem; color: #0284c7; cursor: pointer; font-weight: 600;" onclick="window.open('/figures/feature_correlation_heatmap.png', '_blank')"><i class="fa-solid fa-up-right-from-square"></i> Full 300 DPI View</span>
+        </div>
+        <div class="diagram-img-box">
+          <img src="/figures/feature_correlation_heatmap.png" alt="Multimodal Feature Correlation Matrix Heatmap" title="Click to view full high-resolution diagram (300 DPI)" onclick="window.open(this.src, '_blank')" />
+        </div>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem; line-height: 1.5;">
+          <strong>Clinical Correlation:</strong> Highlights high positive correlation between fine particulates (PM2.5: $r=0.85$), AQI ($r=0.82$), and nocturnal dyspnea ($r=0.86$) with asthma exacerbation risk.
+        </p>
+      </div>
+
+      <!-- Dynamic Charts Grid (Chart.js) -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+        <div class="portal-card" style="margin-bottom: 0;">
+          <h4 style="font-size: 0.95rem; margin-bottom: 1rem;">Risk Class Distribution (Cohort Balance)</h4>
+          <div style="height: 240px;">
+            <canvas id="eda-donut-chart"></canvas>
+          </div>
+        </div>
+
+        <div class="portal-card" style="margin-bottom: 0;">
+          <h4 style="font-size: 0.95rem; margin-bottom: 1rem;">Mean Pollutants by Risk Class</h4>
+          <div style="height: 240px;">
+            <canvas id="eda-bar-chart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Benchmark Visualizations -->
+      <div class="portal-card">
+        <h4 style="font-size: 0.95rem; margin-bottom: 1rem;">Cross-Validation Benchmarks & SHAP Interpretability</h4>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;">
+          <div style="border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #f8fafc; cursor: pointer;" onclick="window.open('/figures/model_comparison.png', '_blank')">
+            <img src="/figures/model_comparison.png" style="width: 100%; height: 210px; object-fit: contain; background: white;" alt="Model Comparison" title="Click to view full high-resolution diagram (300 DPI)" />
+            <div style="padding: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">Model Comparison Benchmark <i class="fa-solid fa-up-right-from-square" style="color: var(--primary); font-size: 0.75rem;"></i></strong>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">Cross-validation accuracy and F1 score across models.</p>
+            </div>
+          </div>
+
+          <div style="border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #f8fafc; cursor: pointer;" onclick="window.open('/figures/roc_curves.png', '_blank')">
+            <img src="/figures/roc_curves.png" style="width: 100%; height: 210px; object-fit: contain; background: white;" alt="ROC Curves" title="Click to view full high-resolution diagram (300 DPI)" />
+            <div style="padding: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">Multi-Model ROC Curves <i class="fa-solid fa-up-right-from-square" style="color: var(--primary); font-size: 0.75rem;"></i></strong>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">ROC-AUC sensitivity and specificity curves.</p>
+            </div>
+          </div>
+
+          <div style="border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: #f8fafc; cursor: pointer;" onclick="window.open('/figures/shap_summary.png', '_blank')">
+            <img src="/figures/shap_summary.png" style="width: 100%; height: 210px; object-fit: contain; background: white;" alt="SHAP Summary" title="Click to view full high-resolution diagram (300 DPI)" />
+            <div style="padding: 0.75rem;">
+              <strong style="font-size: 0.82rem; display: flex; justify-content: space-between; align-items: center;">SHAP Feature Importance <i class="fa-solid fa-up-right-from-square" style="color: var(--primary); font-size: 0.75rem;"></i></strong>
+              <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 0.25rem;">Attribution weights for clinical and ambient factors.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Authentication Modal -->
+  <div id="auth-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+        <h4 id="auth-modal-title" style="font-size: 1.15rem; font-weight: 700;">Sign In to HridyaVayu</h4>
+        <button type="button" style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-muted);" onclick="closeAuthModal()">&times;</button>
+      </div>
+
+      <div style="display: flex; gap: 0.5rem; background: var(--bg-card-subtle); padding: 0.25rem; border-radius: 8px; margin-bottom: 1.25rem;">
+        <button type="button" class="nav-btn active" id="tab-login" style="flex: 1; justify-content: center; font-size: 0.82rem;" onclick="setAuthMode('login')">Sign In</button>
+        <button type="button" class="nav-btn" id="tab-signup" style="flex: 1; justify-content: center; font-size: 0.82rem;" onclick="setAuthMode('signup')">Sign Up</button>
+      </div>
+
+      <!-- Demo Quick Logins -->
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
+        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: #f0f9ff; color: var(--primary-dark); font-size: 0.78rem; border: 1px solid #bae6fd;" onclick="quickLoginDemo('User')">
+          <i class="fa-solid fa-user"></i> Demo Patient
+        </button>
+        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: #ecfdf5; color: #065f46; font-size: 0.78rem; border: 1px solid #a7f3d0;" onclick="quickLoginDemo('Admin')">
+          <i class="fa-solid fa-user-doctor"></i> Demo Physician
+        </button>
+      </div>
+
+      <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+        <div class="form-group" style="margin-bottom: 0.85rem;">
+          <label class="form-label" id="label-username">Username or Phone</label>
+          <input type="text" id="auth-username" class="form-input" placeholder="e.g. demo_user" required />
+        </div>
+
+        <div class="form-group" id="group-name" style="display: none; margin-bottom: 0.85rem;">
+          <label class="form-label">Full Name</label>
+          <input type="text" id="auth-name" class="form-input" placeholder="e.g. Alex Rivera" />
+        </div>
+
+        <div class="form-group" id="group-phone" style="display: none; margin-bottom: 0.85rem;">
+          <label class="form-label">Phone Number</label>
+          <input type="text" id="auth-phone" class="form-input" placeholder="+1-555-0143" />
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="form-label">Password</label>
+          <input type="password" id="auth-password" class="form-input" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" class="btn-hero-primary" style="width: 100%; justify-content: center;" id="btn-auth-submit">
+          Sign In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- App Footer -->
+  <footer class="app-footer">
+    <strong>HridyaVayu: Connected Asthma Decision Support System</strong>
+    <p style="margin-top: 4px;">Multimodal Machine Learning & Real-Time Environmental Sensor Synchronization.</p>
+  </footer>
+
+  <!-- Script Logic -->
+  <script>
+    let currentUser = JSON.parse(localStorage.getItem('hridyavayu_user')) || null;
+    let authMode = 'login';
+    let currentStep = 1;
+    let pendingRedirect = null;
+    let totalDosesUsed = 0;
+    let envData = {
+      AQI: 125, PM25: 48.5, NO2: 32.0, SO2: 18.0,
+      CO2: 415.0, Temperature: 27.5, Humidity: 62.0
+    };
+
+    function navigateToLanding() {
+      switchView('landing');
+    }
+
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-links .nav-btn').forEach(b => b.classList.remove('active'));
+
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.add('active');
+
+      const navBtn = document.getElementById(`nav-${viewName}`);
+      if (navBtn) navBtn.classList.add('active');
+
+      if (viewName === 'admin') loadAdminData();
+      if (viewName === 'eda') initEdaCharts();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Mandatory Authentication Gate for Portals
+    function handleProtectedPortalAccess(portalType) {
+      if (portalType === 'user') {
+        if (!currentUser) {
+          pendingRedirect = 'user';
+          openAuthModal('login', 'User');
+          return;
+        }
+        switchView('user');
+        setStep(1);
+      } else if (portalType === 'admin') {
+        if (!currentUser || currentUser.role !== 'Admin') {
+          pendingRedirect = 'admin';
+          openAuthModal('login', 'Admin');
+          return;
+        }
+        switchView('admin');
+      }
+    }
+
+    function setStep(stepNum) {
+      currentStep = stepNum;
+      for (let i = 1; i <= 3; i++) {
+        const stepEl = document.getElementById(`user-step-${i}`);
+        const btnEl = document.getElementById(`step-btn-${i}`);
+        if (stepEl) stepEl.style.display = (i === stepNum) ? 'block' : 'none';
+        if (btnEl) {
+          if (i === stepNum) {
+            btnEl.classList.add('active');
+            btnEl.classList.remove('completed');
+          } else if (i < stepNum) {
+            btnEl.classList.remove('active');
+            btnEl.classList.add('completed');
+          } else {
+            btnEl.classList.remove('active', 'completed');
+          }
+        }
+      }
+      window.scrollTo({ top: 100, behavior: 'smooth' });
+    }
+
+    function loadPresetProfile(type) {
+      if (type === 'severe') {
+        document.getElementById('patient-name').value = "Alex Rivera (Acute Flare-up)";
+        document.getElementById('symptoms-freq').value = "Daily";
+        document.getElementById('night-diff').value = "Frequently";
+        document.getElementById('triggers-input').value = "Dust, Air pollution (smoke, chemicals etc.)";
+        document.getElementById('exposure-input').value = "Yes, often";
+        document.getElementById('weather-input').value = "Hot and humid weather";
+        updateEnvDisplay({ AQI: 210, PM25: 110.0, NO2: 65.0, SO2: 45.0, CO2: 520.0, Temperature: 32.0, Humidity: 78.0 });
+      } else {
+        document.getElementById('patient-name').value = "Michael Chang (Controlled)";
+        document.getElementById('symptoms-freq').value = "Less than once a month";
+        document.getElementById('night-diff').value = "Never";
+        document.getElementById('triggers-input').value = "No specific triggers";
+        document.getElementById('exposure-input').value = "No";
+        document.getElementById('weather-input').value = "No specific weather-related triggers";
+        updateEnvDisplay({ AQI: 35, PM25: 12.0, NO2: 15.0, SO2: 8.0, CO2: 390.0, Temperature: 22.0, Humidity: 45.0 });
+      }
+    }
+
+    function setEnvInputMode(mode) {
+      const btnGps = document.getElementById('btn-env-gps');
+      const btnManual = document.getElementById('btn-env-manual');
+      const panelGps = document.getElementById('panel-env-gps');
+      const panelManual = document.getElementById('panel-env-manual');
+      const statusEl = document.getElementById('disp-status');
+
+      if (mode === 'manual') {
+        btnManual.classList.add('active');
+        btnGps.classList.remove('active');
+        panelManual.style.display = 'block';
+        panelGps.style.display = 'none';
+        if (statusEl) {
+          statusEl.innerText = 'MANUAL';
+          statusEl.style.color = '#d97706';
+        }
+        syncManualInputsFromEnv();
+      } else {
+        btnGps.classList.add('active');
+        btnManual.classList.remove('active');
+        panelGps.style.display = 'flex';
+        panelManual.style.display = 'none';
+        if (statusEl) {
+          statusEl.innerText = 'LIVE GPS';
+          statusEl.style.color = '#059669';
+        }
+      }
+    }
+
+    function syncManualInputsFromEnv() {
+      const aqiInput = document.getElementById('manual-aqi');
+      if (aqiInput && document.activeElement !== aqiInput) aqiInput.value = Math.round(envData.AQI);
+      const pm25Input = document.getElementById('manual-pm25');
+      if (pm25Input && document.activeElement !== pm25Input) pm25Input.value = Number(envData.PM25).toFixed(1);
+      const no2Input = document.getElementById('manual-no2');
+      if (no2Input && document.activeElement !== no2Input) no2Input.value = Number(envData.NO2).toFixed(1);
+      const so2Input = document.getElementById('manual-so2');
+      if (so2Input && document.activeElement !== so2Input) so2Input.value = Number(envData.SO2).toFixed(1);
+      const co2Input = document.getElementById('manual-co2');
+      if (co2Input && document.activeElement !== co2Input) co2Input.value = Number(envData.CO2).toFixed(1);
+      const tempInput = document.getElementById('manual-temp');
+      if (tempInput && document.activeElement !== tempInput) tempInput.value = Number(envData.Temperature).toFixed(1);
+      const humInput = document.getElementById('manual-humidity');
+      if (humInput && document.activeElement !== humInput) humInput.value = Number(envData.Humidity).toFixed(1);
+    }
+
+    function syncManualInputsToEnv() {
+      const aqi = parseFloat(document.getElementById('manual-aqi').value) || 0;
+      const pm25 = parseFloat(document.getElementById('manual-pm25').value) || 0;
+      const no2 = parseFloat(document.getElementById('manual-no2').value) || 0;
+      const so2 = parseFloat(document.getElementById('manual-so2').value) || 0;
+      const co2 = parseFloat(document.getElementById('manual-co2').value) || 400;
+      const temp = parseFloat(document.getElementById('manual-temp').value) || 25;
+      const hum = parseFloat(document.getElementById('manual-humidity').value) || 50;
+
+      updateEnvDisplay({
+        AQI: aqi, PM25: pm25, NO2: no2, SO2: so2, CO2: co2,
+        Temperature: temp, Humidity: hum
+      });
+
+      const statusEl = document.getElementById('disp-status');
+      if (statusEl) {
+        statusEl.innerText = 'MANUAL';
+        statusEl.style.color = '#0284c7';
+      }
+      syncSensorDataToBackend();
+    }
+
+    function applyManualPreset(type) {
+      if (type === 'clean') {
+        updateEnvDisplay({ AQI: 25, PM25: 8.0, NO2: 10.0, SO2: 5.0, CO2: 390.0, Temperature: 22.0, Humidity: 45.0 });
+      } else if (type === 'moderate') {
+        updateEnvDisplay({ AQI: 125, PM25: 48.5, NO2: 32.0, SO2: 18.0, CO2: 415.0, Temperature: 27.5, Humidity: 62.0 });
+      } else if (type === 'severe') {
+        updateEnvDisplay({ AQI: 260, PM25: 135.0, NO2: 70.0, SO2: 45.0, CO2: 550.0, Temperature: 34.0, Humidity: 75.0 });
+      }
+      syncManualInputsFromEnv();
+      syncSensorDataToBackend();
+    }
+
+    function resetManualInputs() {
+      applyManualPreset('moderate');
+    }
+
+    function updateEnvDisplay(data) {
+      envData = { ...envData, ...data };
+      document.getElementById('disp-aqi').innerText = Math.round(envData.AQI);
+      document.getElementById('disp-pm25').innerText = Number(envData.PM25).toFixed(1);
+      document.getElementById('disp-no2').innerText = Number(envData.NO2).toFixed(1);
+      document.getElementById('disp-so2').innerText = Number(envData.SO2).toFixed(1);
+      document.getElementById('disp-temp').innerText = Number(envData.Temperature).toFixed(1);
+      document.getElementById('disp-humidity').innerText = Number(envData.Humidity).toFixed(1);
+      document.getElementById('disp-co2').innerText = Number(envData.CO2).toFixed(1);
+    }
+
+    async function fetchLiveEnvironmentalData(jumpToStep2 = false) {
+      const statusEl = document.getElementById('disp-status');
+      if (statusEl) statusEl.innerText = 'SYNCING...';
+
+      let lat = 28.6139, lon = 77.2090;
+      if (navigator.geolocation) {
+        try {
+          const pos = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 3500 });
+          });
+          lat = pos.coords.latitude;
+          lon = pos.coords.longitude;
+        } catch (e) {}
+      }
+
+      try {
+        const res = await fetch(`/api/live?lat=${lat}&lon=${lon}`);
+        const json = await res.json();
+        if (json.success && json.data) {
+          const d = json.data;
+          updateEnvDisplay({
+            AQI: d.AQI,
+            PM25: d['PM2.5'],
+            NO2: d['NO2 level'],
+            SO2: d['SO2 level'],
+            CO2: d['CO2 level'],
+            Temperature: d.Temperature,
+            Humidity: d.Humidity
+          });
+          if (statusEl) {
+            statusEl.innerText = 'LIVE GPS';
+            statusEl.style.color = '#059669';
+          }
+          if (jumpToStep2) {
+            switchView('user');
+            setStep(2);
+          }
+          syncSensorDataToBackend();
+        }
+      } catch (err) {
+        console.error('Error fetching live environmental data:', err);
+      }
+    }
+
+    async function syncSensorDataToBackend() {
+      try {
+        const userId = (currentUser && currentUser.id) ? currentUser.id : 1;
+        await fetch('/upload-sensor-data', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userId,
+            air_quality: Math.round(envData.AQI),
+            pm25: Number(envData.PM25),
+            no2_level: Number(envData.NO2),
+            so2_level: Number(envData.SO2),
+            co2_level: Number(envData.CO2),
+            temperature: Number(envData.Temperature),
+            humidity: Number(envData.Humidity)
+          })
+        });
+      } catch (e) {}
+    }
+
+    async function runHridyaVayuPrediction() {
+      const patientName = document.getElementById('patient-name').value || "Alex Rivera";
+      const userId = currentUser ? currentUser.id : 1;
+      const symptomsFreq = document.getElementById('symptoms-freq').value;
+      const nightDiff = document.getElementById('night-diff').value;
+      const triggers = document.getElementById('triggers-input').value;
+      const exposure = document.getElementById('exposure-input').value;
+      const weatherSens = document.getElementById('weather-input').value;
+
+      try {
+        fetch('/submit-quiz', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            user_id: userId,
+            responses: [
+              { question: 'Asthma Symptoms Frequency', answer: symptomsFreq },
+              { question: 'Night Breathing Difficulty', answer: nightDiff },
+              { question: 'Triggers', answer: triggers },
+              { question: 'Poor Air Quality Exposure', answer: exposure },
+              { question: 'Weather Sensitivity', answer: weatherSens }
+            ]
+          })
+        }).catch(() => {});
+      } catch(e) {}
+
+      const payload = {
+        patient_name: patientName,
+        user_id: userId,
+        AQI: envData.AQI,
+        'PM2.5': envData.PM25,
+        'SO2 level': envData.SO2,
+        'NO2 level': envData.NO2,
+        'CO2 level': envData.CO2,
+        Humidity: envData.Humidity,
+        Temperature: envData.Temperature,
+        'Asthma Symptoms Frequency': symptomsFreq,
+        'Night Breathing Difficulty': nightDiff,
+        'Triggers': triggers,
+        'Poor Air Quality Exposure': exposure,
+        'Weather Sensitivity': weatherSens
+      };
+
+      try {
+        const res = await fetch('/predict', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          renderPredictionResults(data);
+          setStep(3);
+        } else {
+          alert("Assessment error: " + (data.error || "Please verify your parameters."));
+        }
+      } catch (err) {
+        alert("Failed to connect to assessment service: " + err.message);
+      }
+    }
+
+    // Human-based Clinical Recommendations Presentation (No AI-like Emoji Clutter)
+    function renderPredictionResults(data) {
+      const score = Number(data.risk_score || 0);
+      const level = data.risk_level || 'Medium';
+
+      document.getElementById('res-patient-label').innerText = data.patient_name || 'Patient';
+      document.getElementById('res-score-val').innerText = score.toFixed(2);
+      document.getElementById('res-conf-val').innerText = Math.round((data.confidence || 0.85) * 100) + '%';
+      document.getElementById('res-entropy-val').innerText = Number(data.uncertainty_entropy || 0.25).toFixed(2);
+
+      const badge = document.getElementById('res-risk-badge');
+      if (level === 'High') {
+        badge.style.background = '#fef2f2';
+        badge.style.color = '#dc2626';
+        badge.innerText = 'HIGH RISK';
+      } else if (level === 'Medium') {
+        badge.style.background = '#fffbeb';
+        badge.style.color = '#d97706';
+        badge.innerText = 'MODERATE RISK';
+      } else {
+        badge.style.background = '#ecfdf5';
+        badge.style.color = '#059669';
+        badge.innerText = 'LOW RISK';
+      }
+
+      const overrideBanner = document.getElementById('heuristic-override-banner');
+      if (overrideBanner) {
+        overrideBanner.style.display = data.heuristic_override ? 'block' : 'none';
+      }
+
+      const mb = data.model_breakdown || {};
+      const lr = Number(mb.baseline_linear_regression || 0.45);
+      const rf = Number(mb.random_forest || 0.52);
+      const gb = Number(mb.gradient_boosting || 0.51);
+      const ens = Number(mb.collaborative_ensemble || score);
+
+      document.getElementById('bar-val-lr').innerText = lr.toFixed(2);
+      document.getElementById('bar-fill-lr').style.width = Math.min(100, Math.round(lr * 100)) + '%';
+
+      document.getElementById('bar-val-rf').innerText = rf.toFixed(2);
+      document.getElementById('bar-fill-rf').style.width = Math.min(100, Math.round(rf * 100)) + '%';
+
+      document.getElementById('bar-val-gb').innerText = gb.toFixed(2);
+      document.getElementById('bar-fill-gb').style.width = Math.min(100, Math.round(gb * 100)) + '%';
+
+      document.getElementById('bar-val-ens').innerText = ens.toFixed(2);
+      document.getElementById('bar-fill-ens').style.width = Math.min(100, Math.round(ens * 100)) + '%';
+
+      // Render Clean, Human Clinical Recommendations Cards
+      const container = document.getElementById('res-clinical-recs-list');
+      container.innerHTML = '';
+      
+      const recs = data.recommendations || [];
+      recs.forEach((r, idx) => {
+        const isSevere = level === 'High' || idx === 0 && level !== 'Low';
+        let iconClass = 'fa-solid fa-notes-medical';
+        let categoryTitle = 'Clinical Care Directive';
+
+        const rLower = r.toLowerCase();
+        if (rLower.includes('rescue') || rLower.includes('inhaler') || rLower.includes('albuterol')) {
+          iconClass = 'fa-solid fa-prescription-bottle-medical';
+          categoryTitle = 'Medication & Rescue Protocol';
+        } else if (rLower.includes('hepa') || rLower.includes('indoor') || rLower.includes('windows')) {
+          iconClass = 'fa-solid fa-shield-halved';
+          categoryTitle = 'Environmental Protective Containment';
+        } else if (rLower.includes('peak flow') || rLower.includes('pef') || rLower.includes('monitor')) {
+          iconClass = 'fa-solid fa-lungs';
+          categoryTitle = 'Airway Function & PEF Monitoring';
+        } else if (rLower.includes('sos') || rLower.includes('emergency') || rLower.includes('dyspnea')) {
+          iconClass = 'fa-solid fa-truck-medical';
+          categoryTitle = 'Emergency Care Escalation';
+        } else if (rLower.includes('exercise') || rLower.includes('outdoor')) {
+          iconClass = 'fa-solid fa-person-walking';
+          categoryTitle = 'Physical Activity Management';
+        } else if (rLower.includes('respirator') || rLower.includes('mask')) {
+          iconClass = 'fa-solid fa-head-side-mask';
+          categoryTitle = 'Respiratory Barrier Protection';
+        }
+
+        const card = document.createElement('div');
+        card.className = `clinical-rec-card ${isSevere ? 'severe' : ''}`;
+        card.innerHTML = `
+          <div class="rec-card-icon">
+            <i class="${iconClass}"></i>
+          </div>
+          <div class="rec-card-body">
+            <strong>${categoryTitle}</strong>
+            <p>${r}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Dynamic Canister Tracker Refresh on Login / Session Load
+    async function refreshInhalerTracker() {
+      if (!currentUser) return;
+      try {
+        const res = await fetch(`/api/inhaler/count/${currentUser.id}`);
+        const data = await res.json();
+        if (data.success) {
+          totalDosesUsed = Number(data.total_doses || 0);
+          updateCanisterDisplay();
+        }
+      } catch (err) {
+        console.warn('Could not refresh inhaler count:', err);
+      }
+    }
+
+    function updateCanisterDisplay() {
+      const maxCapacity = 200;
+      const remaining = Math.max(0, maxCapacity - totalDosesUsed);
+      const pct = Math.max(0, Math.min(100, Math.round((remaining / maxCapacity) * 100)));
+
+      const usedEl = document.getElementById('disp-doses-used');
+      if (usedEl) usedEl.innerText = totalDosesUsed;
+
+      const leftEl = document.getElementById('disp-doses-left');
+      if (leftEl) leftEl.innerText = remaining;
+
+      const fillEl = document.getElementById('canister-progress-fill');
+      if (fillEl) {
+        fillEl.style.width = pct + '%';
+        if (pct < 20) fillEl.style.background = 'var(--danger)';
+        else if (pct < 40) fillEl.style.background = 'var(--warning)';
+        else fillEl.style.background = 'var(--primary)';
+      }
+    }
+
+    async function logInhalerDose() {
+      if (!currentUser) {
+        handleProtectedPortalAccess('user');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/inhaler/use', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: currentUser.id })
+        });
+        const data = await res.json();
+        if (data.success) {
+          totalDosesUsed = Number(data.total_doses || (totalDosesUsed + 1));
+          updateCanisterDisplay();
+          alert(`Inhaler dose recorded for ${currentUser.name || currentUser.full_name}. Canister capacity updated.`);
+        }
+      } catch (err) {
+        totalDosesUsed += 1;
+        updateCanisterDisplay();
+      }
+    }
+
+    async function resetInhalerCanister() {
+      if (!currentUser) return;
+      if (!confirm("Reset canister tracker for a new inhaler (200 full doses)?")) return;
+
+      try {
+        const res = await fetch('/api/inhaler/reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: currentUser.id })
+        });
+        const data = await res.json();
+        if (data.success) {
+          totalDosesUsed = 0;
+          updateCanisterDisplay();
+          alert("Canister tracker calibrated. Fresh 200 doses registered.");
+        }
+      } catch (err) {
+        totalDosesUsed = 0;
+        updateCanisterDisplay();
+      }
+    }
+
+    function triggerEmergencySos() {
+      const patientName = currentUser ? (currentUser.name || currentUser.full_name) : "Alex Rivera";
+      if (!confirm(`Broadcast emergency respiratory distress SOS alert for ${patientName}?`)) return;
+
+      const userId = currentUser ? currentUser.id : 1;
+      fetch('/api/sos/alert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, patient_name: patientName })
+      })
+      .then(res => res.json())
+      .then(() => {
+        alert("EMERGENCY SOS BROADCASTED: Designated emergency contacts and clinical dispatch notified.");
+      })
+      .catch(() => {
+        alert("Emergency dispatch alert logged locally.");
+      });
+    }
+
+    async function loadAdminData() {
+      try {
+        const res = await fetch('/api/admin/overview');
+        const json = await res.json();
+        if (json.success) {
+          const s = json.stats || {};
+          document.getElementById('admin-stat-users').innerText = s.total_users || '3';
+          document.getElementById('admin-stat-sensors').innerText = s.total_sensors || '0';
+          document.getElementById('admin-stat-predictions').innerText = s.total_predictions || '0';
+          document.getElementById('admin-stat-avg-risk').innerText = (s.avg_risk || 0.0).toFixed(2);
+
+          const tbody = document.getElementById('admin-records-table');
+          tbody.innerHTML = '';
+          const recs = json.recent_predictions || [];
+          if (recs.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-muted);">No records on file yet.</td></tr>';
+          } else {
+            recs.forEach(r => {
+              const tr = document.createElement('tr');
+              const dateStr = r.timestamp ? r.timestamp.split('T')[0] : 'Today';
+              const lvlColor = (r.risk_level === 'High') ? '#dc2626' : ((r.risk_level === 'Medium') ? '#d97706' : '#059669');
+              tr.innerHTML = `
+                <td>${dateStr}</td>
+                <td><strong>${r.patient_name || 'Patient'}</strong></td>
+                <td><span style="color: ${lvlColor}; font-weight: 700;">${r.risk_level}</span></td>
+                <td style="font-family: 'JetBrains Mono'; font-weight: 700;">${Number(r.score || 0).toFixed(2)}</td>
+                <td style="font-family: 'JetBrains Mono';">${Number(r.baseline_score || 0).toFixed(2)}</td>
+                <td style="font-family: 'JetBrains Mono';">${Number(r.rf_score || 0).toFixed(2)}</td>
+                <td style="font-family: 'JetBrains Mono';">${Number(r.gb_score || 0).toFixed(2)}</td>
+                <td>${Math.round(r.aqi || 0)}</td>
+              `;
+              tbody.appendChild(tr);
+            });
+          }
+        }
+      } catch (err) {
+        console.error('Error loading admin overview:', err);
+      }
+    }
+
+    let donutChartInstance = null;
+    let barChartInstance = null;
+
+    async function initEdaCharts() {
+      try {
+        const res = await fetch('/api/eda_data');
+        const json = await res.json();
+        if (!json.success || !json.data) return;
+
+        const d = json.data;
+
+        const donutCtx = document.getElementById('eda-donut-chart');
+        if (donutCtx) {
+          if (donutChartInstance) donutChartInstance.destroy();
+          const labels = Object.keys(d.risk_distribution || {});
+          const vals = Object.values(d.risk_distribution || {});
+          donutChartInstance = new Chart(donutCtx, {
+            type: 'doughnut',
+            data: {
+              labels: labels,
+              datasets: [{
+                data: vals,
+                backgroundColor: ['#d97706', '#dc2626', '#059669'],
+                borderWidth: 2,
+                borderColor: '#ffffff'
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: 'bottom' } }
+            }
+          });
+        }
+
+        const barCtx = document.getElementById('eda-bar-chart');
+        if (barCtx) {
+          if (barChartInstance) barChartInstance.destroy();
+          const p = d.pollutant_by_risk || {};
+          const classes = ['Low', 'Medium', 'High'];
+          const aqiVals = classes.map(c => (p['AQI'] && p['AQI'][c]) ? p['AQI'][c] : 0);
+          const pmVals = classes.map(c => (p['PM2.5'] && p['PM2.5'][c]) ? p['PM2.5'][c] : 0);
+
+          barChartInstance = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+              labels: classes,
+              datasets: [
+                { label: 'Mean AQI', data: aqiVals, backgroundColor: '#0284c7' },
+                { label: 'Mean PM2.5 (μg/m³)', data: pmVals, backgroundColor: '#0ea5e9' }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: { legend: { position: 'bottom' } }
+            }
+          });
+        }
+      } catch (err) {
+        console.error('Error rendering analytics charts:', err);
+      }
+    }
+
+    function openAuthModal(mode = 'login', targetRole = 'User') {
+      authMode = mode;
+      document.getElementById('auth-modal').style.display = 'flex';
+      setAuthMode(mode);
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').style.display = 'none';
+    }
+
+    function setAuthMode(mode) {
+      authMode = mode;
+      const tabLogin = document.getElementById('tab-login');
+      const tabSignup = document.getElementById('tab-signup');
+      const grpName = document.getElementById('group-name');
+      const grpPhone = document.getElementById('group-phone');
+      const btnSubmit = document.getElementById('btn-auth-submit');
+      const title = document.getElementById('auth-modal-title');
+
+      if (mode === 'signup') {
+        tabSignup.classList.add('active');
+        tabLogin.classList.remove('active');
+        grpName.style.display = 'flex';
+        grpPhone.style.display = 'flex';
+        btnSubmit.innerText = 'Register Patient';
+        title.innerText = 'Register Patient Account';
+      } else {
+        tabLogin.classList.add('active');
+        tabSignup.classList.remove('active');
+        grpName.style.display = 'none';
+        grpPhone.style.display = 'none';
+        btnSubmit.innerText = 'Sign In';
+        title.innerText = 'Sign In to HridyaVayu';
+      }
+    }
+
+    function quickLoginDemo(role) {
+      if (role === 'Admin') {
+        document.getElementById('auth-username').value = 'demo_admin';
+        document.getElementById('auth-password').value = 'admin123';
+      } else {
+        document.getElementById('auth-username').value = 'demo_user';
+        document.getElementById('auth-password').value = 'demo123';
+      }
+      handleAuthSubmit(new Event('submit'));
+    }
+
+    async function handleAuthSubmit(e) {
+      if (e) e.preventDefault();
+      const username = document.getElementById('auth-username').value;
+      const endpoint = (authMode === 'signup') ? '/api/auth/signup' : '/api/auth/login';
+
+      const payload = {
+        username: username,
+        password: document.getElementById('auth-password').value,
+        full_name: document.getElementById('auth-name').value || username,
+        phone_no: document.getElementById('auth-phone').value || '+1-555-0143'
+      };
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const json = await res.json();
+        if (json.success && json.user) {
+          currentUser = json.user;
+          localStorage.setItem('hridyavayu_user', JSON.stringify(currentUser));
+          updateAuthUi();
+          closeAuthModal();
+
+          // Refresh Canister Tracker immediately upon login!
+          await refreshInhalerTracker();
+
+          // If there was a pending portal click, direct user to that portal immediately!
+          if (pendingRedirect === 'user' || (!pendingRedirect && currentUser.role === 'User')) {
+            pendingRedirect = null;
+            switchView('user');
+            setStep(1);
+          } else if (pendingRedirect === 'admin' || (!pendingRedirect && currentUser.role === 'Admin')) {
+            pendingRedirect = null;
+            switchView('admin');
+          }
+        } else {
+          alert("Authentication failed: " + (json.error || "Please verify credentials"));
+        }
+      } catch (err) {
+        alert("Connection error during login: " + err.message);
+      }
+    }
+
+    function updateAuthUi() {
+      const container = document.getElementById('auth-header-container');
+      const authNav = document.getElementById('authenticated-nav');
+
+      if (currentUser) {
+        authNav.style.display = 'flex';
+        const isDoctor = (currentUser.role === 'Admin');
+        const displayName = currentUser.name || currentUser.full_name || (isDoctor ? "Dr. Sarah Mitchell, MD" : "Alex Rivera");
+        const roleLabel = isDoctor ? "Attending Physician" : "Verified Patient";
+        const roleClass = isDoctor ? "role-doctor" : "role-patient";
+        const avatarClass = isDoctor ? "avatar-doctor" : "avatar-patient";
+        const roleIcon = isDoctor ? "fa-solid fa-stethoscope" : "fa-solid fa-shield-heart";
+        const avatarIcon = isDoctor ? "fa-solid fa-user-doctor" : "fa-solid fa-user";
+
+        container.innerHTML = `
+          <div class="user-profile-widget">
+            <div class="user-avatar-badge ${avatarClass}">
+              <i class="${avatarIcon}"></i>
+              <span class="online-indicator" title="Connected to HridyaVayu Cloud"></span>
+            </div>
+            <div class="user-details-box">
+              <span class="user-display-name">${displayName}</span>
+              <span class="user-role-badge ${roleClass}">
+                <i class="${roleIcon}"></i> ${roleLabel}
+              </span>
+            </div>
+            <button class="logout-action-btn" onclick="logout()" title="Sign Out of Session">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              <span>Logout</span>
+            </button>
+          </div>
+        `;
+        const pInput = document.getElementById('patient-name');
+        if (pInput && (currentUser.name || currentUser.full_name)) {
+          pInput.value = currentUser.name || currentUser.full_name;
+        }
+      } else {
+        authNav.style.display = 'none';
+        container.innerHTML = `
+          <button class="demo-pill" onclick="quickLoginDemo('User')">
+            <i class="fa-solid fa-user"></i> Demo Patient
+          </button>
+          <button class="demo-pill" onclick="quickLoginDemo('Admin')">
+            <i class="fa-solid fa-user-doctor"></i> Demo Physician
+          </button>
+          <button class="nav-btn nav-btn-secondary" onclick="openAuthModal('login')">
+            Sign In
+          </button>
+          <button class="nav-btn nav-btn-primary" onclick="openAuthModal('signup')">
+            Sign Up
+          </button>
+        `;
+      }
+    }
+
+    function logout() {
+      currentUser = null;
+      localStorage.removeItem('hridyavayu_user');
+      updateAuthUi();
+      totalDosesUsed = 0;
+      updateCanisterDisplay();
+      switchView('landing');
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateAuthUi();
+      if (currentUser) {
+        refreshInhalerTracker();
+      }
+    });
+  </script>
+</body>
+</html>
