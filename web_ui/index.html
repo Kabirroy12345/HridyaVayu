@@ -3690,7 +3690,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
               <div class="hero-ctas">
                 <div class="hero-ctas-row">
                   <button class="btn-hero-primary" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important; color: #ffffff !important; border: 1.5px solid #0284c7 !important; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.35) !important;" onclick="switchView('user'); setStep(1);">
-                    <i class="fa-solid fa-heart-pulse"></i> Launch Digital Twin Cockpit
+                    <i class="fa-solid fa-heart-pulse"></i> Start Patient Assessment
                   </button>
                   <button class="btn-hero-secondary" onclick="switchView('user'); setStep(1);">
                     <i class="fa-solid fa-folder-open"></i> Open Patient Portal
@@ -6218,8 +6218,8 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
 
       const cleanUrl = url.split('?')[0];
 
-      // 1. Digital Twin State
-      if (cleanUrl.includes('/api/digital-twin/state/')) {
+      // 1. (removed: Digital Twin State)
+      if (false && cleanUrl.includes('/api/digital-twin/state/')) { // removed
         const aqi = (window.envData && window.envData.AQI) || 125;
         const pm25 = (window.envData && window.envData.PM25) || 48.5;
         const currentPef = Math.round(Math.max(120, 450 * (1 - (pm25 / 320))));
@@ -6275,8 +6275,8 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
         });
       }
 
-      // 2. Digital Twin What-If Simulation
-      if (cleanUrl.includes('/api/digital-twin/what-if/')) {
+      // 2. Digital Twin What-If Simulation (removed)
+      if (false && cleanUrl.includes('/api/digital-twin/what-if/')) {
         const scenarios = body.scenarios || [];
         const firstSc = scenarios[0] || {};
         const useHepa = firstSc.use_hepa_filter || false;
@@ -6717,7 +6717,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
       if (cleanUrl.includes('/health')) {
         return createJsonResponse({
           status: "healthy",
-          service: "HridyaVayu Multimodal Cardiopulmonary Digital Twin",
+          service: "HridyaVayu Cardiopulmonary Risk Intelligence Engine",
           llm_provider: "MOCK",
           models_loaded: true
         });
@@ -7647,8 +7647,8 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
           <td style="font-family: 'JetBrains Mono', monospace; color: #64748b;">${Number(r.gb_score || (r.score * 1.02)).toFixed(2)}</td>
           <td style="font-family: 'JetBrains Mono', monospace; font-weight: 600;">${Math.round(r.aqi || 120)}</td>
           <td style="white-space: nowrap;">
-            <button class="btn-tbl-action" onclick="viewPatientTwin(${pId}, '${pName.replace(/'/g, "\\'")}')" title="Open in Digital Twin">
-              <i class="fa-solid fa-heart-pulse" style="color: #0284c7;"></i> Twin
+            <button class="btn-tbl-action" onclick="viewPatientTwin(${pId}, '${pName.replace(/'/g, "\\'")}')" title="Open Patient Assessment">
+              <i class="fa-solid fa-heart-pulse" style="color: #0284c7;"></i> Assess
             </button>
             <button class="btn-tbl-action" onclick="exportDoctorSummaryPdf(${pId})" title="Export Clinical Summary">
               <i class="fa-solid fa-file-pdf" style="color: #dc2626;"></i> PDF
@@ -7848,8 +7848,11 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
     }
 
     function viewPatientTwin(patientId, patientName) {
-      switchView('digital-twin');
-      initDigitalTwinView();
+      // Redirect to patient assessment instead of non-existent digital-twin view
+      const name = patientName || 'Patient #' + patientId;
+      switchView('user');
+      setStep(1);
+      showToast('Loaded patient: ' + name, 'success');
 
       const dtNameEl = document.getElementById('dt-patient-name');
       if (dtNameEl && patientName) {
@@ -7859,7 +7862,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
       if (nameEl && patientName) {
         nameEl.value = patientName;
       }
-      showToast(`Loaded Digital Twin Cockpit for ${patientName || ('Patient #' + patientId)}.`);
+      showToast(`Loaded Patient Assessment for ${patientName || ('Patient #' + patientId)}.`, 'success');
     }
 
     function broadcastAqiAdvisory() {
@@ -7922,7 +7925,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
       if (isDoc) {
         switchView('admin');
       } else {
-        switchView('digital-twin');
+        switchView('user'); setStep(1);;
       }
     }
 
@@ -7961,7 +7964,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
           // If there was a pending portal click, direct user to that portal immediately!
           if (pendingRedirect === 'agent' || (!pendingRedirect && currentUser.role === 'User')) {
             pendingRedirect = null;
-            switchView('agent');
+            switchView('landing');
           } else if (pendingRedirect === 'user') {
             pendingRedirect = null;
             switchView('user');
