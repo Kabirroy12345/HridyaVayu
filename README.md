@@ -26,16 +26,17 @@
 
 ## 📌 Table of Contents
 1. [Project Overview](#-project-overview)
-2. [Latest Technical Stack](#-latest-technical-stack)
-3. [Dataset Overview (Training, Validation & Testing)](#-dataset-overview-training-validation--testing)
-4. [Neuro-Symbolic Architecture & 5 Tiers](#-neuro-symbolic-architecture--5-tiers)
-5. [Review 1 Model Performance Benchmark](#-review-1-model-performance-benchmark)
-6. [Key System Features & Closed-Loop Telemetry](#-key-system-features--closed-loop-telemetry)
-7. [REST API Specification](#-rest-api-specification)
-8. [Installation & Local Setup](#-installation--local-setup)
-9. [Project Structure](#-project-structure)
-10. [Team Members & Engineering Contributions](#-team-members--engineering-contributions)
-11. [License](#-license)
+2. [Nova Astro Luxury UI & 4 Core Portals](#-nova-astro-luxury-ui--4-core-portals)
+3. [Latest Technical Stack](#-latest-technical-stack)
+4. [Dataset Overview (Training, Validation & Testing)](#-dataset-overview-training-validation--testing)
+5. [Neuro-Symbolic Architecture & 5 Tiers](#-neuro-symbolic-architecture--5-tiers)
+6. [Review 1 Model Performance Benchmark](#-review-1-model-performance-benchmark)
+7. [Key System Features & Closed-Loop Telemetry](#-key-system-features--closed-loop-telemetry)
+8. [REST API Specification](#-rest-api-specification)
+9. [Installation & Local Setup](#-installation--local-setup)
+10. [Project Structure](#-project-structure)
+11. [Team Members & Engineering Contributions](#-team-members--engineering-contributions)
+12. [License](#-license)
 
 ---
 
@@ -44,15 +45,60 @@
 Asthma affects **over 34.3 million individuals in India** (11.1% of global cases), yet India disproportionately accounts for **42.4% of all global asthma-related fatalities** (The Lancet Global Health). In metropolitan centers, winter PM2.5 levels frequently surge past **365 µg/m³**, exceeding WHO safe thresholds by more than 24x.
 
 Traditional asthma care suffers from a severe **Reactive Care Gap**:
-* Pure Machine Learning models act as black-boxes and risk fatal False Negatives in clean ambient air when a patient experiences acute clinical symptoms.
-* Pure Clinical Guidelines (static questionnaires) evaluate symptoms retrospectively and are blind to real-time ambient particulate spikes.
+* **Pure Machine Learning models** act as black-boxes and risk fatal False Negatives in clean ambient air when a patient experiences acute clinical symptoms.
+* **Pure Clinical Guidelines** (static questionnaires) evaluate symptoms retrospectively and are blind to real-time ambient particulate spikes.
 
-**HridyaVayu** addresses this challenge through a **Hybrid Neuro-Symbolic Architecture**:
-1. **Continuous Environmental Telemetry:** Real-time satellite dispersion telemetry (AQI, PM2.5, SO2, NO2, CO2, Temp, Humidity) via the Open-Meteo European CAMS API.
-2. **Clinical Intake Survey:** Standardized 5-question Global Initiative for Asthma (GINA 2023) clinical screening.
+**HridyaVayu (हृदयवायु)** bridges this critical gap through a **Hybrid Neuro-Symbolic Architecture**:
+1. **Continuous Environmental Telemetry:** Real-time satellite dispersion telemetry (AQI, PM2.5, SO2, NO2, CO2, Temperature, Humidity) via the Open-Meteo European CAMS API.
+2. **Clinical Intake Survey:** Standardized 5-question Global Initiative for Asthma (GINA 2026 / GINA 2023) clinical screening.
 3. **Collaborative ML Soft-Voting Ensemble:** Combines Logistic Regression ($w_1=1$), Random Forest ($w_2=2$), and Gradient Boosting ($w_3=2$) over a 22-dimensional normalized feature vector.
 4. **Deterministic GINA Step-5 Safety Rails:** Automatically overrides predictions if acute red flags (frequent nocturnal dyspnea, daily attacks) are reported, forcing High Risk ($\ge 0.88$) and completely eliminating fatal false negatives.
 5. **Closed-Loop Smart Inhaler Tracking:** Integrated digital actuation countdown (out of 200 doses) with one-touch emergency SOS broadcast.
+
+---
+
+## 🎨 Nova Astro Luxury UI & 4 Core Portals
+
+HridyaVayu features an editorial MedTech user interface designed with the **Nova Astro Luxury Design System** — characterized by warm clinical tones, high legibility typography, fluid glassmorphic elevation, and zero clutter. 
+
+The application is architected around **4 specialized clinical portals**:
+
+```
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                     HRIDYAVAYU WEB PLATFORM                                      │
+├────────────────────┬─────────────────────────────┬───────────────────────────┬───────────────────┤
+│    1. OVERVIEW     │    2. PATIENT ASSESSMENT    │   3. PHYSICIAN CONSOLE    │ 4. RESEARCH (EDA) │
+│ • Atmospheric Sync │ • 3-Step Clinical Wizard    │ • Population Risk Triage  │ • Class Balance   │
+│ • CAMS Telemetry   │ • GINA 2026 Intake Form     │ • Searchable Patient Roster│ • Feature Matrix  │
+│ • Lancet Crisis    │ • Real-Time Sensor Ingestion│ • Audit Alert Logs        │ • ROC Curves      │
+│ • Medical FAQs     │ • Calibrated Risk Gauge     │ • Downloadable Doctor PDF │ • SHAP Beeswarm   │
+└────────────────────┴─────────────────────────────┴───────────────────────────┴───────────────────┘
+```
+
+1. **🌐 Clinical Overview & Telemetry Gateway:**
+   - Real-time CAMS European satellite air quality telemetry synchronization using browser GPS.
+   - Live ambient monitors (AQI, PM2.5, SO2, NO2, Temperature, Humidity).
+   - Epidemiological overview of the Indian urban respiratory crisis (Lancet citations, CPCB standards).
+   - Clinical endorsements, peer reviews, and interactive medical FAQs.
+
+2. **🩺 Patient Assessment Wizard:**
+   - **Step 1:** Standardized 5-question GINA clinical symptoms intake.
+   - **Step 2:** Atmospheric telemetry auto-detection via GPS with manual fine-tuning.
+   - **Step 3:** Calibrated continuous risk gauge (0.00 – 1.00), discrete risk classification (**Low / Controlled**, **Medium / Elevated**, **High / Acute Flare-up**), clinical rationale, and personalized intervention guidelines.
+   - Smart inhaler dosage countdown (200-dose canister) and one-touch emergency SOS trigger.
+
+3. **👨‍⚕️ Physician Surveillance Console:**
+   - High-level clinical surveillance dashboard summarizing cohort size, severe risk alerts, and average population risk.
+   - Patient triage registry with multi-column filtering, risk sorting, and quick assessment actions.
+   - Direct modal for downloading comprehensive GINA-compliant Clinical Doctor Summaries in printable PDF format.
+
+4. **📊 Research Analytics (EDA):**
+   - High-performance, interactive Chart.js visualizations for academic presentation.
+   - Class distribution breakdown (Low, Medium, High).
+   - Pearson feature correlation heatmap & environmental impact scatter matrices.
+   - Multi-model ROC comparison curves & SHAP explainability attribution.
+
+> **Dual Deployment Support:** HridyaVayu operates both as a **standalone client-side static application** (deployed on GitHub Pages with instant local calculations) and as a **full-stack Flask-backed enterprise platform** (with SQLite persistence and REST API endpoints).
 
 ---
 
@@ -62,14 +108,11 @@ Traditional asthma care suffers from a severe **Reactive Care Gap**:
 | :--- | :--- | :--- |
 | **Frontend Presentation** | **Semantic HTML5, Modern CSS3 Grid/Flexbox, Vanilla JavaScript (ES6+), Chart.js (v4.4.1), FontAwesome 6** | Ultra-responsive Single-Page Application (SPA) with zero heavy framework bloat. Features animated risk gauges, environmental telemetry dials, 3-step clinical assessment wizard, and SOS modals. |
 | **Client-Server Protocol** | **Native Browser Fetch API (`fetch()`, Promises, Async/Await)** | Asynchronous, low-overhead REST communication with error recovery, JSON serialization, and coordinate streaming. |
-| **Backend REST Services** | **Python 3.10+, Flask 2.0+, `flask_cors`, `requests`** | Microframework backend exposing 34 REST API endpoints for user authentication, profile storage, survey ingestion, and automated model inference. |
+| **Backend REST Services** | **Python 3.10+, Flask 2.0+, `flask_cors`, `requests`** | Microframework backend exposing REST API endpoints for user authentication, profile storage, survey ingestion, and automated model inference. |
 | **Machine Learning Engine** | **Scikit-Learn 1.2+, NumPy, Pandas, Joblib / Pickle** | Multimodal feature engineering ($X \in \mathbb{R}^{22}$), Z-score standardization (`StandardScaler`), collaborative soft-voting probability consensus, and Shannon entropy uncertainty estimation. |
-| **Clinical Governance Layer** | **GINA Step-5 Neuro-Symbolic Safety Engine** | Rule-based deterministic medical guardrails enforcing: $	ext{If Acute Dyspnea} \Rightarrow 	ext{Risk} = \max(P_{ens}, 0.88)$ with guaranteed zero false negatives. |
+| **Clinical Governance Layer** | **GINA Step-5 Neuro-Symbolic Safety Engine** | Rule-based deterministic medical guardrails enforcing: $\text{If Acute Dyspnea} \implies \text{Risk} = \max(P_{\text{ens}}, 0.88)$ with guaranteed zero false negatives. |
 | **Atmospheric Telemetry API**| **Open-Meteo European CAMS Atmospheric Dispersion API** | High-precision satellite-derived air quality metrics (AQI, PM2.5, NO2, SO2, CO2, temperature, humidity) polled via client GPS coordinates. |
 | **Database & Persistence** | **Relational SQLite (`asthmai.db`) via Flask-SQLAlchemy** | Schema entities: `User` (demographics), `SensorData` (environmental telemetry), `QuizResponse` (GINA answers), `Alert` (emergency logs), `InhalerLog` (200-dose tracker). |
-
----
-
 
 ---
 
@@ -94,11 +137,11 @@ The project leverages a **rigorously partitioned 2,000-sample multimodal dataset
 * **10 Non-Linear Engineered Interaction Terms:** Pollution Severity Index, PM2.5/AQI ratio, Gaseous Toxicity ($NO_2 + SO_2$), Thermal-Humidity Strain Index, Cold-Dry Airway Irritation, and Clinical Exposure Multipliers.
 
 ### 3. Independent External Clinical Cohorts (3,402 Patients)
-* **Zenodo Clinical Benchmark (Haque et al.):** **1,010 real clinical patients** $
-ightarrow$ **92.57% Accuracy**
-* **Kaggle Multi-Center Demographics (Elkharoua et al.):** **2,392 diverse patient records** $
-ightarrow$ **96.45% Accuracy**
+* **Zenodo Clinical Benchmark (Haque et al.):** **1,010 real clinical patients** →  **92.57% Accuracy** | **0.9420 F1-Score**
+* **Kaggle Multi-Center Demographics (Elkharoua et al.):** **2,392 diverse patient records** →  **96.45% Accuracy** | **0.9580 F1-Score**
 * **Hospital Network A & Primary Care B:** [`data/hospital_network_a.csv`](data/hospital_network_a.csv) (600 records, 91.8%) and [`data/primary_care_b.csv`](data/primary_care_b.csv) (700 records, 93.4%).
+
+---
 
 ## 🏗️ Neuro-Symbolic Architecture & 5 Tiers
 
@@ -160,27 +203,28 @@ TIER  Med Risk   19 (15.3%)   88 (71.0%)   17 (13.7%)
 
 ### 3. Independent External Clinical Generalizability (3,402 Total Patients)
 
-* **Zenodo Clinical Dataset (Haque et al.):** 1,010 real clinical asthma patients $
-ightarrow$ **92.57% Accuracy** | **0.9420 F1-Score**
-* **Kaggle Multi-Center Demographics (Elkharoua et al.):** 2,392 patients $
-ightarrow$ **96.45% Accuracy** | **0.9580 F1-Score**
+* **Zenodo Clinical Dataset (Haque et al.):** 1,010 real clinical asthma patients →  **92.57% Accuracy** | **0.9420 F1-Score**
+* **Kaggle Multi-Center Demographics (Elkharoua et al.):** 2,392 patients →  **96.45% Accuracy** | **0.9580 F1-Score**
 
 ---
 
 ## 🎛️ Key System Features & Closed-Loop Telemetry
 
-* **3-Step Clinical Onboarding Wizard:**
+* **3-Step Clinical Assessment Wizard:**
   * Step 1: Standardized 5-question GINA symptom survey.
-  * Step 2: Atmospheric telemetry ingestion (auto GPS or presets).
-  * Step 3: Instant calibrated risk gauge (0.0 to 1.0), risk tier breakdown, and care protocol.
+  * Step 2: Atmospheric telemetry ingestion (live GPS or fine-tuned inputs).
+  * Step 3: Instant calibrated risk gauge (0.0 to 1.0), risk tier breakdown, and personalized clinical care protocol.
 * **Smart Inhaler Canister Tracking:**
   * Dynamic actuation countdown from a standard 200-dose canister.
   * Visual canister fill bar, timestamped logging, and low-canister refill alerts.
 * **One-Touch Emergency SOS:**
-  * Pops up automatically when risk score $\ge 0.60$.
+  * Automatically accessible and highlights when risk score $\ge 0.60$.
   * Direct one-touch phone dialer to emergency contact and GPS location broadcasting.
 * **Physician Surveillance Console:**
   * High-level clinical overview of population risk distributions, live telemetry feeds, and alert audit trails.
+  * Printable and downloadable doctor summary PDF generator.
+* **Interactive Research Analytics (EDA):**
+  * Dynamic Chart.js visualizations covering class balance, feature correlations, and algorithmic validation.
 
 ---
 
@@ -188,7 +232,7 @@ ightarrow$ **96.45% Accuracy** | **0.9580 F1-Score**
 
 | Endpoint | Method | Input Payload | Output Response / Description |
 | :--- | :---: | :--- | :--- |
-| `/` | `GET` | None | Serves the interactive Single-Page Application (`web_ui/index.html`). |
+| `/` | `GET` | None | Serves the interactive Single-Page Application (`index.html` / `web_ui/index.html`). |
 | `/predict` | `POST` | Environmental + Clinical JSON features | Returns calculated risk score (0.0–1.0), risk tier, model breakdown, confidence, and Shannon entropy. |
 | `/api/auth/signup` | `POST` | `username`, `email`, `password` | Registers a new patient account with secure password hashing. |
 | `/api/auth/login` | `POST` | `username`, `password` | Authenticates user and initiates session state. |
@@ -198,6 +242,7 @@ ightarrow$ **96.45% Accuracy** | **0.9580 F1-Score**
 | `/use-inhaler` | `POST` | `user_id` | Decrements canister count from 200, logs dosage actuation, and returns remaining doses. |
 | `/api/sos/alert` | `POST` | `user_id`, `lat`, `lon` | Triggers high-priority emergency notification with GPS broadcast. |
 | `/api/admin/overview` | `GET` | None | Returns aggregated population KPIs and recent alert logs for physicians. |
+| `/api/eda_data` | `GET` | None | Delivers structured metrics for the Research Analytics portal. |
 
 ---
 
@@ -211,8 +256,8 @@ ightarrow$ **96.45% Accuracy** | **0.9580 F1-Score**
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/Kabirroy12345/ML_model_aasthma.git
-cd ML_model_aasthma
+git clone https://github.com/Kabirroy12345/HridyaVayu.git
+cd HridyaVayu
 
 # 2. Set up Python virtual environment
 python -m venv venv
@@ -229,44 +274,63 @@ python app.py
 Open your browser and navigate to:  
 👉 **`http://localhost:7860`** (or `http://127.0.0.1:7860`)
 
+> **Alternatively (Instant Static Mode):** You can also directly open `index.html` in any web browser, or view the live deployment at [**https://kabirroy12345.github.io/HridyaVayu/**](https://kabirroy12345.github.io/HridyaVayu/).
+
 ---
 
 ## 📂 Project Structure
 
 ```
-ML_model_aasthma/
-├── app.py                                      # Primary Flask backend & RESTful API routes
-├── asthmai.db                                  # SQLite database (Users, Sensor, Quiz, Alerts, Inhaler)
-├── data_generator.py                           # Multimodal synthetic patient data generator
-├── preprocess.py                               # Z-score normalization & categorical encoders
-├── requirements.txt                            # System Python dependencies
+HridyaVayu/
+├── index.html                                # Primary Single-Page Application (GitHub Pages entrypoint)
+├── app.py                                    # Primary Flask backend & RESTful API routes
+├── asthmai.db                                # SQLite database (Users, Sensor, Quiz, Alerts, Inhaler)
+├── data_generator.py                         # Multimodal synthetic patient data generator
+├── preprocess.py                             # Z-score normalization & categorical encoders
+├── requirements.txt                          # System Python dependencies
+├── run_live.bat                              # One-click Windows batch launcher
+├── run_live.ps1                              # Automated PowerShell background service launcher
 │
-├── figures/                                    # Publication-grade figures & diagrams
-│   ├── dfd_frontend_clean.png                  # Ultra-Crisp 4X Frontend Data Flow Diagram
-│   ├── dfd_backend_clean.png                   # Ultra-Crisp 4X Backend Data Flow Diagram
-│   ├── dfd_ai_model_clean.png                  # Ultra-Crisp 4X AI Model Data Flow Diagram
-│   ├── system_architecture_clean.png           # Ultra-Crisp 4X 5-Tier System Architecture
-│   ├── confusion_matrix_current_model.png       # 300-patient test confusion matrix (22pt bold)
-│   ├── ml_ensemble_architecture.png            # Operational ensemble schematic & safety rails
-│   ├── feature_correlation_heatmap.png         # Pearson correlation coefficient matrix
-│   ├── shap_summary.png                        # Explainable AI SHAP attribution beeswarm
-│   ├── india_asthma_urban_crisis.png           # Lancet burden & CPCB PM2.5 exceedance chart
-│   ├── ui_landing_page.png                     # Implemented web gateway screenshot
-│   ├── ui_results_dashboard.png                # Patient risk assessment dashboard screenshot
-│   └── ui_admin_console.png                    # Physician surveillance console screenshot
+├── web_ui/                                   # Mirrored Frontend Application (Flask template root)
+│   └── index.html                            # Identical Nova Astro luxury SPA implementation
 │
-├── web_ui/                                     # Responsive Frontend Application (SPA)
-│   └── index.html                              # Semantic HTML5 + CSS3 + Vanilla JS + Chart.js
+├── data/                                     # Clinical & atmospheric datasets
+│   ├── dataset.csv                           # Master 2,000-sample multimodal dataset
+│   ├── train.csv                             # Stratified training subset (1,400 samples, 70%)
+│   ├── validation.csv                        # Calibration subset (300 samples, 15%)
+│   ├── test.csv                              # Held-out test subset (300 samples, 15%)
+│   ├── hospital_network_a.csv                # Multi-site clinical validation cohort A (600 records)
+│   └── primary_care_b.csv                    # Multi-site clinical validation cohort B (700 records)
 │
-├── research/                                   # Research validation & experimental scripts
-│   ├── train_models.py                         # Multi-model cross-validation pipeline
-│   ├── explainability.py                       # SHAP attribution computation
-│   ├── verify_hybrid.py                        # GINA safety override empirical testing
-│   └── benchmark_new_sites.py                  # Zenodo & Kaggle generalizability validation
+├── figures/                                  # Publication-grade figures & diagrams
+│   ├── system_architecture_clean.png         # 4X 5-Tier Neuro-Symbolic System Architecture
+│   ├── ml_ensemble_architecture.png          # Operational ensemble schematic & safety rails
+│   ├── confusion_matrix_current_model.png     # 300-patient test confusion matrix
+│   ├── feature_correlation_heatmap.png       # Pearson correlation coefficient matrix
+│   ├── shap_summary.png                      # Explainable AI SHAP attribution beeswarm
+│   ├── india_asthma_urban_crisis.png         # Lancet burden & CPCB PM2.5 exceedance chart
+│   ├── dfd_frontend_clean.png                # Frontend Data Flow Diagram
+│   ├── dfd_backend_clean.png                 # Backend Data Flow Diagram
+│   └── dfd_ai_model_clean.png                # AI Model Data Flow Diagram
 │
-├── HridyaVayu_Capstone_Report_Formatted (3).docx # Official Capstone Phase 1 Document
-├── HridyaVayu_Capstone_Review1_Advanced.pptx   # Master 12-Slide Capstone Review 1 Presentation
-└── HridyaVayu_Capstone_Review1_Rubric_Aligned.pptx # 13-Slide Rubric-Aligned Presentation (Sections A-G)
+├── research/                                 # Research validation & experimental pipelines
+│   ├── train_models.py                       # Multi-model cross-validation pipeline
+│   ├── explainability.py                     # SHAP attribution computation
+│   ├── verify_hybrid.py                      # GINA safety override empirical testing
+│   ├── benchmark_new_sites.py                # Zenodo & Kaggle generalizability validation
+│   └── real_time_aqi.py                      # Open-Meteo CAMS live data integration script
+│
+├── results/                                  # Exported metrics, model weights & verification logs
+│   ├── best_ensemble_model.pkl               # Serialized Soft-Voting Ensemble model
+│   ├── review1_ensemble.pkl                  # Serialized Review 1 snapshot model
+│   ├── cv_results.json                       # 5-Fold stratified cross-validation scores
+│   └── test_results.json                     # Held-out test partition performance logs
+│
+├── assets/                                   # Visual media & high-resolution clinical illustrations
+│   ├── india_urban_air_crisis.jpg            # Urban air crisis photographic banner
+│   └── smart_inhaler.jpg                     # Connected inhaler telemetry illustration
+│
+└── slideshow/                                # Presentation slide visual components
 ```
 
 ---
@@ -281,7 +345,7 @@ ML_model_aasthma/
 | **Pulkit Agrawal** | `23BCE10735` | **System Backend & API Ingestion** | Designed Flask microframework architecture, REST API routes (`/predict`, `/save-profile`, `/upload-sensor-data`), Open-Meteo European CAMS API atmospheric dispersion telemetry ingestion, SQLite relational persistence, and emergency SOS alert dispatch. |
 | **Snehal Baranwal** | `23BCE10479` | **Frontend SPA & Clinical UX** | Engineered responsive Single-Page Application (HTML5/CSS3 Grid/Flexbox), GINA 5-question clinical intake wizard, dynamic Chart.js risk dials, telemetry visualizers, smart inhaler dose counter, and asynchronous native Fetch API integration. |
 | **Snehil Priyam** | `23BCE11200` | **Documentation & Compliance** | Authored formal Capstone Phase 1 academic documentation, formulated functional/non-functional requirements, medical privacy compliance standards, and structured the 27-item IEEE scholarly reference catalog. |
-| **Kabir Roy** | `23BCE10815` | **ML Prediction Logic & Safety** | Developed the Collaborative Soft-Voting Ensemble combining Logistic Regression, Random Forest, and Gradient Boosting; formulated deterministic GINA Step-5 safety override rails ($P \ge 0.88$); implemented Shannon entropy uncertainty quantification and SHAP explainability. |
+| **Kabir Roy** | `23BCE10815` | **ML Prediction Logic & Safety** | Developed the Collaborative Soft-Voting Ensemble combining Logistic Regression, Random Forest, and Gradient Boosting; formulated deterministic GINA Step-5 safety override rails ($P \ge 0.88$); implemented Shannon entropy uncertainty quantification, SHAP explainability, and Nova Astro luxury UI redesign. |
 | **Parshv Keyur Modi** | `23BCE10807` | **Dataset Curation & Training** | Curated 1,000 multimodal clinical & sensor records across synthetic and clinical domains; engineered the 22-dimensional normalized feature vector; implemented 5-fold stratified cross-validation; benchmarked external Zenodo (1,010) and Kaggle (2,392) clinical cohorts. |
 
 ---
