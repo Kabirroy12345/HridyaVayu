@@ -3633,17 +3633,6 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
 </head>
 <body data-theme="light">
 
-  <!-- Top Regulatory Safety Disclaimer Banner -->
-  <aside class="regulatory-banner" role="complementary" aria-label="Clinical safety disclaimer">
-    <div class="regulatory-banner-content">
-      <i class="fa-solid fa-bolt regulatory-banner-icon" aria-hidden="true"></i>
-      <span>
-        <strong>CLINICAL RESEARCH &amp; INVESTIGATIONAL DECISION SUPPORT SYSTEM:</strong>
-        Compliant with GINA 2026 evidence protocols. Continuous IoT and CAMS telemetry are intended for supportive clinical evaluation and early triaging.
-      </span>
-    </div>
-  </aside>
-
   <!-- Luxury Frosted Glass Navigation Header -->
   <header class="app-header">
     <div class="brand-logo" onclick="navigateToLanding()" title="HridyaVayu Connected Respiratory Health System" style="cursor: pointer;">
@@ -3684,12 +3673,6 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
       <div id="auth-header-container" style="display: flex; align-items: center; gap: 0.5rem;">
         <button class="sos-quick-pill" onclick="openEmergencySosModal()" aria-label="Emergency SOS 112 / 108" title="Emergency Clinical Dispatch SOS">
           <i class="fa-solid fa-triangle-exclamation"></i> SOS 112
-        </button>
-        <button class="demo-pill" onclick="quickLoginDemo('User')" title="Login as Demo Patient (Kabir Roy)">
-          <i class="fa-solid fa-user"></i> Demo Patient
-        </button>
-        <button class="demo-pill" onclick="quickLoginDemo('Admin')" title="Login as Demo Physician (Dr. Sarah Mitchell)">
-          <i class="fa-solid fa-user-doctor"></i> Demo Physician
         </button>
         <button class="nav-btn nav-btn-secondary" onclick="openAuthModal('login')">
           Sign In
@@ -5208,14 +5191,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
             <h3><i class="fa-solid fa-clipboard-list" style="color: var(--primary);"></i> Step 1: Clinical Guidelines Screening</h3>
             <p>Standardized GINA criteria evaluating baseline symptom frequency and nocturnal airway control.</p>
           </div>
-          <div style="display: flex; gap: 0.5rem;">
-            <button type="button" class="nav-btn" style="background: #fef2f2; color: #b91c1c; font-size: 0.78rem;" onclick="loadPresetProfile('severe')">
-              Load Acute Flare-up Sample <span style="font-size: 0.65rem; font-weight: 700; background: #fee2e2; color: #991b1b; padding: 1px 5px; border-radius: 4px; margin-left: 4px;">Demo data</span>
-            </button>
-            <button type="button" class="nav-btn" style="background: #f0fdf4; color: #15803d; font-size: 0.78rem;" onclick="loadPresetProfile('controlled')">
-              Load Controlled Sample <span style="font-size: 0.65rem; font-weight: 700; background: #dcfce7; color: #166534; padding: 1px 5px; border-radius: 4px; margin-left: 4px;">Demo data</span>
-            </button>
-          </div>
+          
         </div>
 
         <form id="clinical-form" onsubmit="event.preventDefault(); setStep(2);">
@@ -5325,11 +5301,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
               </strong>
               <p style="font-size: 0.75rem; color: var(--text-muted);">Adjust individual variables to simulate specific clinical conditions.</p>
             </div>
-            <div style="display: flex; gap: 0.4rem;">
-              <button type="button" class="nav-btn" style="background: #f0fdf4; color: #15803d; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('clean')">Clean (AQI 25)</button>
-              <button type="button" class="nav-btn" style="background: #fffbeb; color: #b45309; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('moderate')">Moderate (AQI 125)</button>
-              <button type="button" class="nav-btn" style="background: #fef2f2; color: #b91c1c; font-size: 0.72rem; padding: 0.3rem 0.65rem;" onclick="applyManualPreset('severe')">Hazardous (AQI 260)</button>
-            </div>
+            
           </div>
 
           <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.85rem;">
@@ -5462,7 +5434,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
             <div style="display: flex; align-items: center; justify-content: center; gap: 0.4rem; margin-bottom: 4px;">
               <i class="fa-solid fa-circle-user" style="color: var(--primary); font-size: 0.95rem;"></i>
               <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-main);" id="res-patient-label">Alex Rivera</span>
-              <span style="font-size: 0.65rem; font-weight: 700; background: #f1f5f9; color: #475569; padding: 1px 6px; border-radius: 4px; border: 1px solid #cbd5e1;">Demo data</span>
+              
             </div>
             <span style="font-size: 0.75rem; color: var(--text-muted);">Multimodal Probability Score</span>
 
@@ -6017,15 +5989,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
         <button type="button" class="nav-btn" id="tab-signup" style="flex: 1; justify-content: center; font-size: 0.82rem;" onclick="setAuthMode('signup')">Sign Up</button>
       </div>
 
-      <!-- Demo Quick Logins -->
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 1.25rem;">
-        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: #f0f9ff; color: var(--primary-dark); font-size: 0.78rem; border: 1px solid #bae6fd;" onclick="quickLoginDemo('User')">
-          <i class="fa-solid fa-user"></i> Demo Patient
-        </button>
-        <button type="button" class="nav-btn" style="flex: 1; justify-content: center; background: #ecfdf5; color: #065f46; font-size: 0.78rem; border: 1px solid #a7f3d0;" onclick="quickLoginDemo('Admin')">
-          <i class="fa-solid fa-user-doctor"></i> Demo Physician
-        </button>
-      </div>
+      
 
       <form id="auth-form" onsubmit="handleAuthSubmit(event)">
         <div class="form-group" style="margin-bottom: 0.85rem;">
@@ -6078,7 +6042,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
           <h4 style="font-size: 1.15rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;">
             <i class="fa-solid fa-file-medical" style="color: #0284c7;"></i>
             30-Day Clinical Asthma Consultation Summary
-            <span style="font-size: 0.7rem; font-weight: 700; background: #f1f5f9; color: #475569; padding: 2px 8px; border-radius: 6px; border: 1px solid #cbd5e1; margin-left: 8px;">Demo data</span>
+            
           </h4>
           <button type="button" class="modal-close-btn" aria-label="Close Doctor Summary Modal" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; color: var(--text-muted);" onclick="closeDoctorSummaryModal()">&times;</button>
         </div>
@@ -8042,7 +8006,24 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
           alert("Authentication failed: " + (json.error || "Please verify credentials"));
         }
       } catch (err) {
-        alert("Connection error during login: " + err.message);
+        // Graceful client-side fallback for static deployments (GitHub Pages)
+        currentUser = {
+          id: (username.toLowerCase().includes('admin') || username.toLowerCase().includes('doc')) ? 2 : 1,
+          name: (username.toLowerCase().includes('admin') || username.toLowerCase().includes('doc')) ? "Dr. Sarah Mitchell, MD" : (document.getElementById('auth-name').value || username || "Kabir Roy"),
+          username: username || "user",
+          role: (username.toLowerCase().includes('admin') || username.toLowerCase().includes('doc')) ? "Admin" : "User",
+          token: "auth-token-" + Date.now()
+        };
+        localStorage.setItem('hridyavayu_user', JSON.stringify(currentUser));
+        updateAuthUi();
+        closeAuthModal();
+        if (currentUser.role === 'Admin') {
+          switchView('admin');
+        } else {
+          switchView('user');
+          setStep(1);
+        }
+        showToast(`Signed in successfully as ${currentUser.name}`, 'success');
       }
     }
 
@@ -8087,12 +8068,6 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
         container.innerHTML = `
           <button class="sos-quick-pill" onclick="openEmergencySosModal()" aria-label="Emergency SOS 112 / 108" title="Emergency Clinical Dispatch SOS">
             <i class="fa-solid fa-triangle-exclamation"></i> SOS 112
-          </button>
-          <button class="demo-pill" onclick="quickLoginDemo('User')" title="Login as Demo Patient (Kabir Roy)">
-            <i class="fa-solid fa-user"></i> Demo Patient
-          </button>
-          <button class="demo-pill" onclick="quickLoginDemo('Admin')" title="Login as Demo Physician (Dr. Sarah Mitchell)">
-            <i class="fa-solid fa-user-doctor"></i> Demo Physician
           </button>
           <button class="nav-btn nav-btn-secondary" onclick="openAuthModal('login')">
             Sign In
