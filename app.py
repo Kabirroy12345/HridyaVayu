@@ -13,7 +13,12 @@ import pandas as pd
 import requests
 from datetime import datetime
 from flask import Flask, request, jsonify, render_template, send_from_directory
-from flask_cors import CORS
+try:
+    from flask_cors import CORS
+except ImportError:
+    class MockCORS:
+        def __init__(self, *args, **kwargs): pass
+    CORS = MockCORS
 
 from models import db, User, SensorData, Alert, QuizResponse
 
@@ -217,6 +222,20 @@ def serve_assets(filename):
 @app.route("/figures/<path:filename>")
 def serve_figures(filename):
     return send_from_directory(os.path.join(app.root_path, "figures"), filename)
+
+@app.route("/slideshow/<path:filename>")
+def serve_slideshow(filename):
+    return send_from_directory(os.path.join(app.root_path, "slideshow"), filename)
+
+@app.route("/api/health", methods=["GET"])
+@app.route("/health", methods=["GET"])
+def health_check():
+    return jsonify({
+        "status": "healthy",
+        "service": "HridyaVayu Connected Asthma Decision Support System",
+        "timestamp": datetime.utcnow().isoformat(),
+        "models_loaded": review1_package is not None
+    })
 
 # ==================== AUTHENTICATION & PROFILE ROUTES ====================
 
