@@ -12,6 +12,10 @@
 [![Chart.js](https://img.shields.io/badge/Chart.js-4.4+-FF6384?style=for-the-badge&logo=chartdotjs&logoColor=white)](https://www.chartjs.org/)
 [![SQLite](https://img.shields.io/badge/SQLite-3.0+-003B57?style=for-the-badge&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![GitHub Pages Live Demo](https://img.shields.io/badge/Live_Demo-GitHub_Pages-2ea44f?style=for-the-badge&logo=github&logoColor=white)](https://kabirroy12345.github.io/HridyaVayu/)
+[![UI Design](https://img.shields.io/badge/UI_Design-Nova_Astro_Luxury-b98b6e?style=for-the-badge&logo=medtech&logoColor=white)](https://kabirroy12345.github.io/HridyaVayu/)
+
+### 🌐 [Click Here to View the Interactive Live Web Demo (GitHub Pages)](https://kabirroy12345.github.io/HridyaVayu/)
 
 **VIT Bhopal University • Capstone Phase 1 (Review 1) • Group — 147**  
 *Supervised by: Dr. Ajeet Singh*
@@ -90,8 +94,10 @@ The project leverages a **rigorously partitioned 2,000-sample multimodal dataset
 * **10 Non-Linear Engineered Interaction Terms:** Pollution Severity Index, PM2.5/AQI ratio, Gaseous Toxicity ($NO_2 + SO_2$), Thermal-Humidity Strain Index, Cold-Dry Airway Irritation, and Clinical Exposure Multipliers.
 
 ### 3. Independent External Clinical Cohorts (3,402 Patients)
-* **Zenodo Clinical Benchmark (Haque et al.):** **1,010 real clinical patients** $ightarrow$ **92.57% Accuracy**
-* **Kaggle Multi-Center Demographics (Elkharoua et al.):** **2,392 diverse patient records** $ightarrow$ **96.45% Accuracy**
+* **Zenodo Clinical Benchmark (Haque et al.):** **1,010 real clinical patients** $
+ightarrow$ **92.57% Accuracy**
+* **Kaggle Multi-Center Demographics (Elkharoua et al.):** **2,392 diverse patient records** $
+ightarrow$ **96.45% Accuracy**
 * **Hospital Network A & Primary Care B:** [`data/hospital_network_a.csv`](data/hospital_network_a.csv) (600 records, 91.8%) and [`data/primary_care_b.csv`](data/primary_care_b.csv) (700 records, 93.4%).
 
 ## 🏗️ Neuro-Symbolic Architecture & 5 Tiers
