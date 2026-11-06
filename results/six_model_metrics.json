@@ -1,0 +1,39 @@
+{
+  "base_models": {
+    "XGBoost": {
+      "accuracy": 0.73,
+      "f1_score": 0.7180209954701164,
+      "roc_auc": 0.8363495506717054
+    },
+    "LightGBM": {
+      "accuracy": 0.74,
+      "f1_score": 0.735070739379641,
+      "roc_auc": 0.8379233520524135
+    },
+    "Random Forest": {
+      "accuracy": 0.7266666666666667,
+      "f1_score": 0.7119820426487092,
+      "roc_auc": 0.8222263214192722
+    },
+    "Gradient Boosting": {
+      "accuracy": 0.7,
+      "f1_score": 0.695820203892493,
+      "roc_auc": 0.8186518215916847
+    },
+    "Extra Trees": {
+      "accuracy": 0.7133333333333334,
+      "f1_score": 0.7027398188986574,
+      "roc_auc": 0.8172038725976594
+    },
+    "MLP Neural Net": {
+      "accuracy": 0.7433333333333333,
+      "f1_score": 0.7356954332973751,
+      "roc_auc": 0.8384838600713577
+    }
+  },
+  "stacking": {
+    "accuracy": 0.75,
+    "f1_score": 0.7450577747299846,
+    "roc_auc": 0.8488236799881773
+  }
+}
