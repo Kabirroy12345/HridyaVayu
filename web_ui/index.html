@@ -6157,7 +6157,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
   <script>
 
     // ========================================================
-    // IN-BROWSER DIGITAL TWIN & AUTONOMOUS AGENT ENGINE
+    // IN-BROWSER CLINICAL PREDICTION & MONITORING ENGINE
     // Provides 100% dynamic in-silico simulation & offline resilience
     // ========================================================
     function getStoredItem(key, defaultVal) {
@@ -6218,7 +6218,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
 
       const cleanUrl = url.split('?')[0];
 
-      // 1. (removed: Digital Twin State)
+      // 1. Removed simulator state
       if (false && cleanUrl.includes('/api/digital-twin/state/')) { // removed
         const aqi = (window.envData && window.envData.AQI) || 125;
         const pm25 = (window.envData && window.envData.PM25) || 48.5;
@@ -6275,7 +6275,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
         });
       }
 
-      // 2. Digital Twin What-If Simulation (removed)
+      // 2. Removed simulator simulation
       if (false && cleanUrl.includes('/api/digital-twin/what-if/')) {
         const scenarios = body.scenarios || [];
         const firstSc = scenarios[0] || {};
@@ -6360,7 +6360,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
         } else if (query.includes('inhaler') || query.includes('puff') || query.includes('medicine')) {
           reply = "Adhere strictly to your physician-prescribed regimen (Budesonide/Formoterol 200/6mcg twice daily). Use your fast-acting reliever (Albuterol) at the first sign of chest tightness or wheezing.";
         } else {
-          reply = "HridyaVayu is monitoring your cardiopulmonary digital twin. Current baseline is stable. Remember to keep indoor HEPA air filtration active and consult your physician before altering controller dosages.";
+          reply = "HridyaVayu is monitoring your cardiopulmonary respiratory status. Current baseline is stable. Remember to keep indoor HEPA air filtration active and consult your physician before altering controller dosages.";
         }
 
         return createJsonResponse({
@@ -7916,17 +7916,6 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
         btnSubmit.innerText = 'Sign In';
         title.innerText = 'Sign In to HridyaVayu';
       }
-    };
-      localStorage.setItem('hridyavayu_user', JSON.stringify(currentUser));
-      updateAuthUi();
-      closeAuthModal();
-
-      // Show toast or smooth switch
-      if (isDoc) {
-        switchView('admin');
-      } else {
-        switchView('user'); setStep(1);;
-      }
     }
 
     async function handleAuthSubmit(e) {
@@ -8203,7 +8192,7 @@ Attending Pulmonologist: Dr. Sarah Mitchell, MD &bull; Reg: #MC-DEL-4418
 
     // Guarantee alias for prediction function
     if (typeof runHridyaVayuPrediction === 'function') {
-      window.runPulmoTwinPrediction = runHridyaVayuPrediction;
+      // runPulmoTwinPrediction alias removed
     }
 
     // Initialize application on DOM ready
