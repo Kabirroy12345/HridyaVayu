@@ -15,7 +15,7 @@ env/
 *.exe
 cloudflared*
 
-# Reports, documents & presentations (tracked in backup)
+# Reports, documents & presentations
 *.docx
 *.pptx
 *.pdf
@@ -25,3 +25,6 @@ figures/*.pdf
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Local untracked scratch/backups
+data/dataset_original.csv

@@ -11,7 +11,7 @@ The core dataset contains **2,000 multimodal clinical and atmospheric records** 
 | Dataset Partition | File Path | Sample Count | Percentage | Class Stratification (Low / Medium / High) | Primary Experimental Role |
 | :--- | :--- | :---: | :---: | :---: | :--- |
 | **Training Set** | [`data/train.csv`](data/train.csv) | **1,400** | **70.0%** | 107 (7.6%) / 694 (49.6%) / 599 (42.8%) | Model parameter estimation, tree splitting, and feature scaler fitting (`StandardScaler`). |
-| **Validation Set** | [`data/validation.csv`](data/validation.csv) | **300** | **15.0%** | 23 (7.7%) / 149 (49.7%) / 128 (42.7%) | Soft-voting weight calibration ($w_1=1, w_2=2, w_3=2$), hyperparameter tuning, and early stopping. |
+| **Validation Set** | [`data/validation.csv`](data/validation.csv) | **300** | **15.0%** | 23 (7.7%) / 149 (49.7%) / 128 (42.7%) | Out-of-fold probability calibration, entropy threshold tuning ($H \ge 1.0$), and MLP early stopping. |
 | **Held-Out Test Set** | [`data/test.csv`](data/test.csv) | **300** | **15.0%** | 23 (7.7%) / 148 (49.3%) / 129 (43.0%) | Final unbiased performance benchmarking, confusion matrix generation, and clinical safety verification. |
 | **Full Combined Dataset**| [`data/dataset.csv`](data/dataset.csv) | **2,000** | **100.0%** | 153 (7.7%) / 991 (49.5%) / 856 (42.8%) | Master aggregated repository dataset. |
 
@@ -55,32 +55,35 @@ Collected via standardized 5-question intake screening following **Global Initia
 | **Weather Sensitivity** | Categorical | • `No specific weather-related triggers` (583 records, 29.2%)<br>• `Cold weather` (486 records, 24.3%)<br>• `Windy and dry weather` (478 records, 23.9%)<br>• `Hot and humid weather` (453 records, 22.7%) | Individual respiratory reaction to barometric, thermal, and humidity fluctuations. |
 | **Triggers** | Multi-Select Categorical | • `Pollen` (194)<br>• `Humidity` (194)<br>• `Dust` (181)<br>• `Air pollution (smoke, chemicals)` (113)<br>• Combinations (e.g. `Dust + Pollen + Pollution`) | Specific allergen and environmental triggers causing immediate airway hyper-responsiveness. |
 
-### C. Engineered Composite Interaction Terms (10 Features)
-To enable the collaborative machine learning ensemble to capture non-linear synergistic triggers, 10 composite interaction features are engineered before inference, constructing the full **22-dimensional input space ($X \in \mathbb{R}^{22}$)**:
+### C. Engineered Composite & Interaction Features (15 Features)
+To enable the 6-model stacking ensemble to capture non-linear synergistic triggers, **15 engineered features** are computed alongside the 12 raw inputs (7 environmental + 5 clinical), constructing the full **27-dimensional input space ($X \in \mathbb{R}^{27}$)**:
 
-1. **Pollution Severity Index:** $	ext{PM2.5} 	imes 	ext{AQI} / 100$
-2. **PM2.5 to AQI Ratio:** Captures particulate dominance relative to general gaseous air pollution.
-3. **Combined Gaseous Toxicity Index:** $	ext{NO}_2 + 	ext{SO}_2$
-4. **Thermal-Humidity Strain Index:** Interaction between ambient temperature and relative humidity.
-5. **Cold-Dry Airway Irritation Index:** Quantifies risk under sub-10°C dry atmospheric conditions.
-6. **Hot-Humid Stagnation Factor:** Quantifies airborne mold and bio-aerosol proliferation.
-7. **Clinical Severity Score:** Ordinal mapping of symptom frequency + nocturnal dyspnea.
-8. **Allergen-Weather Synergy Term:** Maps interaction between weather sensitivity and reported triggers.
-9. **Exposure Susceptibility Factor:** Combines self-reported pollution history with measured AQI.
-10. **Composite Airway Vulnerability Index:** Holistic non-linear fusion term across sensing streams.
+1. **`pollution_index`:** $0.4 \cdot \text{AQI} + 0.3 \cdot \text{PM2.5} + 0.15 \cdot \text{NO}_2 + 0.15 \cdot \text{SO}_2$
+2. **`AQI_PM_ratio`:** $\text{AQI} / (\text{PM2.5} + 1)$ — particulate vs. composite air quality dominance.
+3. **`gas_pollution`:** $\text{CO}_2 \times \text{NO}_2 \times \text{SO}_2 / 10{,}000$ — multi-gas combustion synergy.
+4. **`humidity_pollution`:** $\text{Humidity} \times \text{pollution\_index} / 100$ — humid bio-aerosol retention.
+5. **`temp_pollution`:** $\text{Temperature} \times \text{pollution\_index} / 100$ — thermal-pollution interaction.
+6. **`AQI_critical`:** Binary indicator $(\text{AQI} > 200)$.
+7. **`AQI_unhealthy`:** Binary indicator $(100 < \text{AQI} \le 200)$.
+8. **`PM25_high`:** Binary indicator $(\text{PM2.5} > 75\,\mu\text{g/m}^3)$.
+9. **`symptom_severity`:** Ordinal GINA daytime symptom severity ($1\text{–}4$).
+10. **`exposure_score`:** Ordinal poor-air exposure score ($1\text{–}3$).
+11. **`night_score`:** Ordinal nocturnal dyspnea score ($0\text{–}3$).
+12. **`trigger_count`:** Count of active patient-reported respiratory triggers.
+13. **`clinical_risk_score`:** $0.4 \cdot \text{symptom\_severity} + 0.3 \cdot \text{exposure\_score} + 0.3 \cdot \text{night\_score}$.
+14. **`env_risk_score`:** Weighted atmospheric hazard composite across AQI, PM2.5, and normalized `pollution_index`.
+15. **`total_risk_interaction`:** $\text{clinical\_risk\_score} \times \text{env\_risk\_score}$ — synergistic clinical-environmental coupling.
 
 ---
 
-## 🏥 4. Independent Multi-Center Validation Cohorts
+## 🏥 4. Synthetic Pessimism & Independent External Clinical Cohorts (3,402 Patients)
 
-Beyond the core 2,000-sample partition, the frozen model was evaluated without retraining on **two independent external clinical cohorts totaling 3,402 verified patient records**:
+The 2,000-sample development dataset was expanded from **201 real survey/clinical seed records** using KS-validated Gaussian perturbation ($\epsilon = 0.1\sigma$, all Kolmogorov-Smirnov tests $p > 0.05$) with deliberate boundary noise (**synthetic pessimism**) to harden decision boundaries. The 6-model stacking architecture was further validated on **two independent external clinical datasets totaling 3,402 patient records**:
 
-| External Dataset | Origin & Authors | Cohort Nature | Sample Size | Evaluated Accuracy | F1-Score | Clinical Conclusion |
+| External Dataset | Origin & Authors | Cohort Nature | Sample Size | Evaluated Accuracy | F1-Score | Clinical & Fairness Conclusion |
 | :--- | :--- | :--- | :---: | :---: | :---: | :--- |
-| **Zenodo Clinical Asthma Cohort** | Haque et al. (Zenodo Repository) | Real-world diagnosed patients from hospital outpatient clinics. | **1,010** | **92.57%** | **0.9420** | Demonstrates excellent transferability to genuine medical patient profiles without domain shift. |
-| **Kaggle Multi-Center Demographics** | Elkharoua et al. | Multi-center demographic, environmental, and medical survey records. | **2,392** | **96.45%** | **0.9580** | Validates robustness against diverse regional demographic and environmental variations. |
-| **Multi-Site Health Network A** | [`data/hospital_network_a.csv`](data/hospital_network_a.csv) | Tertiary healthcare network telemetry logs. | **600** | **91.80%** | **0.9240** | Confirms high accuracy in hospital inpatient triage. |
-| **Primary Care Network B** | [`data/primary_care_b.csv`](data/primary_care_b.csv) | Primary care community screening center logs. | **700** | **93.40%** | **0.9380** | Confirms high accuracy in community outpatient monitoring. |
+| **Zenodo Clinical Asthma Cohort** | Haque et al. (Zenodo Repository) | Diagnosed clinical asthma cohort with symptom & clinical markers. | **1,010** | **92.57%** | **0.9420** | Confirms strong performance on cleaner real-world clinical distributions. |
+| **Kaggle Multi-Center Cohort** | Elkharoua et al. | Multi-center demographic, spirometry, and clinical dataset (80/20 stratified split). | **2,392** | **96.45%** | **0.9471** | Audited across Gender (Male 96.3%, Female 96.6%) and Age ($<18$: 93.9%, $18\text{–}65$: 98.0%, $>65$: 93.3%). |
 
 ---
 

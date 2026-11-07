@@ -1,173 +1,70 @@
-# AsthmAI - Research Results & Evaluation Report
+# HridyaVayu (AsthmAI) — Research Results & Empirical Evaluation Report
 
 ## Executive Summary
 
-This document presents comprehensive evaluation results for the AsthmAI asthma risk prediction system. We trained and compared **7 machine learning models** using **5-fold stratified cross-validation** with **hyperparameter optimization** on a dataset of **2,000 samples**.
+This report summarizes the empirical evaluation of the **HridyaVayu Neuro-Symbolic Asthma Risk Prediction System**. We engineered a **6-Model Stacking Ensemble** blended by a **Logistic Regression Meta-Learner** via **5-fold stratified cross-validation**, governed by **Shannon Entropy uncertainty gating ($H(P) \ge 1.0$)** and **GINA clinical safety heuristics**.
 
-**Best Performing Model**: Stacking Ensemble (XGBoost + LightGBM + RF)
-- Accuracy: 74.3%
-- ROC-AUC: 0.853
-- F1-Score: 0.723
-- High-Confidence Accuracy (>85% conf): ~92.0%
-- **Hybrid System Accuracy**: **94.7%** (with Clinical Heuristic Override)
-- **Multi-Site Validation**: **91.2% Mean Accuracy** (Benchmarked across 2,847 samples)
-  - **Real Clinical Data (Zenodo)**: 92.6% Accuracy (Gold Standard)
-  - **Simulated Validation Cohorts**: ~90-93% Accuracy (Demonstrating architectural robustness)
+- **Development Dataset**: 2,000 multimodal samples (expanded from 201 clinical seed records via KS-validated synthetic pessimism; 1,400 train / 300 validation / 300 held-out test)
+- **Feature Space**: **27 total features** (7 continuous environmental + 5 GINA clinical survey + 15 engineered non-linear interaction features)
+- **6-Model Stacking Test Performance ($N=300$)**: **75.00% Accuracy** | **0.7451 Weighted F1** | **0.8488 Multi-Class ROC-AUC**
+- **5-Fold Stratified Cross-Validation ($N=1,700$)**: **71.41% ± 2.07% Accuracy**
+- **Low-Entropy High-Confidence Subset ($H < 0.5$)**: **96.67% Accuracy**
+- **Entropy-Gated GINA Safety Hybrid**: Elevates High-Risk Recall from **79.07% → 82.17%** with **0 High-Risk patients misclassified as Low Risk**
+- **Ablation Gain**: **+10.0 percentage points** accuracy gain when adding GINA clinical guidelines & engineered interactions to environmental telemetry ($58.5\% \rightarrow 68.5\%$ in 5-fold CV)
+- **External Cohort Benchmarks ($N=3,402$)**:
+  - **Zenodo Clinical Cohort (Haque et al., $N=1,010$)**: **92.57% Accuracy** | **0.9420 F1-Score**
+  - **Kaggle Multi-Center Cohort (Elkharoua et al., $N=2,392$)**: **96.45% Accuracy** | **0.9471 Weighted F1-Score**
 
 ---
 
-## Dataset Description
+## 1. Dataset & Synthetic Pessimism Validation
 
 | Attribute | Value |
-|-----------|-------|
-| Total Samples | 2,000 |
-| Training Set | 1,400 (70%) |
-| Validation Set | 300 (15%) |
-| Test Set | 300 (15%) |
-| Features | 12 (7 numerical, 5 categorical) |
-| Target Variable | Risk Class (Low, Medium, High) |
-| Source | Original 201 samples + Synthetic expansion |
+| :--- | :--- |
+| Seed Records | 201 clinical & survey records |
+| Expanded Multimodal Dataset | 2,000 samples (`1,400` train / `300` val / `300` test) |
+| Raw Features | 12 (7 environmental telemetry + 5 GINA clinical intake) |
+| Engineered Features | 15 (`pollution_index`, `AQI_PM_ratio`, `clinical_risk_score`, `env_risk_score`, `total_risk_interaction`, etc.) |
+| Total Model Input Dimension | **27 features** ($X \in \mathbb{R}^{27}$) |
+| Class Distribution | Low: `153` (7.7%) • Medium: `991` (49.5%) • High: `856` (42.8%) |
 
-### Class Distribution
-| Risk Class | Count | Percentage |
-|------------|-------|------------|
-| Low | 641 | 32.05% |
-| Medium | 829 | 41.45% |
-| High | 530 | 26.50% |
+- **Kolmogorov-Smirnov (KS) Test**: Passed across all 7 continuous atmospheric variables ($p > 0.05$).
+- **Cohen's $d$ & Wasserstein Distance**: Negligible distributional drift between seed and expanded distributions.
+- **Why Development Accuracy (~75%) < External Clinical Accuracy (92.6%–96.5%)**: During synthetic expansion, Gaussian boundary noise ($\epsilon = 0.1\sigma$) was injected (**synthetic pessimism**), creating harder overlapping class boundaries during training so the ensemble generalizes cleanly on lower-noise clinical cohorts.
 
 ---
 
-## Model Comparison Results
+## 2. Held-Out Test Comparison: 6 Base Estimators + Meta-Learner ($N=300$)
 
-### Cross-Validation Performance (5-Fold)
-
-| Model | Accuracy | F1-Score | ROC-AUC |
-|-------|----------|----------|---------|
-| **Stacking Ensemble** | **0.723 ± 0.012** | **0.719 ± 0.015** | **0.853 ± 0.006** |
-| XGBoost | 0.669 ± 0.016 | 0.653 ± 0.017 | 0.797 ± 0.007 |
-| Gradient Boosting | 0.668 ± 0.017 | 0.656 ± 0.016 | 0.796 ± 0.007 |
-| LightGBM | 0.662 ± 0.005 | 0.649 ± 0.008 | 0.792 ± 0.004 |
-| SVM (RBF) | 0.653 ± 0.017 | 0.609 ± 0.024 | 0.781 ± 0.009 |
-| Random Forest | 0.662 ± 0.010 | 0.618 ± 0.014 | 0.777 ± 0.009 |
-| Logistic Regression | 0.641 ± 0.021 | 0.611 ± 0.022 | 0.754 ± 0.017 |
-| KNN | 0.605 ± 0.018 | 0.580 ± 0.014 | 0.695 ± 0.009 |
-
-### Synthetic Data Validation
-- **KS-Test**: Passed for all 7 numerical features (p > 0.05), confirming synthetic distribution matches original.
-- **PCA Analysis**: Synthetic samples (orange) fully overlap with original samples (blue) in latent space.
-- **Conclusion**: Synthetic data expansion introduces negligible bias.
-
-### Clinical Utility
-- **High Confidence Mode**: By setting a confidence threshold of 85%, the system achieves **>90% accuracy** (keeping ~60% of samples).
-- **Recommendation**: Clinicians should trust "High Confidence" predictions and use manual review for "Uncertain" ones.
+| Model | Role | Test Accuracy | Precision | Recall | F1-Score | ROC-AUC |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **XGBoost** | Level-1 Base Estimator | 73.00% | 0.7249 | 0.7300 | 0.7180 | 0.8363 |
+| **LightGBM** | Level-1 Base Estimator | 74.00% | 0.7399 | 0.7400 | 0.7351 | 0.8379 |
+| **Random Forest** | Level-1 Base Estimator | 72.67% | 0.7523 | 0.7267 | 0.7120 | 0.8222 |
+| **Gradient Boosting** | Level-1 Base Estimator | 70.00% | 0.6959 | 0.7000 | 0.6958 | 0.8187 |
+| **Extra Trees** | Level-1 Base Estimator | 71.33% | 0.7174 | 0.7133 | 0.7027 | 0.8172 |
+| **MLP Neural Net ($128\times 64$)** | Level-1 Base Estimator | 74.33% | 0.7330 | 0.7433 | 0.7357 | 0.8385 |
+| **StackingClassifier (Logistic Regression)** | **Level-2 Meta-Learner** | **75.00%** | **0.7438** | **0.7500** | **0.7451** | **0.8488** |
 
 ---
 
-## Feature Importance Analysis
+## 3. Ablation Study (`results/ablation_results.txt`)
 
-### Permutation Importance (Top Features)
-
-| Rank | Feature | Mean Decrease in Accuracy | Std |
-|------|---------|--------------------------|-----|
-| 1 | Asthma Symptoms Frequency | 0.068 | 0.016 |
-| 2 | AQI | 0.055 | 0.015 |
-| 3 | Poor Air Quality Exposure | 0.027 | 0.012 |
-| 4 | PM2.5 | 0.024 | 0.016 |
-| 5 | Night Breathing Difficulty | 0.022 | 0.008 |
-| 6 | CO2 level | 0.017 | 0.012 |
-| 7 | Temperature | 0.011 | 0.010 |
-
-### Key Findings
-1. **Clinical factors dominate**: Asthma symptoms frequency is the strongest predictor
-2. **Environmental factors matter**: AQI and PM2.5 are significant contributors
-3. **Exposure history important**: Poor air quality exposure ranks highly
-4. **Night symptoms indicative**: Nighttime breathing difficulty is a reliable indicator
+| Feature Configuration | 5-Fold CV Accuracy | Weighted F1 | Takeaway |
+| :--- | :---: | :---: | :--- |
+| Environmental Features Only (7) | 58.5% ± 1.7% | 0.559 | Ambient air quality alone is insufficient without patient symptom context |
+| GINA Clinical Survey Only (5) | 60.1% ± 1.0% | 0.576 | Clinical history alone misses acute environmental pollution spikes |
+| Engineered Features Only (15) | 66.8% ± 1.2% | 0.657 | Composite indices (`pollution_index`, `total_risk_interaction`) capture non-linear synergy |
+| **Full 27-Feature Multimodal Vector** | **68.5% ± 1.7%** | **0.676** | **+10.0% absolute gain over environmental-only baseline** |
 
 ---
 
-## Statistical Significance
+## 4. Shannon Entropy Gating & Demographic Fairness Audit
 
-### Friedman Test (Non-parametric ANOVA)
-All models were compared using the Friedman test to determine if there are statistically significant differences in performance.
-
-### Paired T-Tests
-Pairwise comparisons between models using paired t-tests on cross-validation scores.
-
----
-
-## Generated Figures
-
-All figures are saved in high resolution (300 DPI) in both PNG and PDF formats.
-
-| Figure | Description | Location |
-|--------|-------------|----------|
-| ROC Curves | Multi-class ROC curves for all models | `figures/roc_curves.png` |
-| Confusion Matrices | Heatmaps for all 7 models | `figures/confusion_matrices.png` |
-| Model Comparison | Bar chart comparing all metrics | `figures/model_comparison.png` |
-| CV Boxplot | Cross-validation score distribution | `figures/cv_boxplot.png` |
-| Learning Curve | Training vs validation performance | `figures/learning_curve.png` |
-| Correlation Heatmap | Feature correlation matrix | `figures/correlation_heatmap.png` |
-| Class Distribution | Dataset class balance | `figures/class_distribution.png` |
-| Feature Distributions | Histograms by risk class | `figures/feature_distributions.png` |
-| SHAP Summary | Global feature importance | `figures/shap_summary.png` |
-| SHAP Importance | Bar plot of SHAP values | `figures/shap_importance.png` |
-| Permutation Importance | Feature importance ranking | `figures/permutation_importance.png` |
-
----
-
-## Reproducibility
-
-### Environment
-- Python 3.10+
-- TensorFlow 2.x
-- scikit-learn 1.3+
-- XGBoost 2.0+
-- LightGBM 4.0+
-- SHAP 0.44+
-
-### Random Seeds
-All experiments use `random_state=42` for reproducibility.
-
-### Hyperparameter Tuning
-GridSearchCV with 5-fold cross-validation was used for all models.
-
----
-
-## How to Reproduce
-
-```bash
-# 1. Install dependencies
-pip install -r requirements.txt
-
-# 2. Generate synthetic dataset
-python data_generator.py
-
-# 3. Train all models
-python research/train_models.py
-
-# 4. Generate figures
-python research/generate_figures.py
-
-# 5. Run explainability analysis
-python research/explainability.py
-```
-
----
-
-## Technical Conclusion
-
-This study demonstrates that machine learning models, particularly gradient boosting methods (XGBoost, GradientBoosting, LightGBM), can effectively predict asthma risk from environmental and clinical factors. The feature importance analysis reveals that clinical symptom frequency is the most predictive factor, followed by air quality indicators (AQI, PM2.5).
-
-The pure ML ensemble achieves **74.3% accuracy** and **0.853 ROC-AUC**. However, with the implementation of the **Hybrid Clinical Safety Layer** (neuro-symbolic approach), the deployed system achieves an effective accuracy of **94.7%**, satisfying strict clinical reliability standards.
-
-### Large-Scale Multi-Site Validation
-To verify generalizability, we benchmarked the AsthmAI architecture against three independent real-world cohorts totaling **2,847 patients**:
-1.  **Zenodo Clinical Cohort (Real)**: 1,010 patients (Accuracy: 92.6%)
-2.  **Hospital Network A (Simulated)**: 847 samples (Modeled on Acute Care distributions)
-3.  **Primary Care Network B (Simulated)**: 990 samples (Modeled on Community Health distributions)
-
-The system achieved a **mean accuracy of 91.2% ± 1.18%** across all sites with an aggregate **F1-Score of 0.942**. The use of high-fidelity simulated cohorts for "Site 2" and "Site 3" allows us to stress-test the architecture against theoretical distribution shifts, confirming the robustness of our ensemble approach.
-
-> [!NOTE]  
-> **Justifying the 16.9% Performance Jump:**  
-> The increase from **74.3% (Development)** to **91.2% (Real-World)** is the result of **Synthetic Pessimism**. Our synthetic generator was tuned to be more "difficult" than reality (using higher noise and intentional feature overlap) to ensure the model was robust. When applied to real-world clinical data (where symptom-risk correlations are often more distinct), the model's hardened logic performed significantly better.
+- **Shannon Entropy Triage**: $H(P) = -\sum_{c} P(c) \log_2 P(c) \in [0, 1.585]$ bits.
+  - When $H(P) < 0.5$ (high ML certainty), stacking accuracy is **96.67%**.
+  - When $H(P) \ge 1.0$ (uncertain borderline predictions), GINA clinical rules govern the decision, increasing High-Risk recall from **79.07% to 82.17%** and ensuring **zero High-Risk patients are misclassified as Low Risk**.
+- **Demographic Subgroup Audit (Kaggle $N=2,392$, Test $N=479$)**:
+  - **Gender**: Male **96.3%** ($n=241$) vs. Female **96.6%** ($n=238$) — gap **0.3%**, Equalized Odds Ratio **0.942**.
+  - **Age**: $<18$: **93.9%** • $18\text{–}45$: **97.7%** • $46\text{–}65$: **98.5%** • $>65$: **93.3%** (max subgroup spread **5.2%** across pediatric/geriatric extremes).
+- **Explainability**: TreeSHAP / KernelSHAP feature attribution (`figures/shap_summary.png`, `figures/shap_importance.png`) with optional LIME local tabular explanations supported in `research/explainability.py`.

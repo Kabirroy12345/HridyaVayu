@@ -1,0 +1,126 @@
+{
+  "feature_count": {
+    "raw_environmental": 7,
+    "raw_clinical": 5,
+    "engineered": 15,
+    "total_model_inputs": 27
+  },
+  "cv5_six_model_stack": {
+    "acc_mean": 0.7141176470588235,
+    "acc_std": 0.02074728481005694,
+    "f1w_mean": 0.7050436566002302
+  },
+  "heldout_test_300": {
+    "majority_baseline_acc": 0.49333333333333335,
+    "ml_acc": 0.75,
+    "ml_f1w": 0.7450577747299846,
+    "ml_roc_auc": 0.8488236799881773,
+    "hybrid_acc": 0.74,
+    "hybrid_f1w": 0.7319147518143069,
+    "ml_high_recall": 0.7906976744186046,
+    "hybrid_high_recall": 0.8217054263565892,
+    "ml_low_recall": 0.30434782608695654,
+    "n_high_entropy_cases": 107,
+    "n_overrides": 14,
+    "high_true_predicted_low_ml": 0,
+    "high_true_predicted_low_hybrid": 0,
+    "acc_when_H_lt_0_5": 0.9666666666666667,
+    "n_H_lt_0_5": 30,
+    "acc_when_H_ge_1": 0.6635514018691588,
+    "confusion_ml_rows_true_High_Low_Medium": [
+      [
+        102,
+        0,
+        27
+      ],
+      [
+        0,
+        7,
+        16
+      ],
+      [
+        24,
+        8,
+        116
+      ]
+    ],
+    "confusion_hybrid": [
+      [
+        106,
+        0,
+        23
+      ],
+      [
+        0,
+        6,
+        17
+      ],
+      [
+        32,
+        6,
+        110
+      ]
+    ]
+  },
+  "kaggle": {
+    "n": 2392,
+    "class_counts": {
+      "Medium": 2164,
+      "Low": 143,
+      "High": 85
+    },
+    "original_protocol_label_inputs_included": {
+      "test_n": 479,
+      "acc": 0.964509394572025,
+      "f1_weighted": 0.9471057341526443,
+      "f1_macro": 0.6602491506228766,
+      "roc_auc": 0.8226945212966815,
+      "majority_baseline_acc": 0.9039665970772442,
+      "recall_per_class": {
+        "High": 0.0,
+        "Low": 1.0,
+        "Medium": 1.0
+      },
+      "fairness": {
+        "Age<18": {
+          "n": 82,
+          "acc": 0.9390243902439024
+        },
+        "Age18-45": {
+          "n": 173,
+          "acc": 0.976878612716763
+        },
+        "Age46-65": {
+          "n": 134,
+          "acc": 0.9850746268656716
+        },
+        "Age>65": {
+          "n": 90,
+          "acc": 0.9333333333333333
+        },
+        "Male": {
+          "n": 241,
+          "acc": 0.9626556016597511
+        },
+        "Female": {
+          "n": 238,
+          "acc": 0.9663865546218487
+        }
+      },
+      "max_subgroup_acc_gap": 0.05174129353233825
+    },
+    "leakage_free_label_inputs_removed": {
+      "test_n": 479,
+      "acc": 0.9039665970772442,
+      "f1_weighted": 0.8583717906457166,
+      "f1_macro": 0.3165204678362573,
+      "roc_auc": 0.5551502734656043,
+      "majority_baseline_acc": 0.9039665970772442,
+      "recall_per_class": {
+        "High": 0.0,
+        "Low": 0.0,
+        "Medium": 1.0
+      }
+    }
+  }
+}

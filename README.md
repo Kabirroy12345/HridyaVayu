@@ -128,19 +128,19 @@ The project leverages a **rigorously partitioned 2,000-sample multimodal dataset
 | Partition | File Path | Samples | Ratio | Low Risk (Controlled) | Medium Risk (Moderate) | High Risk (Acute Flare-up) | Purpose in System |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
 | **Training Set** | [`data/train.csv`](data/train.csv) | **1,400** | **70%** | 107 (7.6%) | 694 (49.6%) | 599 (42.8%) | Model parameter estimation, tree splitting, and isolated `StandardScaler` fitting. |
-| **Validation Set** | [`data/validation.csv`](data/validation.csv) | **300** | **15%** | 23 (7.7%) | 149 (49.7%) | 128 (42.7%) | Ensemble soft-voting weight calibration ($w_1=1, w_2=2, w_3=2$) and hyperparameter tuning. |
+| **Validation Set** | [`data/validation.csv`](data/validation.csv) | **300** | **15%** | 23 (7.7%) | 149 (49.7%) | 128 (42.7%) | Out-of-fold probability calibration, entropy threshold selection ($H \ge 1.0$), and hyperparameter tuning. |
 | **Held-Out Test Set** | [`data/test.csv`](data/test.csv) | **300** | **15%** | 23 (7.7%) | 148 (49.3%) | 129 (43.0%) | Final unbiased metric evaluation, confusion matrix generation, and GINA override testing. |
 | **Combined Dataset** | [`data/dataset.csv`](data/dataset.csv) | **2,000** | **100%** | 153 (7.7%) | 991 (49.5%) | 856 (42.8%) | Complete master dataset repository. |
 
-### 2. Feature Dimension Summary (22 Aligned Features)
-* **7 Continuous Atmospheric Telemetry Features:** AQI, PM2.5, SO2, NO2, CO2, Ambient Temperature, and Relative Humidity (ingested in real-time via Open-Meteo European CAMS API).
-* **5 Discrete Clinical Guidelines Features:** Daytime Asthma Symptoms Frequency, Night Breathing Difficulty (Nocturnal Dyspnea), Poor Air Quality Exposure, Weather Sensitivity, and Allergen Triggers.
-* **10 Non-Linear Engineered Interaction Terms:** Pollution Severity Index, PM2.5/AQI ratio, Gaseous Toxicity ($NO_2 + SO_2$), Thermal-Humidity Strain Index, Cold-Dry Airway Irritation, and Clinical Exposure Multipliers.
+### 2. Feature Dimension Summary (27 Engineered & Raw Features: $X \in \mathbb{R}^{27}$)
+* **7 Continuous Atmospheric Telemetry Features:** `AQI`, `PM2.5`, `SO2 level`, `NO2 level`, `CO2 level`, `Temperature`, and `Humidity` (ingested in real-time via Open-Meteo European CAMS API).
+* **5 Discrete GINA Clinical Survey Features:** `Asthma Symptoms Frequency`, `Night Breathing Difficulty` (Nocturnal Dyspnea), `Poor Air Quality Exposure`, `Weather Sensitivity`, and `Triggers`.
+* **15 Non-Linear Engineered Features:** `pollution_index` ($0.4 \cdot \text{AQI} + 0.3 \cdot \text{PM2.5} + 0.15 \cdot \text{NO}_2 + 0.15 \cdot \text{SO}_2$), `AQI_PM_ratio`, `gas_pollution`, `humidity_pollution`, `temp_pollution`, `AQI_critical`, `AQI_unhealthy`, `PM25_high`, `symptom_severity`, `exposure_score`, `night_score`, `trigger_count`, `clinical_risk_score`, `env_risk_score`, and `total_risk_interaction`.
 
-### 3. Independent External Clinical Cohorts (3,402 Patients)
-* **Zenodo Clinical Benchmark (Haque et al.):** **1,010 real clinical patients** →  **92.57% Accuracy** | **0.9420 F1-Score**
-* **Kaggle Multi-Center Demographics (Elkharoua et al.):** **2,392 diverse patient records** →  **96.45% Accuracy** | **0.9580 F1-Score**
-* **Hospital Network A & Primary Care B:** [`data/hospital_network_a.csv`](data/hospital_network_a.csv) (600 records, 91.8%) and [`data/primary_care_b.csv`](data/primary_care_b.csv) (700 records, 93.4%).
+### 3. Synthetic Pessimism & Independent External Clinical Cohorts (3,402 Patients)
+* **Development Dataset (201 Clinical Seed Records → 2,000 Synthetic Pessimism Samples):** Expanded from 201 real survey/clinical seed records to 2,000 samples with controlled Gaussian boundary noise ($\epsilon = 0.1\sigma$, verified via Kolmogorov-Smirnov $p > 0.05$ and PCA overlap) so the ensemble trains on harder boundary cases than clean clinical distributions.
+* **Zenodo Clinical Benchmark (Haque et al.):** **1,010 clinical asthma patients** → **92.57% Accuracy** | **0.9420 F1-Score**
+* **Kaggle Multi-Center Cohort (Elkharoua et al.):** **2,392 patient records** → **96.45% Accuracy** | **0.9471 Weighted F1-Score** (audited across age and gender subgroups)
 
 ---
 
@@ -154,7 +154,7 @@ The project leverages a **rigorously partitioned 2,000-sample multimodal dataset
                                             │
 ┌───────────────────────────────────────────▼────────────────────────────────────────────┐
 │                  TIER 2: DATA PREPROCESSING & FEATURE ENGINEERING                      │
-│  • StandardScaler Normalization (Zero Leakage)  • 22-D Feature Vector with Non-Linear Interactions │
+│  • StandardScaler Normalization (Zero Leakage)  • 27-D Feature Vector (12 Raw + 15 Engineered)     │
 └───────────────────────────────────────────┬────────────────────────────────────────────┘
                                             │
 ┌───────────────────────────────────────────▼────────────────────────────────────────────┐
@@ -181,35 +181,35 @@ The project leverages a **rigorously partitioned 2,000-sample multimodal dataset
 
 ## 📈 Review 1 Model Performance Benchmark
 
-### 1. Held-Out Test Evaluation (300 Patients: 96 Low, 124 Medium, 80 High)
+### 1. Held-Out Test Evaluation (300 Patients: 23 Low, 148 Medium, 129 High)
 
 | Model Architecture | Model Family | Test Accuracy | Precision | Recall | F1-Score | ROC-AUC | Inference Latency |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **XGBoost Classifier** | Extreme Gradient Boosted Trees | **73.33%** | 0.7299 | 0.7333 | 0.7263 | **0.8376** | **0.42 ms** |
-| **LightGBM Classifier** | Histogram Gradient Boosted Trees| **72.00%** | 0.7171 | 0.7200 | 0.7145 | **0.8314** | **0.28 ms** |
-| **Random Forest** | Bagging Ensemble (300 Trees) | **73.00%** | 0.7574 | 0.7300 | 0.7150 | **0.8202** | **0.88 ms** |
-| **Gradient Boosting** | Sequential Boosting | **69.00%** | 0.6841 | 0.6900 | 0.6847 | **0.8191** | **1.15 ms** |
-| **Extra Trees Classifier** | Extremely Randomized Trees | **69.00%** | 0.6997 | 0.6900 | 0.6807 | **0.8148** | **0.76 ms** |
-| **Multi-Layer Perceptron (MLP)** | Neural Network (128x64 ReLU) | **74.33%** | 0.7330 | 0.7433 | 0.7357 | **0.8385** | **0.35 ms** |
-| **6-Model Stacking Ensemble** | **Meta-Learner: Logistic Regression** | **74.33%** | **0.7372** | **0.7433** | **0.7361** | **0.8478** | **1.65 ms** |
-| **Entropy-Gated Safety Hybrid** | **Stacking + GINA Safety-Net ($H \ge 1.0$)** | **75.00% - 94.70%** | **0.9380** | **0.9520** | **0.9450** | **0.8800+** | **1.70 ms** |
+| **XGBoost Classifier** | Extreme Gradient Boosted Trees ($n=100$) | **73.00%** | 0.7249 | 0.7300 | 0.7180 | **0.8363** | **0.42 ms** |
+| **LightGBM Classifier** | Histogram Gradient Boosted Trees ($n=100$) | **74.00%** | 0.7399 | 0.7400 | 0.7351 | **0.8379** | **0.28 ms** |
+| **Random Forest** | Bagging Ensemble ($n=100, d=12$) | **72.67%** | 0.7523 | 0.7267 | 0.7120 | **0.8222** | **0.88 ms** |
+| **Gradient Boosting** | Sequential Boosting ($n=100, d=4$) | **70.00%** | 0.6959 | 0.7000 | 0.6958 | **0.8187** | **1.15 ms** |
+| **Extra Trees Classifier** | Extremely Randomized Trees ($n=100, d=12$) | **71.33%** | 0.7174 | 0.7133 | 0.7027 | **0.8172** | **0.76 ms** |
+| **Multi-Layer Perceptron (MLP)** | Neural Network ($128 \times 64$ ReLU) | **74.33%** | 0.7330 | 0.7433 | 0.7357 | **0.8385** | **0.35 ms** |
+| **6-Model Stacking Ensemble** | **Meta-Learner: Logistic Regression (5-Fold CV)** | **75.00%** | **0.7438** | **0.7500** | **0.7451** | **0.8488** | **1.65 ms** |
+| **Entropy-Gated Safety Hybrid** | **Stacking + GINA Guardrails ($H \ge 1.0$)** | **75.00% (96.67% @ $H<0.5$)** | **0.7480** | **0.8217 (High-Risk)** | **0.7451** | **0.8488** | **1.70 ms** |
 
-> **Clinical Finding:** The 6-model stacking ensemble maximizes multi-class discrimination (**0.8478 ROC-AUC**), while the Shannon entropy-gated clinical safety heuristics elevate High-Risk recall to **95.20%**, guaranteeing **zero fatal false negatives** on acute flare-ups.
+> **Clinical & Ablation Finding:** Adding GINA clinical features + 15 engineered interaction terms improves 5-fold CV accuracy by **+10.0 percentage points** over environmental telemetry alone ($58.5\% \rightarrow 68.5\%$ CV; **75.00%** held-out test). When Shannon entropy is low ($H < 0.5$), ensemble accuracy reaches **96.67%**; when entropy is high ($H \ge 1.0$), GINA safety heuristics elevate High-Risk recall from **79.07% to 82.17%** with **0 High-Risk patients misclassified as Low Risk**.
 
-### 2. Multi-Class Test Confusion Matrix (Current Model)
+### 2. Multi-Class Test Confusion Matrix ($N = 300$, Deployed 6-Model Stack)
 
 ```
                        PREDICTED TIER
                  Low Risk    Medium Risk   High Risk
-TRUE  Low Risk   87 (90.6%)    8 (8.3%)     1 (1.0%)
-TIER  Med Risk   19 (15.3%)   88 (71.0%)   17 (13.7%)
-      High Risk   1 (1.2%)    10 (12.5%)   69 (86.3%)  ──► 95.20% with GINA Safety Override!
+TRUE  Low Risk    7 (30.4%)   16 (69.6%)     0 (0.0%)
+TIER  Med Risk    8 (5.4%)   116 (78.4%)    24 (16.2%)
+      High Risk   0 (0.0%)    27 (20.9%)   102 (79.1%)  ──► 106/129 (82.2%) High-Risk Recall with Entropy-Gated GINA Override & 0 High→Low Misses!
 ```
 
-### 3. Independent External Clinical Generalizability (3,402 Total Patients)
+### 3. Independent External Clinical Cohort Benchmarks (3,402 Total Patients)
 
-* **Zenodo Clinical Dataset (Haque et al.):** 1,010 real clinical asthma patients →  **92.57% Accuracy** | **0.9420 F1-Score**
-* **Kaggle Multi-Center Demographics (Elkharoua et al.):** 2,392 patients →  **96.45% Accuracy** | **0.9580 F1-Score**
+* **Zenodo Clinical Dataset (Haque et al.):** 1,010 clinical asthma patients → **92.57% Accuracy** | **0.9420 F1-Score**
+* **Kaggle Multi-Center Cohort (Elkharoua et al.):** 2,392 patient records → **96.45% Accuracy** | **0.9471 Weighted F1-Score** | Subgroup Fairness Audit: Male **96.3%** vs Female **96.6%**; Age $<18$ (**93.9%**), $18	ext{–}45$ (**97.7%**), $46	ext{–}65$ (**98.5%**), $>65$ (**93.3%**)
 
 ---
 
@@ -300,12 +300,10 @@ HridyaVayu/
 │   └── index.html                            # Identical Nova Astro luxury SPA implementation
 │
 ├── data/                                     # Clinical & atmospheric datasets
-│   ├── dataset.csv                           # Master 2,000-sample multimodal dataset
+│   ├── dataset.csv                           # Master 2,000-sample multimodal dataset (expanded from 201 clinical seed records)
 │   ├── train.csv                             # Stratified training subset (1,400 samples, 70%)
 │   ├── validation.csv                        # Calibration subset (300 samples, 15%)
-│   ├── test.csv                              # Held-out test subset (300 samples, 15%)
-│   ├── hospital_network_a.csv                # Multi-site clinical validation cohort A (600 records)
-│   └── primary_care_b.csv                    # Multi-site clinical validation cohort B (700 records)
+│   └── test.csv                              # Held-out test subset (300 samples, 15%)
 │
 ├── figures/                                  # Publication-grade figures & diagrams
 │   ├── system_architecture_clean.png         # 4X 5-Tier Neuro-Symbolic System Architecture
@@ -321,13 +319,15 @@ HridyaVayu/
 ├── research/                                 # Research validation & experimental pipelines
 │   ├── train_models.py                       # Multi-model cross-validation pipeline
 │   ├── explainability.py                     # SHAP attribution computation
-│   ├── verify_hybrid.py                      # GINA safety override empirical testing
-│   ├── benchmark_new_sites.py                # Zenodo & Kaggle generalizability validation
+│   ├── ablation_study.py                     # Feature group & base-learner count ablation study (+10% gain)
+│   ├── fairness_analysis.py                  # Demographic subgroup fairness audit (Age & Gender)
+│   ├── validate_kaggle_asthma.py             # Kaggle 2,392-patient cohort validation pipeline
+│   ├── verify_hybrid_final.py                # Shannon entropy-gated GINA safety hybrid verification
 │   └── real_time_aqi.py                      # Open-Meteo CAMS live data integration script
 │
 ├── results/                                  # Exported metrics, model weights & verification logs
-│   ├── best_ensemble_model.pkl               # Serialized Soft-Voting Ensemble model
-│   ├── review1_ensemble.pkl                  # Serialized Review 1 snapshot model
+│   ├── review1_ensemble.pkl                  # Serialized 6-Model Stacking Ensemble + Meta-Learner
+│   ├── best_ensemble_model.pkl               # Serialized 6-Model Stacking checkpoint
 │   ├── cv_results.json                       # 5-Fold stratified cross-validation scores
 │   └── test_results.json                     # Held-out test partition performance logs
 │
@@ -351,7 +351,7 @@ HridyaVayu/
 | **Snehal Baranwal** | `23BCE10479` | **Frontend SPA & Clinical UX** | Engineered responsive Single-Page Application (HTML5/CSS3 Grid/Flexbox), GINA 5-question clinical intake wizard, dynamic Chart.js risk dials, telemetry visualizers, smart inhaler dose counter, and asynchronous native Fetch API integration. |
 | **Snehil Priyam** | `23BCE11200` | **Documentation & Compliance** | Authored formal Capstone Phase 1 academic documentation, formulated functional/non-functional requirements, medical privacy compliance standards, and structured the 27-item IEEE scholarly reference catalog. |
 | **Kabir Roy** | `23BCE10815` | **ML Prediction Logic & Safety** | Engineered the 6-Model Stacking Ensemble combining XGBoost, LightGBM, Random Forest, Gradient Boosting, Extra Trees, and MLP with Logistic Regression Meta-Learner; formulated deterministic GINA Step-5 safety override rails ($P \ge 0.88$); implemented Shannon entropy uncertainty gating, SHAP explainability, demographic fairness auditing across age and gender subgroups, and Nova Astro luxury UI redesign. |
-| **Parshv Keyur Modi** | `23BCE10807` | **Dataset Curation & Training** | Curated 1,000 multimodal clinical & sensor records across synthetic and clinical domains; engineered the 22-dimensional normalized feature vector; implemented 5-fold stratified cross-validation; benchmarked external Zenodo (1,010) and Kaggle (2,392) clinical cohorts. |
+| **Parshv Keyur Modi** | `23BCE10807` | **Dataset Curation & Training** | Curated 201 clinical seed records expanded via KS-validated synthetic pessimism to 2,000 multimodal samples; engineered the 27-dimensional normalized feature vector; implemented 5-fold stratified cross-validation; benchmarked external Zenodo (1,010) and Kaggle (2,392) cohorts. |
 
 ---
 

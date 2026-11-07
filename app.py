@@ -736,6 +736,7 @@ def predict():
             p_nz = np.clip(prob_stack, 1e-10, 1.0)
             uncertainty = float(-np.sum(p_nz * np.log2(p_nz)))
         else:
+            meta_score = 0.52
             ens_score = 0.52
             xgb_score = 0.54
             lgb_score = 0.53
@@ -748,18 +749,30 @@ def predict():
             confidence = 0.75
             uncertainty = 0.4
 
-        # GINA Safety Guardrail Heuristic Override
+        # Entropy-Gated GINA Safety Guardrail Heuristic Override
+        # Low entropy (H < 1.0) -> high ML confidence -> trust 6-model stacking ensemble unless Step-5 acute red flag is under-predicted
+        # High entropy (H >= 1.0) -> high ML uncertainty -> defer to GINA clinical guidelines (upgrade-only safety rail)
         heuristic_override = False
+        entropy_gated = bool(uncertainty >= 1.0)
         if symptoms_freq == "Daily" or night_diff == "Frequently":
-            ens_score = max(ens_score, 0.88)
-            risk_level = "High"
-            confidence = 0.95
-            heuristic_override = True
-        elif symptoms_freq == "Frequently (Weekly)" and ens_score < 0.6:
-            ens_score = max(ens_score, 0.62)
-            risk_level = "Medium"
-            confidence = 0.88
-            heuristic_override = True
+            if risk_level != "High" or entropy_gated or ens_score < 0.88:
+                ens_score = max(ens_score, 0.88)
+                risk_level = "High"
+                confidence = max(confidence, 0.92)
+                heuristic_override = True
+        elif entropy_gated:
+            if symptoms_freq == "Frequently (Weekly)" and risk_level == "Low":
+                ens_score = max(ens_score, 0.62)
+                risk_level = "Medium"
+                heuristic_override = True
+            elif night_diff in ("Frequently", "Occasionally") and aqi > 150 and risk_level == "Low":
+                ens_score = max(ens_score, 0.58)
+                risk_level = "Medium"
+                heuristic_override = True
+            elif aqi > 200 and risk_level == "Low":
+                ens_score = max(ens_score, 0.60)
+                risk_level = "Medium"
+                heuristic_override = True
 
         # Generate Alert in Alert ORM Table if Risk >= 0.6
         if ens_score >= 0.6:
@@ -799,6 +812,7 @@ def predict():
             "confidence": round(confidence, 4),
             "uncertainty_entropy": round(uncertainty, 4),
             "heuristic_override": heuristic_override,
+            "entropy_gated": entropy_gated,
             "model_architecture": "HridyaVayu 6-Model Stacking Ensemble (XGBoost, LightGBM, Random Forest, Gradient Boosting, Extra Trees, MLP) with Logistic Regression Meta-Learner",
             "meta_learner": "Logistic Regression (5-Fold Stratified Stacking)",
             "base_models_count": 6,
